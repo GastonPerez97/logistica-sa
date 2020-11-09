@@ -5,17 +5,22 @@
 
 body {
     font-family: 'Montserrat', sans-serif;
+    position: relative;
+    padding-bottom: 100px;
+    min-height: 100vh;
 }
 
 footer {
     background-color: #343a40;
     color: white;
     text-align: center;
-    margin-top: 32px;
     height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 .login-form {
@@ -45,10 +50,6 @@ footer {
 
 button:hover {
     opacity: 0.8;
-}
-
-.contenedor-main {
-    height: calc(100vh - 102px - 2em);
 }
 
 .boton {
