@@ -1,0 +1,13 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /pw2-grupo03/
+
+    RewriteRule ^(public)($|/) - [L,NC]
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    RewriteRule ^(.*)/(.*)/(.*)$ index.php?module=$1&action=$2&$3 [L,QSA]
+    RewriteRule ^(.*)/(.*)$ index.php?module=$1&action=$2 [L,QSA]
+    RewriteRule ^(.*)$ index.php?module=$1&action=execute [L,QSA]
+</IfModule>

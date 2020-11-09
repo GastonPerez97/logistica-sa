@@ -1,0 +1,175 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+footer {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    margin-top: 32px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form {
+    border: 20px solid #f1f1f1;
+    margin-left: 16em;
+    margin-right: 16em;
+}
+
+.login-input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.form-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.contenedor-main {
+    height: calc(100vh - 102px - 2em);
+}
+
+.boton {
+    margin-top: 7em;
+}
+
+.navbar-bienvenido {
+    display: flex;
+    align-items: center;
+}
+
+.detalles-viaje {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
+.d-flex-centrado {
+    display: flex;
+    justify-content: center;
+}
+
+.margin-0 {
+    margin: 0;
+}
+
+.register-btn {
+    margin-left: 2em;
+    margin-right: 2em;
+    padding: 10px 18px;
+    background-color: dodgerblue;
+    text-align: center;
+    text-decoration: none;
+}
+
+.container {
+    padding: 2em;
+}
+
+.forgot-pass {
+    float: right;
+}
+
+.container-bottom {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+    background-color:#f1f1f1;
+    margin-top: 1em;
+}
+
+.container-title {
+    display: flex;
+    justify-content: center;
+    align-items:flex-start;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.text-decoration-none {
+    text-decoration: none;
+}
+
+.my-3em {
+    margin-bottom: 3em;
+    margin-top: 3em;
+}
+
+#mySidebar {
+    width: 15%;
+    right: 0px;
+}
+
+@media screen and (max-width: 1024px) {
+    .register-btn {
+        margin-left: 2em;
+        margin-right: 2em;
+        padding: 10px 18px;
+        background-color: dodgerblue;
+    }
+
+    .login-form {
+        border: 20px solid #f1f1f1;
+        margin-left: 0.2em;
+        margin-right: 0.2em;
+    }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1200px) {
+    .register-btn {
+        width: 100%;
+    }
+
+    .login-form {
+        border: 20px solid #f1f1f1;
+        margin-left: 8em;
+        margin-right: 8em;
+    }
+}
+
+@media screen and (max-width:62em){
+    #mySidebar {
+        width: 25%;
+    }
+}
