@@ -1,7 +1,6 @@
 <?php
 
-class LoginController
-{
+class LoginController {
 
     private $render;
 
@@ -23,6 +22,5 @@ class LoginController
 
         echo $this->render->render("view/homeView.php");
     }
-
 
 }
