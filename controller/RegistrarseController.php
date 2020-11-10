@@ -39,11 +39,8 @@ class RegistrarseController {
     }
 
     public function validateRegistration() {
-        if (empty($_POST['fullname']) ||
-            empty($_POST['dni']) ||
-            empty($_POST['email']) ||
-            empty($_POST['pass']) ||
-            empty($_POST['birthday'])) {
+        if (empty($_POST['email']) ||
+            empty($_POST['pass'])) {
             return false;
         } else {
             return true;
