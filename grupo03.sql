@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`usuario_rol` (
   `id_rol` INT NOT NULL,
   PRIMARY KEY (`id_usuario`, `id_rol`),
   INDEX `rol_FK_idx` (`id_rol` ASC) VISIBLE,
-  CONSTRAINT `usuario_FK`
+  CONSTRAINT `usuario_rol_FK`
     FOREIGN KEY (`id_usuario`)
     REFERENCES `grupo03`.`usuario` (`id_usuario`)
     ON DELETE NO ACTION
@@ -140,12 +140,12 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`unidad_de_transporte` (
   UNIQUE INDEX `numero_chasis_UNIQUE` (`numero_chasis` ASC) VISIBLE,
   UNIQUE INDEX `id_marca_UNIQUE` (`id_marca` ASC) VISIBLE,
   UNIQUE INDEX `id_modelo_UNIQUE` (`id_modelo` ASC) VISIBLE,
-  CONSTRAINT `marca_FK`
+  CONSTRAINT `marca_transporte_FK`
     FOREIGN KEY (`id_marca`)
     REFERENCES `grupo03`.`marca` (`id_marca`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `modelo_FK`
+  CONSTRAINT `modelo_transporte_FK`
     FOREIGN KEY (`id_modelo`)
     REFERENCES `grupo03`.`modelo` (`id_modelo`)
     ON DELETE NO ACTION
@@ -168,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`service` (
   PRIMARY KEY (`id_service`),
   UNIQUE INDEX `id_usuario_UNIQUE` (`id_usuario` ASC) VISIBLE,
   UNIQUE INDEX `id_vehiculo_UNIQUE` (`id_vehiculo` ASC) VISIBLE,
-  CONSTRAINT `usuario_FK`
+  CONSTRAINT `usuario_service_FK`
     FOREIGN KEY (`id_usuario`)
     REFERENCES `grupo03`.`usuario` (`id_usuario`)
     ON DELETE NO ACTION
@@ -200,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`remolque` (
   `id_tipo_remolque` INT NOT NULL,
   PRIMARY KEY (`id_remolque`),
   UNIQUE INDEX `id_tipo_remolque_UNIQUE` (`id_tipo_remolque` ASC) VISIBLE,
-  CONSTRAINT `unidad_de_transporte_FK`
+  CONSTRAINT `unidad_de_transporte_remolque_FK`
     FOREIGN KEY (`id_remolque`)
     REFERENCES `grupo03`.`unidad_de_transporte` (`id_unidad_de_transporte`)
     ON DELETE NO ACTION
@@ -264,7 +264,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`carga` (
   PRIMARY KEY (`id_carga`),
   UNIQUE INDEX `id_tipo_carga_UNIQUE` (`id_tipo_carga` ASC) VISIBLE,
   UNIQUE INDEX `id_viaje_UNIQUE` (`id_viaje` ASC) VISIBLE,
-  CONSTRAINT `viaje_FK`
+  CONSTRAINT `viaje_carga_FK`
     FOREIGN KEY (`id_viaje`)
     REFERENCES `grupo03`.`viaje` (`id_viaje`)
     ON DELETE NO ACTION
@@ -296,7 +296,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`viaje_desvio` (
   `id_desvio` INT NOT NULL,
   PRIMARY KEY (`id_viaje`, `id_desvio`),
   INDEX `desvio_FK_idx` (`id_desvio` ASC) VISIBLE,
-  CONSTRAINT `viaje_FK`
+  CONSTRAINT `viaje_desvio_FK`
     FOREIGN KEY (`id_viaje`)
     REFERENCES `grupo03`.`viaje` (`id_viaje`)
     ON DELETE NO ACTION
@@ -317,7 +317,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`viaje_chofer` (
   `id_chofer` INT NOT NULL,
   PRIMARY KEY (`id_viaje`, `id_chofer`),
   INDEX `chofer_FK_idx` (`id_chofer` ASC) VISIBLE,
-  CONSTRAINT `viaje_FK`
+  CONSTRAINT `viaje_chofer_FK`
     FOREIGN KEY (`id_viaje`)
     REFERENCES `grupo03`.`viaje` (`id_viaje`)
     ON DELETE NO ACTION
@@ -364,7 +364,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`factura` (
     REFERENCES `grupo03`.`cliente` (`id_cliente`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `viaje_FK`
+  CONSTRAINT `viaje_factura_FK`
     FOREIGN KEY (`id_viaje`)
     REFERENCES `grupo03`.`viaje` (`id_viaje`)
     ON DELETE NO ACTION
@@ -380,12 +380,12 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`viaje_unidad_de_transporte` (
   `id_unidad_de_transporte` INT NOT NULL,
   PRIMARY KEY (`id_viaje`, `id_unidad_de_transporte`),
   INDEX `id_unidad_de_transporte_idx` (`id_unidad_de_transporte` ASC) VISIBLE,
-  CONSTRAINT `viaje_FK`
+  CONSTRAINT `viaje_transporte_FK`
     FOREIGN KEY (`id_viaje`)
     REFERENCES `grupo03`.`viaje` (`id_viaje`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `unidad_de_transporte_FK`
+  CONSTRAINT `unidad_de_transporte_viaje_FK`
     FOREIGN KEY (`id_unidad_de_transporte`)
     REFERENCES `grupo03`.`unidad_de_transporte` (`id_unidad_de_transporte`)
     ON DELETE NO ACTION
@@ -404,7 +404,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`vehiculo` (
   UNIQUE INDEX `numero_motor_UNIQUE` (`numero_motor` ASC) VISIBLE,
   UNIQUE INDEX `id_tipo_vehiculo_UNIQUE` (`id_tipo_vehiculo` ASC) VISIBLE,
   INDEX `unidad_de_transporte_FK_idx` (`id_vehiculo` ASC) VISIBLE,
-  CONSTRAINT `unidad_de_transporte_FK`
+  CONSTRAINT `unidad_de_transporte_vehiculo_FK`
     FOREIGN KEY (`id_vehiculo`)
     REFERENCES `grupo03`.`unidad_de_transporte` (`id_unidad_de_transporte`)
     ON DELETE NO ACTION
