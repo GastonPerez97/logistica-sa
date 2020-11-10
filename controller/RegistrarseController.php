@@ -26,8 +26,9 @@ class RegistrarseController {
             $user = array(
                 "email" => $_POST["email"],
                 "dni" => $_POST["dni"],
-                "fullname" => $_POST["fullname"],
-                "birthday" => $_POST["birthday"],
+                "name" => $_POST["name"],
+                "surname" => $_POST["surname"],
+                "birthdate" => $_POST["birthdate"],
                 "pass" => md5($_POST["pass"])
             );
 
@@ -39,11 +40,12 @@ class RegistrarseController {
     }
 
     public function validateRegistration() {
-        if (empty($_POST['fullname']) ||
+        if (empty($_POST['name']) ||
+            empty($_POST['surname']) ||
             empty($_POST['dni']) ||
             empty($_POST['email']) ||
             empty($_POST['pass']) ||
-            empty($_POST['birthday'])) {
+            empty($_POST['birthdate'])) {
             return false;
         } else {
             return true;

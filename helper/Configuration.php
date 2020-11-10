@@ -7,6 +7,7 @@ include_once("model/UserModel.php");
 
 include_once("controller/LoginController.php");
 include_once("controller/RegistrarseController.php");
+include_once("controller/HomeController.php");
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 include_once("Router.php");
@@ -45,12 +46,17 @@ class Configuration {
     }
 
     public function getLoginController() {
-        return new LoginController($this->getRender());
+        $userModel = $this->getUserModel();
+        return new LoginController($userModel, $this->getRender());
     }
 
     public function getRegistrarseController() {
         $userModel = $this->getUserModel();
         return new RegistrarseController($userModel, $this->getRender());
+    }
+
+    public function getHomeController() {
+        return new HomeController($this->getRender());
     }
 
 }

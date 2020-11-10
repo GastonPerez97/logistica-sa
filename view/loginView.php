@@ -1,7 +1,7 @@
 {{> headerExternal}}
     
 <div class="w3-content w3-margin-top">
-    <form action="action-page.php" method="post" class="login-form">
+    <form action="login/validarLogin" method="post" class="login-form">
         <div class="container-title"><p>Bienvenido!</p></div>
 
         <div class="container">
@@ -15,6 +15,8 @@
 
             <input type="checkbox" checked="checked" name="remember"> Recordarme
             <span class="forgot-pass"> <a href="#"> &iquestOlvidaste tu contrase&ntildea?</a></span>
+
+            <p class="w3-margin-top w3-red">{{errorLogin}}</p>
         </div>
 
         <div class="container-bottom" >
