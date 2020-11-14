@@ -6,6 +6,7 @@ include_once("helper/UrlHelper.php");
 include_once("model/UserModel.php");
 
 include_once("controller/LoginController.php");
+include_once("controller/LogoutController.php");
 include_once("controller/RegistrarseController.php");
 include_once("controller/HomeController.php");
 
@@ -48,6 +49,10 @@ class Configuration {
     public function getLoginController() {
         $userModel = $this->getUserModel();
         return new LoginController($userModel, $this->getRender());
+    }
+
+    public function getLogoutController() {
+        return new LogoutController($this->getRender());
     }
 
     public function getRegistrarseController() {
