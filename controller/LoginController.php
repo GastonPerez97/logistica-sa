@@ -25,7 +25,9 @@ class LoginController {
         $email = $_POST["email"];
         $pass = md5($_POST["pass"]);
 
-        if (empty($this->userModel->getUserByEmailAndPass($email, $pass))) {
+        $user = $this->userModel->getUserByEmailAndPass($email, $pass);
+
+        if (empty($user)) {
             $_SESSION["errorLogin"] = 1;
             header("location: /pw2-grupo03");
             exit();

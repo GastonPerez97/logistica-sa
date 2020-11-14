@@ -23,7 +23,7 @@ class UserModel {
     }
 
     public function getUserByEmailAndPass($email, $pass) {
-        $sql = "SELECT email, password FROM usuario WHERE email = '$email' AND password = '$pass'";
+        $sql = "SELECT * FROM usuario WHERE email = '$email' AND password = '$pass'";
         return $this->database->query($sql);
     }
 
