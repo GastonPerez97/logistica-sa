@@ -16,7 +16,7 @@
             <input type="checkbox" checked="checked" name="remember"> Recordarme
             <span class="forgot-pass"> <a href="#"> &iquestOlvidaste tu contrase&ntildea?</a></span>
 
-            <p class="w3-margin-top w3-red">{{errorLogin}}</p>
+            <p class="w3-margin-top w3-text-red">{{wrongMailOrPass}}</p>
         </div>
 
         <div class="container-bottom" >

@@ -11,7 +11,14 @@ class LoginController {
     }
 
     public function execute() {
-        echo $this->render->render("view/loginView.php");
+        $data = array();
+
+        if (isset($_SESSION["errorLogin"]) && $_SESSION["errorLogin"] === 1) {
+            $data["wrongMailOrPass"] = "E-Mail o contraseña incorrecta";
+            unset($_SESSION["errorLogin"]);
+        }
+
+        echo $this->render->render("view/loginView.php", $data);
     }
 
     public function validarLogin() {
@@ -19,6 +26,7 @@ class LoginController {
         $pass = md5($_POST["pass"]);
 
         if (empty($this->userModel->getUserByEmailAndPass($email, $pass))) {
+            $_SESSION["errorLogin"] = 1;
             header("location: /pw2-grupo03");
             exit();
         } else {
