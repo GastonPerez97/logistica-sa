@@ -1,7 +1,7 @@
 {{> headerExternal}}
 
 <div class="w3-content w3-margin-top">
-    <form action="service/newserviceresult" method="post" class="login-form">
+    <form action="addNewService" method="post" class="login-form">
         <div class="container-title"><p>Nuevo Servicio</p></div>
 
         <div class="container">
@@ -28,7 +28,7 @@
             <button class="form-button w3-round w3-green w3-margin-top" type="submit">Registrar</button>
 
             <div class="w3-margin-bottom">
-                <a href="service" class="w3-button w3-blue w3-medium w3-block w3-round text-decoration-none">Volver</a>
+                <a href="/pw2-grupo03/service" class="w3-button w3-blue w3-medium w3-block w3-round text-decoration-none">Volver</a>
             </div>
         </div>
     </form>

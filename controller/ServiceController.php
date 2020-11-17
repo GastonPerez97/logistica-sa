@@ -15,7 +15,13 @@ class ServiceController
         echo $this->render->render("view/serviceView.php");
     }
 
-    public function newServiceResult() {
+
+    public function newService(){
+        echo $this->render->render("view/newServiceView.php");
+    }
+
+
+    public function addNewService() {
         $data = array();
 
         if (!$this->validateNewService()) {
@@ -34,7 +40,7 @@ class ServiceController
             $this->serviceModel->saveNewService($newService);
             $data["correctNewService"] = "Service registrado correctamente";
         }
-        echo $this->render->render("view/newServiceResult.php", $data);
+        echo $this->render->render("view/newServiceResultView.php", $data);
     }
 
     public function validateNewService() {

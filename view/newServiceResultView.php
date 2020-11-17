@@ -6,7 +6,7 @@
 
 
 <div class="w3-center">
-    <a href="/pw2-grupo03" class="form-button w3-round text-decoration-none">Volver a servicios</a>
+    <a href="/pw2-grupo03/service" class="form-button w3-round text-decoration-none">Volver a servicios</a>
 </div>
 
 {{> footer}}

@@ -5,14 +5,12 @@ include_once("helper/UrlHelper.php");
 
 include_once("model/UserModel.php");
 include_once("model/ServiceModel.php");
-include_once("model/NewServiceModel.php");
 
 include_once("controller/LoginController.php");
 include_once("controller/LogoutController.php");
 include_once("controller/RegistrarseController.php");
 include_once("controller/HomeController.php");
 include_once("controller/ServiceController.php");
-include_once("controller/NewServiceController.php");
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 include_once("Router.php");
@@ -55,11 +53,6 @@ class Configuration {
         return new ServiceModel($database);
     }
 
-    public function getNewServiceModel(){
-        $database = $this->getDatabase();
-        return new NewServiceController($database);
-    }
-
     public function getLoginController() {
         $userModel = $this->getUserModel();
         return new LoginController($userModel, $this->getRender());
@@ -81,11 +74,6 @@ class Configuration {
     public function getServiceController() {
         $serviceModel = $this->getServiceModel();
         return new ServiceController($serviceModel, $this->getRender());
-    }
-
-    public function getNewServiceController() {
-        $newServiceModel = $this->getServiceModel();
-        return new NewServiceController($newServiceModel, $this->getRender());
     }
 
 

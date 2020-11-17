@@ -4,7 +4,7 @@
             <div class="w3-margin">
                 <input type="text" class="w3-bar-item w3-input w3-border w3-round w3-margin-bottom" style="margin-top: 2.5em;" placeholder="Buscar Service...">
 
-                <a href="newService" class="w3-button w3-green w3-padding-large w3-round w3-right" style="margin-bottom: 2.5em;">Nuevo Servicio</a>
+                <a href="/pw2-grupo03/service/newService" class="w3-button w3-green w3-padding-large w3-round w3-right" style="margin-bottom: 2.5em;">Nuevo Servicio</a>
 
                 <div>
                     <div class="w3-row-padding">
