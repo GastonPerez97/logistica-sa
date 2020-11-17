@@ -12,4 +12,15 @@ class UserRoleModel {
         $sql = "SELECT UR.id_rol, R.nombre FROM usuario_rol UR JOIN rol R ON UR.id_rol = R.id_rol WHERE id_usuario = '$userId'";
         return $this->database->query($sql);
     }
+
+    public function isAdmin() {
+        foreach ($_SESSION["roles"] as $role) {
+//          El id_rol 1 de la tabla Rol en la DB es el Admin
+            if ($role["id_rol"] == 1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
