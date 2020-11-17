@@ -79,14 +79,25 @@ button:hover {
     justify-content: center;
 }
 
-
 .justify-content-between {
     justify-content: space-between;
+}
+
+.justify-content-around {
+    justify-content: space-around;
+}
+
+.justify-content-end {
+    justify-content: flex-end;
 }
 
 .d-flex-centrado {
     display: flex;
     justify-content: center;
+}
+
+.flex-column {
+    flex-direction: column;
 }
 
 .margin-0 {
@@ -137,6 +148,30 @@ button:hover {
     margin-top: 3em;
 }
 
+.my-2em {
+    margin-bottom: 2em;
+    margin-top: 2em;
+}
+
+.my-1em {
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+
+.footerSidebarFixed {
+    width: 85%;
+}
+
+.user-container {
+    width: 40%;
+    margin: 0 auto;
+}
+
+.user-container-item {
+    display: flex;
+    justify-content: space-between;
+}
+
 #mySidebar {
     width: 15%;
     right: 0px;
@@ -171,6 +206,27 @@ button:hover {
 
 @media screen and (max-width:62em){
     #mySidebar {
-        width: 25%;
+        width: 40%;
+    }
+
+    .footerSidebarFixed {
+        width: 100%;
+    }
+
+    .user-container {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width:450px){
+    .user-container-item {
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+}
+
+@media screen and (max-width:310px){
+    #mySidebar {
+        width: 60%;
     }
 }

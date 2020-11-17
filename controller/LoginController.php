@@ -3,11 +3,13 @@
 class LoginController {
 
     private $userModel;
+    private $userRoleModel;
     private $render;
 
-    public function __construct($userModel, $render) {
+    public function __construct($userModel, $userRoleModel, $render) {
         $this->render = $render;
         $this->userModel = $userModel;
+        $this->userRoleModel = $userRoleModel;
     }
 
     public function execute() {
@@ -26,6 +28,7 @@ class LoginController {
         $pass = md5($_POST["pass"]);
 
         $user = $this->userModel->getUserByEmailAndPass($email, $pass);
+        $userId = $user[0]["id_usuario"];
 
         if (empty($user)) {
             $_SESSION["errorLogin"] = 1;
@@ -33,6 +36,7 @@ class LoginController {
             exit();
         } else {
             $_SESSION['loggedIn'] = 1;
+            $_SESSION["roles"] = $this->userRoleModel->getRolesOfUserBy($userId);
             header("location: /pw2-grupo03/home");
             exit();
         }
