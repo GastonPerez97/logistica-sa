@@ -12,7 +12,8 @@ class ServiceController
     }
 
     public function execute() {
-        echo $this->render->render("view/serviceView.php");
+        $data["services"] = $this->serviceModel->getServices();
+        echo $this->render->render("view/serviceView.php", $data);
     }
 
 

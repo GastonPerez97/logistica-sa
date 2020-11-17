@@ -25,4 +25,9 @@ class ServiceModel
         $this->database->execute($sql);
     }
 
+    public function getServices() {
+        $sql = "SELECT * FROM service";
+        return $this->database->query($sql);
+    }
+
 }
