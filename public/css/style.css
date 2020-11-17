@@ -87,6 +87,10 @@ button:hover {
     justify-content: space-around;
 }
 
+.justify-content-end {
+    justify-content: flex-end;
+}
+
 .d-flex-centrado {
     display: flex;
     justify-content: center;

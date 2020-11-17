@@ -67,4 +67,9 @@ class UserModel {
         $this->database->execute($sql);
     }
 
+    public function deleteUserById($userId) {
+        $sql = "DELETE FROM usuario WHERE id_usuario = '$userId'";
+        $this->database->execute($sql);
+    }
+
 }

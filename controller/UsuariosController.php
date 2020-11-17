@@ -16,6 +16,11 @@ class UsuariosController {
 
     public function execute() {
         if (isset($_SESSION["loggedIn"])) {
+            if (isset($_SESSION["userDeletedOk"]) && $_SESSION["userDeletedOk"] === 1) {
+                $data["userDeletedOk"] = "El usuario ha sido eliminado exitosamente";
+                unset($_SESSION["userDeletedOk"]);
+            }
+
             $data["users"] = $this->userModel->getUsers();
 
             echo $this->render->render("view/usersView.php", $data);
@@ -93,6 +98,23 @@ class UsuariosController {
                 header("location: /pw2-grupo03/usuarios");
                 exit();
             }
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
+    }
+
+    public function deleteUser() {
+        if (isset($_SESSION["loggedIn"])) {
+            $userId = $_GET["id"];
+
+            $this->userModel->removeRolesOfUser($userId);
+            $this->userModel->deleteUserById($userId);
+
+            $_SESSION["userDeletedOk"] = 1;
+
+            header("location: /pw2-grupo03/usuarios");
+            exit();
         } else {
             header("location: /pw2-grupo03");
             exit();

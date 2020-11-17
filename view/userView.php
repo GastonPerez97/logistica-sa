@@ -50,7 +50,7 @@
 
                                 <div class="w3-margin-top">
                                     <a href="/pw2-grupo03/usuarios/editarUsuario?id={{id_usuario}}" class="w3-button w3-blue w3-round w3-margin-bottom">Editar</a>
-                                    <a class="w3-button w3-red w3-round w3-margin-bottom">Eliminar</a>
+                                    <a href="/pw2-grupo03/usuarios/deleteUser?id={{id_usuario}}" class="w3-button w3-red w3-round w3-margin-bottom delete-btn-user">Eliminar</a>
                                 </div>
                             </div>
                         </div>
@@ -60,4 +60,5 @@
     </div>
 </div>
 
+{{> userDeleteAlert}}
 {{> footerSidebarFixed}}
