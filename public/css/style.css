@@ -163,6 +163,11 @@ button:hover {
     margin: 0 auto;
 }
 
+.user-container-item {
+    display: flex;
+    justify-content: space-between;
+}
+
 #mySidebar {
     width: 15%;
     right: 0px;
@@ -202,6 +207,17 @@ button:hover {
 
     .footerSidebarFixed {
         width: 100%;
+    }
+
+    .user-container {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width:450px){
+    .user-container-item {
+        flex-direction: column;
+        margin-bottom: 20px;
     }
 }
 

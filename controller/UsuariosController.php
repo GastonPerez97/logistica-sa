@@ -66,7 +66,9 @@ class UsuariosController {
                 $this->userModel->deactivateUser($userId);
             }
 
-            header("location: /pw2-grupo03/usuarios");
+            $_SESSION["userEditedOk"] = 1;
+
+            header("location: /pw2-grupo03/usuarios/verUsuario?id=$userId");
             exit();
         } else {
             header("location: /pw2-grupo03");
@@ -77,6 +79,11 @@ class UsuariosController {
     public function verUsuario() {
         if (isset($_SESSION["loggedIn"])) {
             if (is_numeric($_GET["id"])){
+                if (isset($_SESSION["userEditedOk"]) && $_SESSION["userEditedOk"] === 1) {
+                    $data["userEditedOk"] = "El usuario ha sido editado exitosamente";
+                    unset($_SESSION["userEditedOk"]);
+                }
+
                 $userId = $_GET["id"];
                 $data["user"] = $this->userModel->getUserById($userId);
                 $data["rolesOfUser"] = $this->userRoleModel->getRolesOfUserBy($userId);
