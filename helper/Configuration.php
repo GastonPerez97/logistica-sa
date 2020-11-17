@@ -4,6 +4,8 @@ include_once("helper/Render.php");
 include_once("helper/UrlHelper.php");
 
 include_once("model/UserModel.php");
+include_once("model/RoleModel.php");
+include_once("model/UserRoleModel.php");
 
 include_once("controller/LoginController.php");
 include_once("controller/LogoutController.php");
@@ -47,6 +49,16 @@ class Configuration {
         return new UserModel($database);
     }
 
+    public function getRoleModel(){
+        $database = $this->getDatabase();
+        return new RoleModel($database);
+    }
+
+    public function getUserRoleModel(){
+        $database = $this->getDatabase();
+        return new UserRoleModel($database);
+    }
+
     public function getLoginController() {
         $userModel = $this->getUserModel();
         return new LoginController($userModel, $this->getRender());
@@ -67,7 +79,9 @@ class Configuration {
 
     public function getUsuariosController() {
         $userModel = $this->getUserModel();
-        return new UsuariosController($userModel, $this->getRender());
+        $roleModel = $this->getRoleModel();
+        $userRoleModel = $this->getUserRoleModel();
+        return new UsuariosController($userModel, $roleModel, $userRoleModel, $this->getRender());
     }
 
 }
