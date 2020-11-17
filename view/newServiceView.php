@@ -1,7 +1,7 @@
 {{> headerExternal}}
 
 <div class="w3-content w3-margin-top">
-    <form action="newService/newServiceResult" method="post" class="login-form">
+    <form action="service/newserviceresult" method="post" class="login-form">
         <div class="container-title"><p>Nuevo Servicio</p></div>
 
         <div class="container">

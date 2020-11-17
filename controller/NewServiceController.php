@@ -22,8 +22,6 @@ class NewServiceController
         if (!$this->validateNewService()) {
             $data["errorValidate"] = "Ocurrió un error en la validación 
                                         de los datos ingresados, intente nuevamente";
-
-            echo $this->render->render("view/newServiceResult.php", $data);
         } else {
             $newService = array(
                 "numberVehicle" => $_POST["numberVehicle"],
@@ -34,11 +32,10 @@ class NewServiceController
                 "cost" => $_POST["cost"]
             );
 
-            $this->userModel->saveNewService($newService);
+            $this->newServiceModel->saveNewService($newService);
             $data["correctNewService"] = "Service registrado correctamente";
-
-            echo $this->render->render("view/newServiceResult.php", $data);
         }
+        echo $this->render->render("view/newServiceResult.php", $data);
     }
 
     public function validateNewService() {
