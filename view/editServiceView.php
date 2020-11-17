@@ -11,7 +11,7 @@
             <input type="number" placeholder="Ingresar número de unidad" name="idService" value="{{id_service}}" readonly="true" class="login-input" required>
 
             <label for="numberVehicle"><b>N° Unidad:</b></label>
-            <input type="number" placeholder="Ingresar número de unidad" name="numberVehicle" value="{{id_unidad_de_transporte}}" class="login-input" required>
+            <input type="number" placeholder="Ingresar número de unidad" name="numberVehicle" value="{{id_unidad_de_transporte}}" readonly="true" class="login-input" required>
 
             <label for="serviceDate"><b>Fecha Service:</b></label>
             <input type="date" name="serviceDate" class="login-input" value="{{fecha_service}}" required>
@@ -20,7 +20,7 @@
             <input type="number" placeholder="Ingresar kilometros de la unidad" name="kilometers" value="{{kilometraje_actual_unidad}}" class="login-input" required>
 
             <label for="mechanic"><b>ID Mecánico</b></label>
-            <input type="number" placeholder="Ingresar ID del mecánico" name="mechanic" value="{{id_usuario}}"class="login-input" required>
+            <input type="number" placeholder="Ingresar ID del mecánico" name="mechanic" value="{{id_usuario}}" readonly="true" class="login-input" required>
 
             <label for="description"><b>Descripción</b></label>
             <input type="text" placeholder="Ingresar detalle del service" name="description" value="{{detalle}}" class="login-input" required>

@@ -44,6 +44,23 @@ class ServiceModel
         $this->database->execute($sql);
     }
 
+    public function changeServiceDate($serviceId, $newServiceDate)
+    {
+        $sql = "UPDATE service SET fecha_service = '$newServiceDate' WHERE  id_service = '$serviceId'";
+        $this->database->execute($sql);
+    }
+
+    public function changeDescription($serviceId, $newDescription)
+    {
+        $sql = "UPDATE service SET detalle = '$newDescription' WHERE  id_service = '$serviceId'";
+        $this->database->execute($sql);
+    }
+
+    public function changeCost($serviceId, $newCost)
+    {
+        $sql = "UPDATE service SET costo = '$newCost' WHERE  id_service = '$serviceId'";
+        $this->database->execute($sql);
+    }
 
     public function deleteServiceById($serviceId)
     {
