@@ -4,6 +4,7 @@ include_once("helper/Render.php");
 include_once("helper/UrlHelper.php");
 
 include_once("model/UserModel.php");
+include_once("model/ServiceModel.php");
 include_once("model/RoleModel.php");
 include_once("model/UserRoleModel.php");
 
@@ -11,6 +12,8 @@ include_once("controller/LoginController.php");
 include_once("controller/LogoutController.php");
 include_once("controller/RegistrarseController.php");
 include_once("controller/HomeController.php");
+
+include_once("controller/ServiceController.php");
 include_once("controller/UsuariosController.php");
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
@@ -49,6 +52,11 @@ class Configuration {
         return new UserModel($database);
     }
 
+    public function getServiceModel(){
+        $database = $this->getDatabase();
+        return new ServiceModel($database);
+    }
+
     public function getRoleModel(){
         $database = $this->getDatabase();
         return new RoleModel($database);
@@ -76,6 +84,11 @@ class Configuration {
 
     public function getHomeController() {
         return new HomeController($this->getRender());
+    }
+
+    public function getServiceController() {
+        $serviceModel = $this->getServiceModel();
+        return new ServiceController($serviceModel, $this->getRender());
     }
 
     public function getUsuariosController() {

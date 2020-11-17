@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`chofer` (
   `id_tipo_licencia` INT NOT NULL,
   PRIMARY KEY (`id_chofer`),
   UNIQUE INDEX `license_number_UNIQUE` (`numero_licencia` ASC) VISIBLE,
-  UNIQUE INDEX `id_tipo_licencia_UNIQUE` (`id_tipo_licencia` ASC) VISIBLE,
+  INDEX `id_tipo_licencia_INDEX` (`id_tipo_licencia` ASC) VISIBLE,
   CONSTRAINT `tipo_licencia_FK`
     FOREIGN KEY (`id_tipo_licencia`)
     REFERENCES `grupo03`.`tipo_licencia` (`id_tipo_licencia`)
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`modelo` (
   `nombre` VARCHAR(45) NOT NULL,
   `id_marca` INT NOT NULL,
   PRIMARY KEY (`id_modelo`),
-  UNIQUE INDEX `id_marca_UNIQUE` (`id_marca` ASC) VISIBLE,
+  INDEX `id_marca_INDEX` (`id_marca` ASC) VISIBLE,
   CONSTRAINT `marca_FK`
     FOREIGN KEY (`id_marca`)
     REFERENCES `grupo03`.`marca` (`id_marca`)
@@ -138,8 +138,8 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`unidad_de_transporte` (
   PRIMARY KEY (`id_unidad_de_transporte`),
   UNIQUE INDEX `patente_UNIQUE` (`patente` ASC) VISIBLE,
   UNIQUE INDEX `numero_chasis_UNIQUE` (`numero_chasis` ASC) VISIBLE,
-  UNIQUE INDEX `id_marca_UNIQUE` (`id_marca` ASC) VISIBLE,
-  UNIQUE INDEX `id_modelo_UNIQUE` (`id_modelo` ASC) VISIBLE,
+  INDEX `id_marca_INDEX` (`id_marca` ASC) VISIBLE,
+  INDEX `id_modelo_INDEX` (`id_modelo` ASC) VISIBLE,
   CONSTRAINT `marca_transporte_FK`
     FOREIGN KEY (`id_marca`)
     REFERENCES `grupo03`.`marca` (`id_marca`)
@@ -164,17 +164,17 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`service` (
   `kilometraje_actual_unidad` INT UNSIGNED NOT NULL,
   `interno` BIT NOT NULL,
   `id_usuario` INT NOT NULL,
-  `id_vehiculo` INT NOT NULL,
+  `id_unidad_de_transporte` INT NOT NULL,
   PRIMARY KEY (`id_service`),
-  UNIQUE INDEX `id_usuario_UNIQUE` (`id_usuario` ASC) VISIBLE,
-  UNIQUE INDEX `id_vehiculo_UNIQUE` (`id_vehiculo` ASC) VISIBLE,
+  INDEX `id_usuario_INDEX` (`id_usuario` ASC) VISIBLE,
+  INDEX `id_unidad_de_transporte_INDEX` (`id_unidad_de_transporte` ASC) VISIBLE,
   CONSTRAINT `usuario_service_FK`
     FOREIGN KEY (`id_usuario`)
     REFERENCES `grupo03`.`usuario` (`id_usuario`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `vehiculo_FK`
-    FOREIGN KEY (`id_vehiculo`)
+  CONSTRAINT `unidad_de_transporte_FK`
+    FOREIGN KEY (`id_unidad_de_transporte`)
     REFERENCES `grupo03`.`unidad_de_transporte` (`id_unidad_de_transporte`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -199,7 +199,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`remolque` (
   `id_remolque` INT NOT NULL AUTO_INCREMENT,
   `id_tipo_remolque` INT NOT NULL,
   PRIMARY KEY (`id_remolque`),
-  UNIQUE INDEX `id_tipo_remolque_UNIQUE` (`id_tipo_remolque` ASC) VISIBLE,
+  INDEX `id_tipo_remolque_INDEX` (`id_tipo_remolque` ASC) VISIBLE,
   CONSTRAINT `unidad_de_transporte_remolque_FK`
     FOREIGN KEY (`id_remolque`)
     REFERENCES `grupo03`.`unidad_de_transporte` (`id_unidad_de_transporte`)
@@ -262,8 +262,8 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`carga` (
   `id_tipo_carga` INT NOT NULL,
   `id_viaje` INT NOT NULL,
   PRIMARY KEY (`id_carga`),
-  UNIQUE INDEX `id_tipo_carga_UNIQUE` (`id_tipo_carga` ASC) VISIBLE,
-  UNIQUE INDEX `id_viaje_UNIQUE` (`id_viaje` ASC) VISIBLE,
+  INDEX `id_tipo_carga_INDEX` (`id_tipo_carga` ASC) VISIBLE,
+  INDEX `id_viaje_INDEX` (`id_viaje` ASC) VISIBLE,
   CONSTRAINT `viaje_carga_FK`
     FOREIGN KEY (`id_viaje`)
     REFERENCES `grupo03`.`viaje` (`id_viaje`)
@@ -357,8 +357,8 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`factura` (
   `id_cliente` INT NOT NULL,
   `id_viaje` INT NOT NULL,
   PRIMARY KEY (`id_factura`),
-  UNIQUE INDEX `id_cliente_UNIQUE` (`id_cliente` ASC) VISIBLE,
-  UNIQUE INDEX `id_viaje_UNIQUE` (`id_viaje` ASC) VISIBLE,
+  INDEX `id_cliente_INDEX` (`id_cliente` ASC) VISIBLE,
+  INDEX `id_viaje_INDEX` (`id_viaje` ASC) VISIBLE,
   CONSTRAINT `cliente_FK`
     FOREIGN KEY (`id_cliente`)
     REFERENCES `grupo03`.`cliente` (`id_cliente`)
@@ -401,8 +401,9 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`vehiculo` (
   `numero_motor` VARCHAR(45) NOT NULL,
   `kilometraje` DECIMAL(10,2) NOT NULL,
   `id_tipo_vehiculo` INT NOT NULL,
+  PRIMARY KEY (`id_vehiculo`),
   UNIQUE INDEX `numero_motor_UNIQUE` (`numero_motor` ASC) VISIBLE,
-  UNIQUE INDEX `id_tipo_vehiculo_UNIQUE` (`id_tipo_vehiculo` ASC) VISIBLE,
+  INDEX `id_tipo_vehiculo_INDEX` (`id_tipo_vehiculo` ASC) VISIBLE,
   INDEX `unidad_de_transporte_FK_idx` (`id_vehiculo` ASC) VISIBLE,
   CONSTRAINT `unidad_de_transporte_vehiculo_FK`
     FOREIGN KEY (`id_vehiculo`)
@@ -426,7 +427,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`costo` (
   `importe` DECIMAL(10,2) NOT NULL,
   `id_factura` INT NOT NULL,
   PRIMARY KEY (`id_costo`),
-  UNIQUE INDEX `id_factura_UNIQUE` (`id_factura` ASC) VISIBLE,
+  INDEX `id_factura_INDEX` (`id_factura` ASC) VISIBLE,
   CONSTRAINT `factura_FK`
     FOREIGN KEY (`id_factura`)
     REFERENCES `grupo03`.`factura` (`id_factura`)
