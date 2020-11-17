@@ -15,7 +15,6 @@ class UserRoleModel {
 
     public function isAdmin() {
         foreach ($_SESSION["roles"] as $role) {
-//          El id_rol 1 de la tabla Rol en la DB es el Admin
             if ($role["id_rol"] == 1) {
                 return true;
             }
