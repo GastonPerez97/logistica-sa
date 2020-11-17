@@ -78,20 +78,32 @@ class ServiceController
     public function processEditService()
     {
 
-            $serviceId = $_POST["idService"];
-            $service = $this->serviceModel->getServiceById($serviceId);
+        $serviceId = $_POST["idService"];
+        $service = $this->serviceModel->getServiceById($serviceId);
 
+        if ($_POST["serviceDate"] != $service["fecha_service"]) {
+            $newsServiceDate = $_POST["serviceDate"];
+            $this->serviceModel->changeServiceDate($serviceId, $newsServiceDate);
+        }
 
-            if ($_POST["kilometers"] != $service["kilometraje_actual_unidad"]) {
-                $newKilometers = $_POST["kilometers"];
-                $this->serviceModel->changeKilometers($serviceId, $newKilometers);
-            }
+        if ($_POST["kilometers"] != $service["kilometraje_actual_unidad"]) {
+            $newKilometers = $_POST["kilometers"];
+            $this->serviceModel->changeKilometers($serviceId, $newKilometers);
+        }
 
+        if ($_POST["description"] != $service["detalle"]) {
+            $newDescription = $_POST["description"];
+            $this->serviceModel->changeDescription($serviceId, $newDescription);
+        }
 
-            header("location: /pw2-grupo03/service/editService?id=$serviceId");
-            exit();
+        if ($_POST["cost"] != $service["costo"]) {
+            $newCost = $_POST["cost"];
+            $this->serviceModel->changeCost($serviceId, $newCost);
+        }
+
+        header("location: /pw2-grupo03/service/editService?id=$serviceId");
+        exit();
     }
-
 
     public function deleteService()
     {
