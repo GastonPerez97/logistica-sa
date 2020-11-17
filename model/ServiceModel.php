@@ -30,4 +30,9 @@ class ServiceModel
         return $this->database->query($sql);
     }
 
+    public function deleteServiceById($serviceId) {
+        $sql = "DELETE FROM service WHERE id_service = '$serviceId'";
+        $this->database->execute($sql);
+    }
+
 }

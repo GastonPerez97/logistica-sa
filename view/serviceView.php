@@ -47,7 +47,7 @@
                                         <p class="margin-0">$ {{costo}}</p>
                                     </div>
 
-                                    <button class="w3-button w3-red w3-tiny w3-round w3-margin-bottom">Eliminar</button>
+                                    <a href="/pw2-grupo03/service/deleteService?id={{id_service}}" class="w3-button w3-red w3-tiny w3-round w3-margin-bottom">Eliminar</a>
                                     <button class="w3-button w3-blue w3-tiny w3-round w3-margin-bottom">Editar</button>
                                 </div>
                             </div>

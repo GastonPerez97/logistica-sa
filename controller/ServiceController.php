@@ -57,5 +57,17 @@ class ServiceController
         }
     }
 
+    public function deleteService() {
+        $serviceId = $_GET["id"];
+
+        $this->serviceModel->deleteServiceById($serviceId);
+
+        $_SESSION["serviceDeletedOk"] = 1;
+
+        header("location: /pw2-grupo03/service");
+        exit();
+    }
+
+
 
 }
