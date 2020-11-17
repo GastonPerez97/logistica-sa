@@ -5,7 +5,8 @@ class ServiceModel
 {
     private $database;
 
-    public function __construct($database) {
+    public function __construct($database)
+    {
         $this->database = $database;
     }
 
@@ -19,18 +20,33 @@ class ServiceModel
         $cost = $newService["cost"];
 
 
-        $sql = "INSERT INTO service (fecha_service, detalle, costo, kilometraje_actual_unidad, interno, id_usuario, id_vehiculo)
+        $sql = "INSERT INTO service (fecha_service, detalle, costo, kilometraje_actual_unidad, interno, id_usuario, id_unidad_de_transporte)
             VALUES ('$serviceDate', '$description', '$cost', '$kilometers', b'0', '$mechanic', '$numberVehicle')";
 
         $this->database->execute($sql);
     }
 
-    public function getServices() {
+    public function getServices()
+    {
         $sql = "SELECT * FROM service";
         return $this->database->query($sql);
     }
 
-    public function deleteServiceById($serviceId) {
+    public function getServiceById($serviceId)
+    {
+        $sql = "SELECT * FROM service WHERE id_service = '$serviceId'";
+        return $this->database->query($sql);
+    }
+
+    public function changeKilometers($serviceId, $newKilometers)
+    {
+        $sql = "UPDATE service SET kilometraje_actual_unidad = '$newKilometers' WHERE  id_service = '$serviceId'";
+        $this->database->execute($sql);
+    }
+
+
+    public function deleteServiceById($serviceId)
+    {
         $sql = "DELETE FROM service WHERE id_service = '$serviceId'";
         $this->database->execute($sql);
     }

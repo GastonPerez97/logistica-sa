@@ -6,23 +6,27 @@ class ServiceController
     private $serviceModel;
     private $render;
 
-    public function __construct($serviceModel, $render) {
+    public function __construct($serviceModel, $render)
+    {
         $this->render = $render;
         $this->serviceModel = $serviceModel;
     }
 
-    public function execute() {
+    public function execute()
+    {
         $data["services"] = $this->serviceModel->getServices();
         echo $this->render->render("view/serviceView.php", $data);
     }
 
 
-    public function newService(){
+    public function newService()
+    {
         echo $this->render->render("view/newServiceView.php");
     }
 
 
-    public function addNewService() {
+    public function addNewService()
+    {
         $data = array();
 
         if (!$this->validateNewService()) {
@@ -44,7 +48,8 @@ class ServiceController
         echo $this->render->render("view/newServiceResultView.php", $data);
     }
 
-    public function validateNewService() {
+    public function validateNewService()
+    {
         if (empty($_POST['numberVehicle']) ||
             empty($_POST['serviceDate']) ||
             empty($_POST['kilometers']) ||
@@ -57,7 +62,39 @@ class ServiceController
         }
     }
 
-    public function deleteService() {
+    public function editService()
+    {
+        if (is_numeric($_GET["id"])) {
+            $serviceId = $_GET["id"];
+            $data["service"] = $this->serviceModel->getServiceById($serviceId);
+
+            echo $this->render->render("view/editServiceView.php", $data);
+        } else {
+            header("location: /pw2-grupo03/service");
+            exit();
+        }
+    }
+
+    public function processEditService()
+    {
+
+            $serviceId = $_POST["idService"];
+            $service = $this->serviceModel->getServiceById($serviceId);
+
+
+            if ($_POST["kilometers"] != $service["kilometraje_actual_unidad"]) {
+                $newKilometers = $_POST["kilometers"];
+                $this->serviceModel->changeKilometers($serviceId, $newKilometers);
+            }
+
+
+            header("location: /pw2-grupo03/service/editService?id=$serviceId");
+            exit();
+    }
+
+
+    public function deleteService()
+    {
         $serviceId = $_GET["id"];
 
         $this->serviceModel->deleteServiceById($serviceId);
@@ -67,7 +104,6 @@ class ServiceController
         header("location: /pw2-grupo03/service");
         exit();
     }
-
 
 
 }

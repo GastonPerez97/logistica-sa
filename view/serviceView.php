@@ -12,14 +12,14 @@
                         <div class="w3-col s12 m6 l4 w3-center" style="margin-bottom: 2em;">
                             <div class="w3-card-4 w3-round">
                                 <header class="w3-container w3-light-grey d-flex-centrado">
-                                    <h3>Service N° {{id_usuario}}</h3>
+                                    <h3>Service N° {{id_service}}</h3>
                                 </header>
                                 
                                 <div class="w3-container w3-margin-bottom">
                                     <div class="detalles-viaje w3-margin-bottom">
                                         <div>
                                             <h3>N° Unidad:</h3>
-                                            <p>{{id_vehiculo}}</p>
+                                            <p>{{id_unidad_de_transporte}}</p>
                                         </div>
                                         <div>
                                             <h3>Fecha:</h3>
@@ -48,7 +48,7 @@
                                     </div>
 
                                     <a href="/pw2-grupo03/service/deleteService?id={{id_service}}" class="w3-button w3-red w3-tiny w3-round w3-margin-bottom">Eliminar</a>
-                                    <button class="w3-button w3-blue w3-tiny w3-round w3-margin-bottom">Editar</button>
+                                    <a href="/pw2-grupo03/service/editService?id={{id_service}}" class="w3-button w3-blue w3-tiny w3-round w3-margin-bottom">Editar</a>
                                 </div>
                             </div>
                         </div>
