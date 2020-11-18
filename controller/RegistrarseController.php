@@ -51,4 +51,4 @@ class RegistrarseController {
             return true;
         }
     }
-}
+ }

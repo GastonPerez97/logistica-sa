@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`service` (
   `kilometraje_actual_unidad` INT UNSIGNED NOT NULL,
   `interno` BIT NOT NULL,
   `id_usuario` INT NOT NULL,
-  `id_vehiculo` INT NOT NULL,
+  `id_unidad_de_transporte` INT NOT NULL,
   PRIMARY KEY (`id_service`),
   UNIQUE INDEX `id_usuario_UNIQUE` (`id_usuario` ASC) ,
   UNIQUE INDEX `id_vehiculo_UNIQUE` (`id_vehiculo` ASC) ,
@@ -173,8 +173,8 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`service` (
     REFERENCES `grupo03`.`usuario` (`id_usuario`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `vehiculo_FK`
-    FOREIGN KEY (`id_vehiculo`)
+  CONSTRAINT `unidad_de_transporte_FK`
+    FOREIGN KEY (`id_unidad_de_transporte`)
     REFERENCES `grupo03`.`unidad_de_transporte` (`id_unidad_de_transporte`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)

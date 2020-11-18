@@ -8,7 +8,8 @@ class UserModel {
         $this->database = $database;
     }
 
-    public function saveUser($user) {
+    public function saveUser($user)
+    {
         $email = $user["email"];
         $dni = $user["dni"];
         $name = $user["name"];
