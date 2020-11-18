@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`usuario` (
   `fecha_alta` DATE NOT NULL,
   `activado` BIT NOT NULL,
   PRIMARY KEY (`id_usuario`),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) ,
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC),
   UNIQUE INDEX `dni_UNIQUE` (`dni` ASC))
 ENGINE = InnoDB;
 
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`usuario_rol` (
   `id_usuario` INT NOT NULL,
   `id_rol` INT NOT NULL,
   PRIMARY KEY (`id_usuario`, `id_rol`),
-  INDEX `rol_FK_idx` (`id_rol` ASC) ,
+  INDEX `rol_FK_idx` (`id_rol` ASC),
   CONSTRAINT `usuario_rol_FK`
     FOREIGN KEY (`id_usuario`)
     REFERENCES `grupo03`.`usuario` (`id_usuario`)
@@ -86,8 +86,8 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`chofer` (
   `numero_licencia` VARCHAR(45) NOT NULL,
   `id_tipo_licencia` INT NOT NULL,
   PRIMARY KEY (`id_chofer`),
-  UNIQUE INDEX `license_number_UNIQUE` (`numero_licencia` ASC) ,
-  UNIQUE INDEX `id_tipo_licencia_UNIQUE` (`id_tipo_licencia` ASC) ,
+  UNIQUE INDEX `license_number_UNIQUE` (`numero_licencia` ASC),
+  INDEX `id_tipo_licencia_INDEX` (`id_tipo_licencia` ASC),
   CONSTRAINT `tipo_licencia_FK`
     FOREIGN KEY (`id_tipo_licencia`)
     REFERENCES `grupo03`.`tipo_licencia` (`id_tipo_licencia`)
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`modelo` (
   `nombre` VARCHAR(45) NOT NULL,
   `id_marca` INT NOT NULL,
   PRIMARY KEY (`id_modelo`),
-  UNIQUE INDEX `id_marca_UNIQUE` (`id_marca` ASC) ,
+  INDEX `id_marca_INDEX` (`id_marca` ASC),
   CONSTRAINT `marca_FK`
     FOREIGN KEY (`id_marca`)
     REFERENCES `grupo03`.`marca` (`id_marca`)
@@ -137,9 +137,9 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`unidad_de_transporte` (
   `id_modelo` INT NOT NULL,
   PRIMARY KEY (`id_unidad_de_transporte`),
   UNIQUE INDEX `patente_UNIQUE` (`patente` ASC),
-  UNIQUE INDEX `numero_chasis_UNIQUE` (`numero_chasis` ASC) ,
-  UNIQUE INDEX `id_marca_UNIQUE` (`id_marca` ASC) ,
-  UNIQUE INDEX `id_modelo_UNIQUE` (`id_modelo` ASC) ,
+  UNIQUE INDEX `numero_chasis_UNIQUE` (`numero_chasis` ASC),
+  INDEX `id_marca_INDEX` (`id_marca` ASC),
+  INDEX `id_modelo_INDEX` (`id_modelo` ASC),
   CONSTRAINT `marca_transporte_FK`
     FOREIGN KEY (`id_marca`)
     REFERENCES `grupo03`.`marca` (`id_marca`)
@@ -166,8 +166,8 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`service` (
   `id_usuario` INT NOT NULL,
   `id_unidad_de_transporte` INT NOT NULL,
   PRIMARY KEY (`id_service`),
-  UNIQUE INDEX `id_usuario_UNIQUE` (`id_usuario` ASC) ,
-  UNIQUE INDEX `id_vehiculo_UNIQUE` (`id_vehiculo` ASC) ,
+  INDEX `id_usuario_INDEX` (`id_usuario` ASC),
+  INDEX `id_unidad_de_transporte_INDEX` (`id_unidad_de_transporte` ASC),
   CONSTRAINT `usuario_service_FK`
     FOREIGN KEY (`id_usuario`)
     REFERENCES `grupo03`.`usuario` (`id_usuario`)
@@ -199,7 +199,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`remolque` (
   `id_remolque` INT NOT NULL AUTO_INCREMENT,
   `id_tipo_remolque` INT NOT NULL,
   PRIMARY KEY (`id_remolque`),
-  UNIQUE INDEX `id_tipo_remolque_UNIQUE` (`id_tipo_remolque` ASC) ,
+  INDEX `id_tipo_remolque_INDEX` (`id_tipo_remolque` ASC),
   CONSTRAINT `unidad_de_transporte_remolque_FK`
     FOREIGN KEY (`id_remolque`)
     REFERENCES `grupo03`.`unidad_de_transporte` (`id_unidad_de_transporte`)
@@ -262,8 +262,8 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`carga` (
   `id_tipo_carga` INT NOT NULL,
   `id_viaje` INT NOT NULL,
   PRIMARY KEY (`id_carga`),
-  UNIQUE INDEX `id_tipo_carga_UNIQUE` (`id_tipo_carga` ASC) ,
-  UNIQUE INDEX `id_viaje_UNIQUE` (`id_viaje` ASC) ,
+  INDEX `id_tipo_carga_INDEX` (`id_tipo_carga` ASC),
+  INDEX `id_viaje_INDEX` (`id_viaje` ASC),
   CONSTRAINT `viaje_carga_FK`
     FOREIGN KEY (`id_viaje`)
     REFERENCES `grupo03`.`viaje` (`id_viaje`)
@@ -295,7 +295,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`viaje_desvio` (
   `id_viaje` INT NOT NULL,
   `id_desvio` INT NOT NULL,
   PRIMARY KEY (`id_viaje`, `id_desvio`),
-  INDEX `desvio_FK_idx` (`id_desvio` ASC) ,
+  INDEX `desvio_FK_idx` (`id_desvio` ASC),
   CONSTRAINT `viaje_desvio_FK`
     FOREIGN KEY (`id_viaje`)
     REFERENCES `grupo03`.`viaje` (`id_viaje`)
@@ -316,7 +316,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`viaje_chofer` (
   `id_viaje` INT NOT NULL,
   `id_chofer` INT NOT NULL,
   PRIMARY KEY (`id_viaje`, `id_chofer`),
-  INDEX `chofer_FK_idx` (`id_chofer` ASC) ,
+  INDEX `chofer_FK_idx` (`id_chofer` ASC),
   CONSTRAINT `viaje_chofer_FK`
     FOREIGN KEY (`id_viaje`)
     REFERENCES `grupo03`.`viaje` (`id_viaje`)
@@ -341,8 +341,8 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`cliente` (
   `nombre` VARCHAR(45) NOT NULL,
   `apellido` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_cliente`),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) ,
-  UNIQUE INDEX `dni_UNIQUE` (`dni` ASC) )
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC),
+  UNIQUE INDEX `dni_UNIQUE` (`dni` ASC))
 ENGINE = InnoDB;
 
 
@@ -357,8 +357,8 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`factura` (
   `id_cliente` INT NOT NULL,
   `id_viaje` INT NOT NULL,
   PRIMARY KEY (`id_factura`),
-  UNIQUE INDEX `id_cliente_UNIQUE` (`id_cliente` ASC) ,
-  UNIQUE INDEX `id_viaje_UNIQUE` (`id_viaje` ASC) ,
+  INDEX `id_cliente_INDEX` (`id_cliente` ASC),
+  INDEX `id_viaje_INDEX` (`id_viaje` ASC),
   CONSTRAINT `cliente_FK`
     FOREIGN KEY (`id_cliente`)
     REFERENCES `grupo03`.`cliente` (`id_cliente`)
@@ -379,7 +379,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`viaje_unidad_de_transporte` (
   `id_viaje` INT NOT NULL,
   `id_unidad_de_transporte` INT NOT NULL,
   PRIMARY KEY (`id_viaje`, `id_unidad_de_transporte`),
-  INDEX `id_unidad_de_transporte_idx` (`id_unidad_de_transporte` ASC) ,
+  INDEX `id_unidad_de_transporte_idx` (`id_unidad_de_transporte` ASC),
   CONSTRAINT `viaje_transporte_FK`
     FOREIGN KEY (`id_viaje`)
     REFERENCES `grupo03`.`viaje` (`id_viaje`)
@@ -401,9 +401,10 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`vehiculo` (
   `numero_motor` VARCHAR(45) NOT NULL,
   `kilometraje` DECIMAL(10,2) NOT NULL,
   `id_tipo_vehiculo` INT NOT NULL,
-  UNIQUE INDEX `numero_motor_UNIQUE` (`numero_motor` ASC) ,
-  UNIQUE INDEX `id_tipo_vehiculo_UNIQUE` (`id_tipo_vehiculo` ASC) ,
-  INDEX `unidad_de_transporte_FK_idx` (`id_vehiculo` ASC) ,
+  PRIMARY KEY (`id_vehiculo`),
+  UNIQUE INDEX `numero_motor_UNIQUE` (`numero_motor` ASC),
+  INDEX `id_tipo_vehiculo_INDEX` (`id_tipo_vehiculo` ASC),
+  INDEX `unidad_de_transporte_FK_idx` (`id_vehiculo` ASC),
   CONSTRAINT `unidad_de_transporte_vehiculo_FK`
     FOREIGN KEY (`id_vehiculo`)
     REFERENCES `grupo03`.`unidad_de_transporte` (`id_unidad_de_transporte`)
@@ -426,13 +427,31 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`costo` (
   `importe` DECIMAL(10,2) NOT NULL,
   `id_factura` INT NOT NULL,
   PRIMARY KEY (`id_costo`),
-  UNIQUE INDEX `id_factura_UNIQUE` (`id_factura` ASC) ,
+  INDEX `id_factura_INDEX` (`id_factura` ASC),
   CONSTRAINT `factura_FK`
     FOREIGN KEY (`id_factura`)
     REFERENCES `grupo03`.`factura` (`id_factura`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- INSERTS
+-- -----------------------------------------------------
+INSERT INTO usuario (id_usuario, email, dni, password, nombre, apellido, birthdate, fecha_alta, activado) VALUES (1338, 'mail@test.com', 124567, '81dc9bdb52d04dc20036dbd8313ed055', 'Jorge', 'Perez', '1960-12-11', '2020-11-17', b'0');
+INSERT INTO `grupo03`.`tipo_vehiculo` (`id_tipo_vehiculo`, `nombre`) VALUES ('1', 'camion');
+INSERT INTO `grupo03`.`marca` (`id_marca`, `nombre`) VALUES ('1', 'fiat');
+INSERT INTO `grupo03`.`modelo` (`id_modelo`, `nombre`, `id_marca`) VALUES ('1', 'cargo', '1');
+INSERT INTO `grupo03`.`unidad_de_transporte` (`id_unidad_de_transporte`, `patente`, `posicion_actual`, `anio_fabricacion`, `numero_chasis`, `id_marca`, `id_modelo`) VALUES ('1', 'abc123', 'acb', '94', '234423342', '1', '1');
+INSERT INTO `grupo03`.`vehiculo` (`id_vehiculo`, `numero_motor`, `kilometraje`, `id_tipo_vehiculo`) VALUES ('1', '23423', '60000', '1');
+INSERT INTO `grupo03`.`service` (`id_service`, `fecha_service`, `detalle`, `costo`, `kilometraje_actual_unidad`, `interno`, `id_usuario`, `id_unidad_de_transporte`) VALUES ('1', '1111-11-11', 'cambio de aceite', '15000', '65000', b'0', '1338', b'1');
+
+-- (contraseña usuario id 1337: 1234) 
+INSERT INTO rol (id_rol, nombre, descripcion) VALUES (1, 'Administrador', 'AdminDesc'), (2, 'Supervisor', 'SupervisorDesc'), (3, 'Encargado de Taller', 'EncargadoTallerDesc'), (4, 'Chofer', 'ChoferDesc');
+INSERT INTO usuario (id_usuario, email, dni, password, nombre, apellido, birthdate, fecha_alta, activado) VALUES (1337, 'mail@mail.com', 1234567, '81dc9bdb52d04dc20036dbd8313ed055', 'Juan', 'Perez', '1960-11-11', '2020-11-17', b'0');
+INSERT INTO usuario_rol (id_usuario, id_rol) VALUES (1337, 1);
+
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
