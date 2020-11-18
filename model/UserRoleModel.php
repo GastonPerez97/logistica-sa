@@ -22,4 +22,13 @@ class UserRoleModel {
 
         return false;
     }
+    public function isChofer() {
+        foreach ($_SESSION["roles"] as $role) {
+            if ($role["id_rol"] == 4) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
