@@ -19,7 +19,7 @@
                                         <p>{{destino}}</p>
                                     </div>
                                 </div>
-                                <a href="/pw2-grupo03/travel/deleteTravel?id={{id_viaje}}" class="w3-button w3-red w3-tiny w3-round w3-margin-bottom">Eliminar</a>
+                                <a href="/pw2-grupo03/travel/deleteTravel?id={{id_viaje}}" class="w3-button w3-red w3-tiny w3-round w3-margin-bottom delete-btn-travel">Eliminar</a>
                                 <a href="/pw2-grupo03/travel/editTravel?id={{id_viaje}}" class="w3-button w3-blue w3-tiny w3-round w3-margin-bottom">Editar</a>
                             </div>
                         </div>
@@ -30,4 +30,5 @@
     </div>
 </div>
 
+{{> deleteAlert}}
 {{> footerSidebarFixed}}

@@ -45,7 +45,7 @@
                                 <p class="margin-0">$ {{costo}}</p>
                             </div>
 
-                            <a href="/pw2-grupo03/service/deleteService?id={{id_service}}" class="w3-button w3-red w3-tiny w3-round w3-margin-bottom">Eliminar</a>
+                            <a href="/pw2-grupo03/service/deleteService?id={{id_service}}" class="w3-button w3-red w3-tiny w3-round w3-margin-bottom delete-btn-service">Eliminar</a>
                             <a href="/pw2-grupo03/service/editService?id={{id_service}}" class="w3-button w3-blue w3-tiny w3-round w3-margin-bottom">Editar</a>
                         </div>
                     </div>
@@ -56,4 +56,5 @@
     </div>
 </div>
 
+{{> deleteAlert}}
 {{> footerSidebarFixed}}
