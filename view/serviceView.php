@@ -1,4 +1,4 @@
-{{> headerExternal}}
+{{> headerWithSidebar}}
 
         <div class="w3-content">
             <div class="w3-margin">
@@ -59,4 +59,4 @@
         </div>
     </div>
 
-{{> footer}}
+{{> footerSidebarFixed}}
