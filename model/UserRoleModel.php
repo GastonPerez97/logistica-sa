@@ -13,22 +13,30 @@ class UserRoleModel {
         return $this->database->query($sql);
     }
 
+    public function hasRole($roleId) {
+        foreach ($_SESSION["roles"] as $role) {
+            if ($role["id_rol"] == $roleId) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function isAdmin() {
-        foreach ($_SESSION["roles"] as $role) {
-            if ($role["id_rol"] == 1) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->hasRole(1);
     }
+
+    public function isSupervisor() {
+        return $this->hasRole(2);
+    }
+
+    public function isEncargado() {
+        return $this->hasRole(3);
+    }
+
     public function isChofer() {
-        foreach ($_SESSION["roles"] as $role) {
-            if ($role["id_rol"] == 4) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->hasRole(4);
     }
+
 }
