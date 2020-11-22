@@ -37,28 +37,22 @@ class ServiceModel
         $sql = "SELECT * FROM service WHERE id_service = '$serviceId'";
         return $this->database->query($sql);
     }
-
-    public function changeKilometers($serviceId, $newKilometers)
+/*
+    public function existVehicle($numberVehicle)
     {
-        $sql = "UPDATE service SET kilometraje_actual_unidad = '$newKilometers' WHERE  id_service = '$serviceId'";
-        $this->database->execute($sql);
+        $sql = "SELECT COUNT(*) as total
+                FROM vehiculo 
+                WHERE id_vehiculo = '$numberVehicle'";
+        $result = $this->database->query($sql);
+        $data = mysqli_fetch_assoc($result);
+        return $data['total'];
     }
-
-    public function changeServiceDate($serviceId, $newServiceDate)
+*/
+    public function updateServiceById($serviceId, $newServiceDate, $newKilometers, $newDescription, $newCost)
     {
-        $sql = "UPDATE service SET fecha_service = '$newServiceDate' WHERE  id_service = '$serviceId'";
-        $this->database->execute($sql);
-    }
-
-    public function changeDescription($serviceId, $newDescription)
-    {
-        $sql = "UPDATE service SET detalle = '$newDescription' WHERE  id_service = '$serviceId'";
-        $this->database->execute($sql);
-    }
-
-    public function changeCost($serviceId, $newCost)
-    {
-        $sql = "UPDATE service SET costo = '$newCost' WHERE  id_service = '$serviceId'";
+        $sql = "UPDATE service 
+                SET fecha_service = '$newServiceDate',kilometraje_actual_unidad = '$newKilometers', detalle = '$newDescription', costo = '$newCost'
+                WHERE  id_service = '$serviceId'";
         $this->database->execute($sql);
     }
 
