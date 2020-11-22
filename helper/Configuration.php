@@ -94,7 +94,8 @@ class Configuration {
 
     public function getServiceController() {
         $serviceModel = $this->getServiceModel();
-        return new ServiceController($serviceModel, $this->getRender());
+        $userRoleModel = $this->getUserRoleModel();
+        return new ServiceController($serviceModel, $userRoleModel, $this->getRender());
     }
 
     public function getUsuariosController() {
@@ -106,7 +107,8 @@ class Configuration {
 
     public function getTravelController() {
         $travelModel = $this->getTravelModel();
-        return new TravelController($travelModel, $this->getRender());
+        $userRoleModel = $this->getUserRoleModel();
+        return new TravelController($travelModel, $userRoleModel, $this->getRender());
     }
 
 }

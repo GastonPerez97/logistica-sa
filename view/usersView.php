@@ -30,5 +30,5 @@
     </div>
 </div>
 
-{{> userDeleteAlert}}
+{{> deleteAlert}}
 {{> footerSidebarFixed}}
