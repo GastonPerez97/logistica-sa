@@ -29,7 +29,7 @@
                                 <li>
                                     <div class="d-flex w3-margin-bottom justify-content-between align-items-center">
                                         <label for="roles">{{nombre}}</label>
-                                        <input class="w3-check" type="checkbox" name="roles[]" value="{{id_rol}}">
+                                        <input class="w3-check" type="checkbox" name="roles[]" value="{{id_rol}}" {{checked}}>
                                     </div>
                                 </li>
                             {{/roles}}
