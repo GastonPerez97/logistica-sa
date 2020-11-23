@@ -7,22 +7,22 @@
         <div class="container">
 
 
-            <label for="numberVehicle"><b>N° Unidad:</b></label>
+            <label for="numberVehicle"><b>N° Unidad <span style="color: red">*</span></b></label>
             <input type="number" placeholder="Ingresar número de unidad" name="numberVehicle" class="login-input" required>
 
-            <label for="serviceDate"><b>Fecha Service:</b></label>
+            <label for="serviceDate"><b>Fecha Service <span style="color: red">*</span></b></label>
             <input type="date" name="serviceDate" class="login-input" required>
 
-            <label for="kilometers"><b>Kilometros:</b></label>
+            <label for="kilometers"><b>Kilometros <span style="color: red">*</span></b></label>
             <input type="number" placeholder="Ingresar kilometros de la unidad" name="kilometers" class="login-input" required>
 
-            <label for="mechanic"><b>ID Mecánico</b></label>
+            <label for="mechanic"><b>ID Mecánico <span style="color: red">*</span></b></label>
             <input type="number" placeholder="Ingresar ID del mecánico" name="mechanic" class="login-input" required>
 
-            <label for="description"><b>Descripción</b></label>
+            <label for="description"><b>Descripción <span style="color: red">*</span></b></label>
             <input type="text" placeholder="Ingresar detalle del service" name="description" class="login-input" required>
 
-            <label for="cost"><b>Costo</b></label>
+            <label for="cost"><b>Costo <span style="color: red">*</span></b></label>
             <input type="number" placeholder="Ingresar costo" name="cost" class="login-input" required>
 
             <button class="form-button w3-round w3-green w3-margin-top" type="submit">Registrar</button>
