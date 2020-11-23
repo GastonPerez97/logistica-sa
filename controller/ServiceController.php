@@ -4,30 +4,43 @@
 class ServiceController
 {
     private $serviceModel;
+    private $userRoleModel;
     private $render;
 
-    public function __construct($serviceModel, $render)
+    public function __construct($serviceModel, $userRoleModel, $render)
     {
         $this->render = $render;
         $this->serviceModel = $serviceModel;
+        $this->userRoleModel = $userRoleModel;
     }
 
     public function execute()
     {
-        $data["services"] = $this->serviceModel->getServices();
-        echo $this->render->render("view/serviceView.php", $data);
+        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isEncargado()) {
+            $data["services"] = $this->serviceModel->getServices();
+            echo $this->render->render("view/serviceView.php", $data);
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
     }
 
 
     public function newService()
     {
-        echo $this->render->render("view/newServiceView.php");
+        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isEncargado()) {
+            echo $this->render->render("view/newServiceView.php");
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
     }
 
 
     public function addNewService()
     {
-        $data = array();
+        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isEncargado()) {
+            $data = array();
 
     /*    if (!$this->validateNewService()) {
             $data["errorValidate"] = "Ocurrió un error en la validación 
@@ -46,6 +59,10 @@ class ServiceController
             $data["correctNewService"] = "Service Registrado Correctamente";
    //   }
         echo $this->render->render("view/newServiceResultView.php", $data);
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
     }
 
  /*   public function validateNewService()
@@ -64,43 +81,57 @@ class ServiceController
 
     public function editService()
     {
-        if (is_numeric($_GET["id"])) {
-            $serviceId = $_GET["id"];
-            $data["service"] = $this->serviceModel->getServiceById($serviceId);
+        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isEncargado()) {
+            if (is_numeric($_GET["id"])) {
+                $serviceId = $_GET["id"];
+                $data["service"] = $this->serviceModel->getServiceById($serviceId);
 
-            echo $this->render->render("view/editServiceView.php", $data);
+                echo $this->render->render("view/editServiceView.php", $data);
+            } else {
+                header("location: /pw2-grupo03/service");
+                exit();
+            }
         } else {
-            header("location: /pw2-grupo03/service");
+            header("location: /pw2-grupo03");
             exit();
         }
     }
 
     public function processEditService()
     {
-        $serviceId = $_POST["idService"];
-        $service = $this->serviceModel->getServiceById($serviceId);
+        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isEncargado()) {
+            $serviceId = $_POST["idService"];
+            $service = $this->serviceModel->getServiceById($serviceId);
 
-        $newServiceDate = $_POST["serviceDate"];
-        $newKilometers = $_POST["kilometers"];
-        $newDescription = $_POST["description"];
-        $newCost = $_POST["cost"];
+            $newServiceDate = $_POST["serviceDate"];
+            $newKilometers = $_POST["kilometers"];
+            $newDescription = $_POST["description"];
+            $newCost = $_POST["cost"];
 
-        $this->serviceModel->updateServiceById($serviceId, $newServiceDate, $newKilometers, $newDescription, $newCost);
-        $data["correctEditService"] = "Service Editado Correctamente";
-        echo $this->render->render("view/newServiceResultView.php", $data);
-
+            $this->serviceModel->updateServiceById($serviceId, $newServiceDate, $newKilometers, $newDescription, $newCost);
+            $data["correctEditService"] = "Service Editado Correctamente";
+            echo $this->render->render("view/newServiceResultView.php", $data);
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
     }
 
     public function deleteService()
     {
-        $serviceId = $_GET["id"];
+        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isEncargado()) {
+            $serviceId = $_GET["id"];
 
-        $this->serviceModel->deleteServiceById($serviceId);
+            $this->serviceModel->deleteServiceById($serviceId);
 
-        $_SESSION["serviceDeletedOk"] = 1;
+            $_SESSION["serviceDeletedOk"] = 1;
 
-        header("location: /pw2-grupo03/service");
-        exit();
+            header("location: /pw2-grupo03/service");
+            exit();
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
     }
 
 

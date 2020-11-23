@@ -37,6 +37,26 @@ class UsuariosController {
                 $data["user"] = $this->userModel->getUserById($userId);
                 $data["roles"] = $this->roleModel->getRoles();
 
+                $userRoles = $this->userRoleModel->getRolesOfUserBy($userId);
+
+                foreach ($userRoles as $userRole) {
+                    if ($userRole["id_rol"] == 1) {
+                        $data["roles"][0]["checked"] = "checked";
+                    }
+
+                    if ($userRole["id_rol"] == 2) {
+                        $data["roles"][1]["checked"] = "checked";
+                    }
+
+                    if ($userRole["id_rol"] == 3) {
+                        $data["roles"][2]["checked"] = "checked";
+                    }
+
+                    if ($userRole["id_rol"] == 4) {
+                        $data["roles"][3]["checked"] = "checked";
+                    }
+                }
+
                 echo $this->render->render("view/editUserView.php", $data);
             } else {
                 header("location: /pw2-grupo03/usuarios");

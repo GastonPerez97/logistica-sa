@@ -13,13 +13,10 @@
 
             <button class="form-button w3-round" type="submit">Ingresar</button>
 
-            <input type="checkbox" checked="checked" name="remember"> Recordarme
-            <span class="forgot-pass"> <a href="#"> &iquestOlvidaste tu contrase&ntildea?</a></span>
-
-            <p class="w3-margin-top w3-text-red">{{wrongMailOrPass}}</p>
+            <p class="w3-text-red">{{wrongMailOrPass}}</p>
         </div>
 
-        <div class="container-bottom" >
+        <div class="container-bottom">
             <p class="new-user">&iquestNuevo Usuario?</p>
             <a href="registrarse" class="w3-button register-btn form-button w3-round">Registrarse</a>
         </div>

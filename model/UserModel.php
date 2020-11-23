@@ -42,9 +42,14 @@ class UserModel {
     public function assignRolesToUser($userId, $roles) {
         $this->removeRolesOfUser($userId);
 
-        foreach ($roles as $role) {
-            $sqlAssignRole = "INSERT INTO usuario_rol (id_usuario, id_rol) VALUES ('$userId', '$role')";
+        if (in_array("1", $roles)) {
+            $sqlAssignRole = "INSERT INTO usuario_rol (id_usuario, id_rol) VALUES ('$userId', '1'), ('$userId', '2'), ('$userId', '3'), ('$userId', '4')";
             $this->database->execute($sqlAssignRole);
+        } else {
+            foreach ($roles as $role) {
+                $sqlAssignRole = "INSERT INTO usuario_rol (id_usuario, id_rol) VALUES ('$userId', '$role')";
+                $this->database->execute($sqlAssignRole);
+            }
         }
     }
 

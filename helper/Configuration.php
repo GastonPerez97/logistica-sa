@@ -7,14 +7,15 @@ include_once("model/UserModel.php");
 include_once("model/ServiceModel.php");
 include_once("model/RoleModel.php");
 include_once("model/UserRoleModel.php");
+include_once("model/TravelModel.php");
 
 include_once("controller/LoginController.php");
 include_once("controller/LogoutController.php");
 include_once("controller/RegistrarseController.php");
 include_once("controller/HomeController.php");
-
 include_once("controller/ServiceController.php");
 include_once("controller/UsuariosController.php");
+include_once("controller/TravelController.php");
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 include_once("Router.php");
@@ -67,6 +68,11 @@ class Configuration {
         return new UserRoleModel($database);
     }
 
+    public function getTravelModel(){
+        $database = $this->getDatabase();
+        return new TravelModel($database);
+    }
+
     public function getLoginController() {
         $userModel = $this->getUserModel();
         $userRoleModel = $this->getUserRoleModel();
@@ -88,7 +94,8 @@ class Configuration {
 
     public function getServiceController() {
         $serviceModel = $this->getServiceModel();
-        return new ServiceController($serviceModel, $this->getRender());
+        $userRoleModel = $this->getUserRoleModel();
+        return new ServiceController($serviceModel, $userRoleModel, $this->getRender());
     }
 
     public function getUsuariosController() {
@@ -96,6 +103,12 @@ class Configuration {
         $roleModel = $this->getRoleModel();
         $userRoleModel = $this->getUserRoleModel();
         return new UsuariosController($userModel, $roleModel, $userRoleModel, $this->getRender());
+    }
+
+    public function getTravelController() {
+        $travelModel = $this->getTravelModel();
+        $userRoleModel = $this->getUserRoleModel();
+        return new TravelController($travelModel, $userRoleModel, $this->getRender());
     }
 
 }
