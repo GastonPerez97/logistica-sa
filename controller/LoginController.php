@@ -41,8 +41,10 @@ class LoginController {
             $_SESSION['username'] = $username;
             $_SESSION["roles"] = $this->userRoleModel->getRolesOfUserBy($userId);
             $_SESSION['admin'] = $this->userRoleModel->isAdmin($userId);
-            $_SESSION['chofer'] = $this->userRoleModel->isChofer($userId);
+            $_SESSION['supervisor'] = $this->userRoleModel->isSupervisor($userId);
             $_SESSION['encargado'] = $this->userRoleModel->isEncargado($userId);
+            $_SESSION['chofer'] = $this->userRoleModel->isChofer($userId);
+
             header("location: /pw2-grupo03/home");
             exit();
         }

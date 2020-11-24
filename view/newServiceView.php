@@ -1,11 +1,13 @@
-{{> headerExternal}}
+{{> headerWithSidebar}}
 
 <div class="w3-content w3-margin-top">
     <form action="addNewService" method="post" class="login-form">
         <div class="container-title"><p>Nuevo Servicio</p></div>
 
         <div class="container">
-
+            <div class="w3-margin-bottom">
+                <a href="/pw2-grupo03/service" class="w3-button w3-blue w3-small w3-round text-decoration-none">Volver</a>
+            </div>
 
             <label for="numberVehicle"><b>N° Unidad <span style="color: red">*</span></b></label>
             <input type="number" placeholder="Ingresar número de unidad" name="numberVehicle" class="login-input" required>
@@ -26,12 +28,8 @@
             <input type="number" placeholder="Ingresar costo" name="cost" class="login-input" required>
 
             <button class="form-button w3-round w3-green w3-margin-top" type="submit">Registrar</button>
-
-            <div class="w3-margin-bottom">
-                <a href="/pw2-grupo03/service" class="w3-button w3-blue w3-medium w3-block w3-round text-decoration-none">Volver</a>
-            </div>
         </div>
     </form>
 </div>
 
-{{> footer}}
+{{> footerSidebarFixed}}

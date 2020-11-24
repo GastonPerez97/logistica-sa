@@ -1,4 +1,4 @@
-{{> header}}
+{{> headerWithSidebar}}
 
 <div class="w3-content w3-margin-top">
     {{#travel}}
@@ -34,4 +34,4 @@
     {{/travel}}
 </div>
 
-{{> footer}}
+{{> footerSidebarFixed}}
