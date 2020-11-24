@@ -60,6 +60,7 @@ button:hover {
     display: flex;
     align-items: center;
     margin-top: 9px;
+    margin-right: 12px;
 }
 
 .detalles-viaje {
