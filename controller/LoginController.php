@@ -20,6 +20,11 @@ class LoginController {
             unset($_SESSION["errorLogin"]);
         }
 
+        if (isset($_SESSION["userNotActive"]) && $_SESSION["userNotActive"] === 1) {
+            $data["userNotActive"] = "Tu usuario se encuentra deshabilitado. Contacta a un administrador";
+            unset($_SESSION["userNotActive"]);
+        }
+
         echo $this->render->render("view/loginView.php", $data);
     }
 
@@ -33,16 +38,22 @@ class LoginController {
             $_SESSION["errorLogin"] = 1;
             header("location: /pw2-grupo03");
             exit();
+        } else if ($user[0]["activado"] == 0) {
+            $_SESSION["userNotActive"] = 1;
+            header("location: /pw2-grupo03");
+            exit();
         } else {
             $userId = $user[0]["id_usuario"];
-            $username = $user[0]["email"];
+            $username = $user[0]["nombre"];
 
             $_SESSION['loggedIn'] = 1;
             $_SESSION['username'] = $username;
             $_SESSION["roles"] = $this->userRoleModel->getRolesOfUserBy($userId);
             $_SESSION['admin'] = $this->userRoleModel->isAdmin($userId);
-            $_SESSION['chofer'] = $this->userRoleModel->isChofer($userId);
+            $_SESSION['supervisor'] = $this->userRoleModel->isSupervisor($userId);
             $_SESSION['encargado'] = $this->userRoleModel->isEncargado($userId);
+            $_SESSION['chofer'] = $this->userRoleModel->isChofer($userId);
+
             header("location: /pw2-grupo03/home");
             exit();
         }

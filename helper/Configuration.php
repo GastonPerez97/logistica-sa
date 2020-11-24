@@ -100,7 +100,8 @@ class Configuration {
     }
 
     public function getReportController() {
-        return new ReportController($this->getRender());
+        $userRoleModel = $this->getUserRoleModel();
+        return new ReportController($userRoleModel, $this->getRender());
     }
 
     public function getUsuariosController() {

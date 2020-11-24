@@ -1,4 +1,4 @@
-{{> header}}
+{{> headerWithSidebar}}
 
 <div class="w3-content my-3em">
     <div class="w3-content w3-section">
@@ -8,4 +8,4 @@
     </div>
 </div>
 
-{{> footer}}
+{{> footerSidebarFixed}}
