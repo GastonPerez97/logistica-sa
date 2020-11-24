@@ -8,6 +8,7 @@ include_once("model/ServiceModel.php");
 include_once("model/RoleModel.php");
 include_once("model/UserRoleModel.php");
 include_once("model/TravelModel.php");
+include_once("model/ClientModel.php");
 
 include_once("controller/LoginController.php");
 include_once("controller/LogoutController.php");
@@ -16,6 +17,7 @@ include_once("controller/HomeController.php");
 include_once("controller/ServiceController.php");
 include_once("controller/UsuariosController.php");
 include_once("controller/TravelController.php");
+include_once("controller/ClientController.php");
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 include_once("Router.php");
@@ -72,6 +74,10 @@ class Configuration {
         $database = $this->getDatabase();
         return new TravelModel($database);
     }
+    public function getClientModel(){
+        $database = $this->getDatabase();
+        return new ClientModel($database);
+    }
 
     public function getLoginController() {
         $userModel = $this->getUserModel();
@@ -109,6 +115,11 @@ class Configuration {
         $travelModel = $this->getTravelModel();
         $userRoleModel = $this->getUserRoleModel();
         return new TravelController($travelModel, $userRoleModel, $this->getRender());
+    }
+    public function getClientController() {
+        $clientModel = $this->getClientModel();
+        $userRoleModel = $this->getUserRoleModel();
+        return new ClientController($clientModel, $userRoleModel, $this->getRender());
     }
 
 }
