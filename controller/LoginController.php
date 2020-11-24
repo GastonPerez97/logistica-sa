@@ -20,6 +20,11 @@ class LoginController {
             unset($_SESSION["errorLogin"]);
         }
 
+        if (isset($_SESSION["userNotActive"]) && $_SESSION["userNotActive"] === 1) {
+            $data["userNotActive"] = "Tu usuario se encuentra deshabilitado. Contacta a un administrador";
+            unset($_SESSION["userNotActive"]);
+        }
+
         echo $this->render->render("view/loginView.php", $data);
     }
 
@@ -31,6 +36,10 @@ class LoginController {
 
         if (empty($user)) {
             $_SESSION["errorLogin"] = 1;
+            header("location: /pw2-grupo03");
+            exit();
+        } else if ($user[0]["activado"] == 0) {
+            $_SESSION["userNotActive"] = 1;
             header("location: /pw2-grupo03");
             exit();
         } else {

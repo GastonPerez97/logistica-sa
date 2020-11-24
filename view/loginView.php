@@ -14,6 +14,7 @@
             <button class="form-button w3-round" type="submit">Ingresar</button>
 
             <p class="w3-text-red">{{wrongMailOrPass}}</p>
+            <p class="w3-text-red">{{userNotActive}}</p>
         </div>
 
         <div class="container-bottom">
