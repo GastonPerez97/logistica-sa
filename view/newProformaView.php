@@ -1,10 +1,10 @@
 {{> headerWithSidebar}}
 
-<div class="w3-content w3-margin-top">
-    <form action="createProforma" method="post" class="login-form">
+<div class="w3-container w3-margin-top">
+    <form action="createProforma" method="post" class="login-form container">
         <div class="container-title"><p>Generar Proforma</p></div>
 
-        <div class="container">
+        <div>
             <div class="w3-margin-bottom">
                 <a href="/pw2-grupo03/report" class="w3-button w3-blue w3-small w3-round text-decoration-none">Volver</a>
             </div>
@@ -141,7 +141,7 @@
             <label for="" style="font-size: x-large"><b>Dato Personal</b></label>
             <br><br>
             <label for="driver"><b>Chofer Asignado <span style="color: red">*</span></b></label>
-            <input type="number" placeholder="Ingresar origen del viaje" name="driver" class="login-input" required>
+            <input type="number" placeholder="Ingresar chofer asignado" name="driver" class="login-input" required>
 
             <button class="form-button w3-round w3-green w3-margin-top" type="submit">Generar</button>
         </div>
