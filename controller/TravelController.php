@@ -84,6 +84,8 @@ class TravelController
                 $travelId = $_GET["id"];
                 $data["travel"] = $this->travelModel->getTravelById($travelId);
 
+                $data["travel"] = $this->travelModel->convertDatetimeFromMySQLToHTMLOf($data["travel"]);
+
                 echo $this->render->render("view/updateTravelView.php", $data);
             } else {
                 header("location: /pw2-grupo03/travel");
