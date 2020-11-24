@@ -150,14 +150,7 @@ class ReportController
         $pdf->Cell(50, 10, "Personal",0,1);
         $pdf->Cell(50, 10, "Chofer Asignado", 1, 0);
         $pdf->Cell(100, 10, "$driver", 1, 1, 'C', 0);
-
-
-  /*      $pdf->Cell(100, 10, "$imoClass", 1, 1, 'C', 0);
-        $pdf->Cell(50, 10, "ETA", 1, 0);
-        $pdf->Cell(100, 10, "$origin", 1, 1, 'C', 0);
-        $pdf->Cell(50, 10, "ETA", 1, 0);
-        $pdf->Cell(100, 10, "$origin", 1, 1, 'C', 0);
-*/
+        
         $pdf->Output("", "Proforma $idProforma - ID Viaje $idTravel");
 
     }
