@@ -14,7 +14,11 @@
     </div>
     {{/_SESSION.admin}}
     {{#_SESSION.supervisor}}
-
+    <div class="w3-content w3-section">
+        <div class="w3-container ">
+        <a href="/pw2-grupo03/client/newClient" class="w3-button w3-green w3-padding-large w3-round w3-right" style="margin-bottom: 2.5em;">Nuevo Cliente</a>
+        </div>
+    </div>
     {{/_SESSION.supervisor}}
     {{#_SESSION.encargado}}
     <div class="w3-content w3-section">
