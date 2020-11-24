@@ -14,10 +14,18 @@
 <div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-right" id="mySidebar">
     <button class="w3-bar-item w3-button w3-large w3-hide-large" onclick="w3_close()">Cerrar &times;</button>
     <h3 class="w3-bar-item">Menú</h3>
-    <a href="#" class="w3-bar-item w3-button">Usuarios</a>
-    <a href="#" class="w3-bar-item w3-button">Reportes</a>
-    <a href="#" class="w3-bar-item w3-button">Flota de Vehículos</a>
-    <a href="#" class="w3-bar-item w3-button">Seguimiento de Vehículo</a>
+    {{#_SESSION.admin}}
+        <a href="/pw2-grupo03/usuarios" class="w3-bar-item w3-button">Usuarios</a>
+    {{/_SESSION.admin}}
+    {{#_SESSION.admin}}
+        <a href="#" class="w3-bar-item w3-button">Reportes</a>
+    {{/_SESSION.admin}}
+    {{#_SESSION.chofer}}
+        <a href="#" class="w3-bar-item w3-button">Flota de Vehículos</a>
+    {{/_SESSION.chofer}}
+    {{#_SESSION.chofer}}
+        <a href="#" class="w3-bar-item w3-button">Seguimiento de Vehículo</a>
+    {{/_SESSION.chofer}}
 </div>
 
 <!-- Navbar -->
@@ -25,9 +33,11 @@
     <div class="w3-blue">
         <button class="w3-button w3-blue w3-xlarge w3-right w3-hide-large" onclick="w3_open()">&#9776;</button>
         <div class="w3-bar w3-large">
-            <p class="w3-bar-item ">Logística</p>
+            <p class="w3-bar-item">
+                <a href="/pw2-grupo03/home" class="w3-bar-item w3-button"><i class="fa fa-home"></i></a>
+            </p>
             <div class="w3-right navbar-bienvenido">
-                <p class="w3-bar-item">Bienvenida Marta!</p>
+                <p class="w3-bar-item">Bienvenide {{_SESSION.username}}!</p>
                 <a href="/pw2-grupo03/logout" class="w3-bar-item w3-button"><i class="fa fa-sign-in"></i></a>
             </div>
         </div>

@@ -28,15 +28,21 @@ class LoginController {
         $pass = md5($_POST["pass"]);
 
         $user = $this->userModel->getUserByEmailAndPass($email, $pass);
-        $userId = $user[0]["id_usuario"];
 
         if (empty($user)) {
             $_SESSION["errorLogin"] = 1;
             header("location: /pw2-grupo03");
             exit();
         } else {
+            $userId = $user[0]["id_usuario"];
+            $username = $user[0]["email"];
+
             $_SESSION['loggedIn'] = 1;
+            $_SESSION['username'] = $username;
             $_SESSION["roles"] = $this->userRoleModel->getRolesOfUserBy($userId);
+            $_SESSION['admin'] = $this->userRoleModel->isAdmin($userId);
+            $_SESSION['chofer'] = $this->userRoleModel->isChofer($userId);
+            $_SESSION['encargado'] = $this->userRoleModel->isEncargado($userId);
             header("location: /pw2-grupo03/home");
             exit();
         }
