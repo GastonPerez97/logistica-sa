@@ -42,42 +42,42 @@ class ServiceController
         if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isEncargado()) {
             $data = array();
 
-            if (!$this->validateNewService()) {
-                $data["errorValidate"] = "Ocurrió un error en la validación 
+    /*    if (!$this->validateNewService()) {
+            $data["errorValidate"] = "Ocurrió un error en la validación 
                                         de los datos ingresados, intente nuevamente";
-            } else {
-                $newService = array(
-                    "numberVehicle" => $_POST["numberVehicle"],
-                    "serviceDate" => $_POST["serviceDate"],
-                    "kilometers" => $_POST["kilometers"],
-                    "mechanic" => $_POST["mechanic"],
-                    "description" => $_POST["description"],
-                    "cost" => $_POST["cost"]
-                );
+        } else {  */
+            $newService = array(
+                "numberVehicle" => $_POST["numberVehicle"],
+                "serviceDate" => $_POST["serviceDate"],
+                "kilometers" => $_POST["kilometers"],
+                "mechanic" => $_POST["mechanic"],
+                "description" => $_POST["description"],
+                "cost" => $_POST["cost"]
+            );
 
-                $this->serviceModel->saveNewService($newService);
-                $data["correctNewService"] = "Service registrado correctamente";
-            }
-            echo $this->render->render("view/newServiceResultView.php", $data);
+            $this->serviceModel->saveNewService($newService);
+            $data["correctNewService"] = "Service Registrado Correctamente";
+   //   }
+        echo $this->render->render("view/newServiceResultView.php", $data);
         } else {
             header("location: /pw2-grupo03");
             exit();
         }
     }
 
-    public function validateNewService()
+ /*   public function validateNewService()
     {
-        if (empty($_POST['numberVehicle']) ||
-            empty($_POST['serviceDate']) ||
-            empty($_POST['kilometers']) ||
-            empty($_POST['mechanic']) ||
-            empty($_POST['description']) ||
-            empty($_POST['cost'])) {
-            return false;
-        } else {
+        $numberVehicle = $_POST["numberVehicle"];
+
+        $total = $this->serviceModel->existVehicle($numberVehicle);
+
+        if ($total == 1) {
             return true;
+        } else {
+            return false;
         }
     }
+ */
 
     public function editService()
     {
@@ -103,28 +103,14 @@ class ServiceController
             $serviceId = $_POST["idService"];
             $service = $this->serviceModel->getServiceById($serviceId);
 
-            if ($_POST["serviceDate"] != $service["fecha_service"]) {
-                $newsServiceDate = $_POST["serviceDate"];
-                $this->serviceModel->changeServiceDate($serviceId, $newsServiceDate);
-            }
+            $newServiceDate = $_POST["serviceDate"];
+            $newKilometers = $_POST["kilometers"];
+            $newDescription = $_POST["description"];
+            $newCost = $_POST["cost"];
 
-            if ($_POST["kilometers"] != $service["kilometraje_actual_unidad"]) {
-                $newKilometers = $_POST["kilometers"];
-                $this->serviceModel->changeKilometers($serviceId, $newKilometers);
-            }
-
-            if ($_POST["description"] != $service["detalle"]) {
-                $newDescription = $_POST["description"];
-                $this->serviceModel->changeDescription($serviceId, $newDescription);
-            }
-
-            if ($_POST["cost"] != $service["costo"]) {
-                $newCost = $_POST["cost"];
-                $this->serviceModel->changeCost($serviceId, $newCost);
-            }
-
-            header("location: /pw2-grupo03/service/editService?id=$serviceId");
-            exit();
+            $this->serviceModel->updateServiceById($serviceId, $newServiceDate, $newKilometers, $newDescription, $newCost);
+            $data["correctEditService"] = "Service Editado Correctamente";
+            echo $this->render->render("view/newServiceResultView.php", $data);
         } else {
             header("location: /pw2-grupo03");
             exit();
