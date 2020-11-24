@@ -16,7 +16,7 @@
     {{#_SESSION.supervisor}}
     <div class="w3-content w3-section">
         <div class="w3-container ">
-        <a href="/pw2-grupo03/client/newClient" class="w3-button w3-green w3-padding-large w3-round w3-right" style="margin-bottom: 2.5em;">Nuevo Cliente</a>
+            <a href="/pw2-grupo03/client" class="w3-button w3-block w3-amber w3-padding-large w3-round-large">Clientes</a>
         </div>
     </div>
     {{/_SESSION.supervisor}}

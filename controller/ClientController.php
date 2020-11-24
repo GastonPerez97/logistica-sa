@@ -16,7 +16,7 @@ class ClientController
 
     public function execute()
     {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isAdmin()) {
+        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isSupervisor()) {
             $data["clients"] = $this->clientModel->getClients();
             echo $this->render->render("view/myClientsView.php", $data);
         } else {
@@ -27,7 +27,7 @@ class ClientController
 
     public function newClient()
     {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isAdmin()) {
+        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isSupervisor()) {
             echo $this->render->render("view/newClientView.php");
         } else {
             header("location: /pw2-grupo03");
@@ -38,7 +38,7 @@ class ClientController
 
     public function addNewClient()
     {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isAdmin()) {
+        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isSupervisor()) {
             $data = array();
 
             if (!$this->validateNewClient()) {
@@ -63,7 +63,7 @@ class ClientController
         }
     }
 
-    public function validateNewTravel()
+    public function validateNewClient()
     {
         if (empty($_POST['name']) ||
             empty($_POST['surname']) ||
@@ -79,7 +79,7 @@ class ClientController
 
     public function editClient()
     {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isAdmin()) {
+        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isSupervisor()) {
             if (is_numeric($_GET["id"])) {
                 $clientId = $_GET["id"];
                 $data["client"] = $this->clientModel->getClientById($clientId);
@@ -97,36 +97,34 @@ class ClientController
 
     public function processEditClient()
     {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isAdmin()) {
-            $clientId = $_POST["id_cliente"];
+        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isSupervisor()) {
+            $clientId = $_POST["idClient"];
             $client = $this->clientModel->getClientById($clientId);
 
-            if ($_POST["name"] != $client["name"]) {
+            if ($_POST["name"] != $client[0]["nombre"]) {
                 $newName = $_POST["name"];
                 $this->clientModel->changeName($clientId, $newName);
             }
 
-            if ($_POST["surname"] != $client["surname"]) {
+            if ($_POST["surname"] != $client[0]["apellido"]) {
                 $newSurname = $_POST["surname"];
                 $this->clientModel->changeSurname($clientId, $newSurname);
             }
 
-            if ($_POST["dni"] != $client["dni"]) {
+            if ($_POST["dni"] != $client[0]["dni"]) {
                 $newDni = $_POST["dni"];
                 $this->clientModel->changeDni($clientId, $newDni);
             }
 
-            if ($_POST["email"] != $client["email"]) {
+            if ($_POST["email"] != $client[0]["email"]) {
                 $newEmail = $_POST["email"];
                 $this->clientModel->changeEmail($clientId, $newEmail);
             }
 
-            if ($_POST["phone"] != $client["phone"]) {
+            if ($_POST["phone"] != $client[0]["telefono"]) {
                 $newPhone = $_POST["phone"];
-                $this->clientModel->changeOrigin($clientId, $newPhone);
+                $this->clientModel->changePhone($clientId, $newPhone);
             }
-
-
 
             header("location: /pw2-grupo03/client/editClient?id=$clientId");
             exit();
@@ -138,7 +136,7 @@ class ClientController
 
     public function deleteClient()
     {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isAdmin()) {
+        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isSupervisor()) {
             $clientId = $_GET["id"];
 
             $this->clientModel->deleteClientById($clientId);
