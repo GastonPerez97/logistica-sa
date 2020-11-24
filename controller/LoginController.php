@@ -35,7 +35,7 @@ class LoginController {
             exit();
         } else {
             $userId = $user[0]["id_usuario"];
-            $username = $user[0]["email"];
+            $username = $user[0]["nombre"];
 
             $_SESSION['loggedIn'] = 1;
             $_SESSION['username'] = $username;
