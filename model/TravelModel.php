@@ -99,6 +99,17 @@ class TravelModel
         $this->database->execute($sql);
     }
 
+    public function convertDatetimeFromMySQLToHTMLOf($travelArray) {
+        is_null($travelArray[0]["fecha_salida"]) ? $travelArray[0]["fecha_salida"] = ""
+            : $travelArray[0]["fecha_salida"] = date("Y-m-d\TH:i:s", strtotime($travelArray[0]["fecha_salida"]));
 
+        is_null($travelArray[0]["fecha_llegada"]) ? $travelArray[0]["fecha_llegada"] = ""
+            : $travelArray[0]["fecha_llegada"] = date("Y-m-d\TH:i:s", strtotime($travelArray[0]["fecha_llegada"]));
+
+        is_null($travelArray[0]["fecha_llegada_estimada"]) ? $travelArray[0]["fecha_llegada_estimada"] = ""
+            : $travelArray[0]["fecha_llegada_estimada"] = date("Y-m-d\TH:i:s", strtotime($travelArray[0]["fecha_llegada_estimada"]));
+
+        return $travelArray;
+    }
 
 }

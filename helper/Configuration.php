@@ -18,6 +18,7 @@ include_once("controller/ServiceController.php");
 include_once("controller/UsuariosController.php");
 include_once("controller/TravelController.php");
 include_once("controller/ClientController.php");
+include_once("controller/ReportController.php");
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 include_once("Router.php");
@@ -102,6 +103,11 @@ class Configuration {
         $serviceModel = $this->getServiceModel();
         $userRoleModel = $this->getUserRoleModel();
         return new ServiceController($serviceModel, $userRoleModel, $this->getRender());
+    }
+
+    public function getReportController() {
+        $userRoleModel = $this->getUserRoleModel();
+        return new ReportController($userRoleModel, $this->getRender());
     }
 
     public function getUsuariosController() {
