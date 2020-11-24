@@ -14,9 +14,11 @@
 <div class="w3-main contenedor-main">
     <div class="w3-blue">
         <div class="w3-bar w3-large">
-            <p class="w3-bar-item ">Logística</p>
+            <p class="w3-bar-item ">
+                <a href="/pw2-grupo03/home" class="w3-bar-item w3-button"><i class="fa fa-home"></i></a>
+            </p>
             <div class="w3-right navbar-bienvenido">
-                <p class="w3-bar-item">Bienvenida Marta!</p>
+                <p class="w3-bar-item">Bienvenide {{_SESSION.username}}!</p>
                 <a href="/pw2-grupo03/logout" class="w3-bar-item w3-button"><i class="fa fa-sign-in"></i></a>
             </div>
         </div>
