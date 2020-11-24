@@ -100,23 +100,14 @@ class TravelModel
     }
 
     public function convertDatetimeFromMySQLToHTMLOf($travelArray) {
-        if ($travelArray[0]["fecha_salida"] == "0000-00-00 00:00:00") {
-            $travelArray[0]["fecha_salida"] = "";
-        } else {
-            $travelArray[0]["fecha_salida"] = date("Y-m-d\TH:i:s", strtotime($travelArray[0]["fecha_salida"]));
-        }
+        is_null($travelArray[0]["fecha_salida"]) ? $travelArray[0]["fecha_salida"] = ""
+            : $travelArray[0]["fecha_salida"] = date("Y-m-d\TH:i:s", strtotime($travelArray[0]["fecha_salida"]));
 
-        if (is_null($travelArray[0]["fecha_llegada"])) {
-            $travelArray[0]["fecha_llegada"] = "";
-        } else {
-            $travelArray[0]["fecha_llegada"] = date("Y-m-d\TH:i:s", strtotime($travelArray[0]["fecha_llegada"]));
-        }
+        is_null($travelArray[0]["fecha_llegada"]) ? $travelArray[0]["fecha_llegada"] = ""
+            : $travelArray[0]["fecha_llegada"] = date("Y-m-d\TH:i:s", strtotime($travelArray[0]["fecha_llegada"]));
 
-        if (is_null($travelArray[0]["fecha_llegada_estimada"])) {
-            $travelArray[0]["fecha_llegada_estimada"] = "";
-        } else {
-            $travelArray[0]["fecha_llegada_estimada"] = date("Y-m-d\TH:i:s", strtotime($travelArray[0]["fecha_llegada_estimada"]));
-        }
+        is_null($travelArray[0]["fecha_llegada_estimada"]) ? $travelArray[0]["fecha_llegada_estimada"] = ""
+            : $travelArray[0]["fecha_llegada_estimada"] = date("Y-m-d\TH:i:s", strtotime($travelArray[0]["fecha_llegada_estimada"]));
 
         return $travelArray;
     }
