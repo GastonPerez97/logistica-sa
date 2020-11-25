@@ -1,4 +1,4 @@
-{{> headerExternal}}
+{{> headerWithSidebar}}
 
 <div class="w3-content w3-margin-top">
     <div class="w3-center my-3em">
@@ -6,7 +6,7 @@
     </div>
 
     <form action="newTrailerPost" method="post" class="login-form">
-        <div class="container-title"><p>Nuevo Vehículo</p></div>
+        <div class="container-title"><p>Nuevo Remolque</p></div>
 
         <div class="container">
 
@@ -80,4 +80,4 @@
     });*/
 </script>
 
-{{> footer}}
+{{> footerSidebarFixed}}

@@ -16,7 +16,12 @@
     {{#_SESSION.supervisor}}
     <div class="w3-content w3-section">
         <div class="w3-container ">
-            <a href="/pw2-grupo03/client" class="w3-button w3-block w3-amber w3-padding-large w3-round-large">Clientes</a>
+            <a href="/pw2-grupo03/client" class="w3-button w3-block w3-amber w3-padding-large w3-round-large"><b>Clientes</b></a>
+        </div>
+    </div>
+    <div class="w3-content w3-section">
+        <div class="w3-container ">
+            <a href="/pw2-grupo03/transportUnit" class="w3-button w3-block w3-amber w3-padding-large w3-round-large"><b>Flota de Vehiculos</b></a>
         </div>
     </div>
     {{/_SESSION.supervisor}}
