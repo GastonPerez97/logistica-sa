@@ -59,10 +59,13 @@ button:hover {
 .navbar-bienvenido {
     display: flex;
     align-items: center;
+    margin-top: 9px;
+    margin-right: 12px;
 }
 
 .detalles-viaje {
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
     align-items: center;
 }

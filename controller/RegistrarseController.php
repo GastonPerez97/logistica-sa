@@ -33,7 +33,7 @@ class RegistrarseController {
             );
 
             $this->userModel->saveUser($user);
-            $data["registroCorrecto"] = "Registrado exitosamente, ya podés iniciar sesión";
+            $data["registroCorrecto"] = "Registrado exitosamente, un administrador deberá activar tu cuenta";
 
             echo $this->render->render("view/resultadoRegistro.php", $data);
         }

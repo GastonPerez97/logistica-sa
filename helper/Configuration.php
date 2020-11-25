@@ -9,6 +9,7 @@ include_once("model/RoleModel.php");
 include_once("model/UserRoleModel.php");
 include_once("model/TravelModel.php");
 include_once("model/TransportUnitModel.php");
+include_once("model/ClientModel.php");
 
 include_once("controller/LoginController.php");
 include_once("controller/LogoutController.php");
@@ -18,6 +19,8 @@ include_once("controller/ServiceController.php");
 include_once("controller/UsuariosController.php");
 include_once("controller/TravelController.php");
 include_once("controller/TransportUnitController.php");
+include_once("controller/ClientController.php");
+include_once("controller/ReportController.php");
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 include_once("Router.php");
@@ -74,6 +77,10 @@ class Configuration {
         $database = $this->getDatabase();
         return new TravelModel($database);
     }
+    public function getClientModel(){
+        $database = $this->getDatabase();
+        return new ClientModel($database);
+    }
 
     public function getTransportUnitModel(){
         $database = $this->getDatabase();
@@ -105,6 +112,11 @@ class Configuration {
         return new ServiceController($serviceModel, $userRoleModel, $this->getRender());
     }
 
+    public function getReportController() {
+        $userRoleModel = $this->getUserRoleModel();
+        return new ReportController($userRoleModel, $this->getRender());
+    }
+
     public function getUsuariosController() {
         $userModel = $this->getUserModel();
         $roleModel = $this->getRoleModel();
@@ -116,6 +128,11 @@ class Configuration {
         $travelModel = $this->getTravelModel();
         $userRoleModel = $this->getUserRoleModel();
         return new TravelController($travelModel, $userRoleModel, $this->getRender());
+    }
+    public function getClientController() {
+        $clientModel = $this->getClientModel();
+        $userRoleModel = $this->getUserRoleModel();
+        return new ClientController($clientModel, $userRoleModel, $this->getRender());
     }
 
     public function getTransportUnitController() {
