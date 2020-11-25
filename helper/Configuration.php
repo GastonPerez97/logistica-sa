@@ -137,7 +137,8 @@ class Configuration {
 
     public function getTransportUnitController() {
         $transportUnitModel = $this->getTransportUnitModel();
-        return new TransportUnitController($transportUnitModel, $this->getRender());
+        $userRoleModel = $this->getUserRoleModel();
+        return new TransportUnitController($transportUnitModel, $userRoleModel, $this->getRender());
     }
 
 }

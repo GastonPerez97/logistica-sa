@@ -36,7 +36,7 @@ class TransportUnitModel
                                             (id_vehiculo, numero_motor, kilometraje, id_tipo_vehiculo)
                                             VALUES (?, ?, ?, ?)");
 
-        $insertVehicle->bind_param("isii", $lastId, $engineNumber, $kilometers, $typeOfVehicle);
+        $insertVehicle->bind_param("isii", $lastId[0]["last_insert_id()"], $engineNumber, $kilometers, $typeOfVehicle);
         $insertVehicle->execute();
     }
 
@@ -64,7 +64,7 @@ class TransportUnitModel
                                             (id_remolque, id_tipo_remolque)
                                             VALUES (?, ?)");
 
-        $insertTrailer->bind_param("ii", $lastId, $typeOfTrailer);
+        $insertTrailer->bind_param("ii", $lastId[0]["last_insert_id()"], $typeOfTrailer);
         $insertTrailer->execute();
 
     }
