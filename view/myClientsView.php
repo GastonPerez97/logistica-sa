@@ -5,7 +5,7 @@
         <a href="/pw2-grupo03/client/newClient" class="w3-button w3-green w3-padding-large w3-round w3-right" style="margin-bottom: 2.5em;">Nuevo Cliente</a>
         <div>
             <div class="w3-row-padding">
-                {{#clientss}}
+                {{#clients}}
                 <div class="w3-col s12 m6 l4 w3-center" style="margin-bottom: 2em;">
                     <div class="w3-card-4 w3-round">
                         <div class="w3-container w3-margin-bottom">
