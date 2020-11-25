@@ -8,6 +8,7 @@ include_once("model/ServiceModel.php");
 include_once("model/RoleModel.php");
 include_once("model/UserRoleModel.php");
 include_once("model/TravelModel.php");
+include_once("model/TransportUnitModel.php");
 include_once("model/ClientModel.php");
 
 include_once("controller/LoginController.php");
@@ -17,6 +18,7 @@ include_once("controller/HomeController.php");
 include_once("controller/ServiceController.php");
 include_once("controller/UsuariosController.php");
 include_once("controller/TravelController.php");
+include_once("controller/TransportUnitController.php");
 include_once("controller/ClientController.php");
 include_once("controller/ReportController.php");
 
@@ -80,6 +82,11 @@ class Configuration {
         return new ClientModel($database);
     }
 
+    public function getTransportUnitModel(){
+        $database = $this->getDatabase();
+        return new TransportUnitModel($database);
+    }
+
     public function getLoginController() {
         $userModel = $this->getUserModel();
         $userRoleModel = $this->getUserRoleModel();
@@ -126,6 +133,11 @@ class Configuration {
         $clientModel = $this->getClientModel();
         $userRoleModel = $this->getUserRoleModel();
         return new ClientController($clientModel, $userRoleModel, $this->getRender());
+    }
+
+    public function getTransportUnitController() {
+        $transportUnitModel = $this->getTransportUnitModel();
+        return new TransportUnitController($transportUnitModel, $this->getRender());
     }
 
 }
