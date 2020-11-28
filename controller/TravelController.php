@@ -150,6 +150,57 @@ class TravelController {
         }
     }
 
+    public function loadData() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1 && isset($_GET["id"])
+            && $this->travelModel->checkIfTravelExistsBy($_GET["id"])) {
+            if (isset($_SESSION["detourReportedOk"])) {
+                $data["detourReportedOk"] = "El desvío se informó correctamente";
+                unset($_SESSION["detourReportedOk"]);
+            }
+
+            $data["idTravel"] = $_GET["id"];
+            echo $this->render->render("view/loadTravelDataView.php", $data);
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
+    }
+
+    public function reportDetour() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1 && isset($_GET["id"])
+        && $this->travelModel->checkIfTravelExistsBy($_GET["id"])) {
+            $data["idTravel"] = $_GET["id"];
+            echo $this->render->render("view/reportTravelDetourView.php", $data);
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
+    }
+
+    public function processDetour() {
+        if (isset($_SESSION["loggedIn"])
+            && $_SESSION["chofer"] == 1
+            && isset($_POST["travelId"])
+            && $this->travelModel->validateNewDetour()
+            && $this->travelModel->checkIfTravelExistsBy($_POST["travelId"])) {
+
+            $travelId = $_POST["travelId"];
+
+            $detourData["time"] = $_POST["time"];
+            $detourData["reason"] = $_POST["reason"];
+
+            $this->travelModel->addDetourOf($travelId, $detourData);
+
+            $_SESSION["detourReportedOk"] = 1;
+
+            header("location: /pw2-grupo03/travel/loadData?id=$travelId");
+            exit();
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
+    }
+
     public function validateNewTravel() {
         if (empty($_POST['expectedFuel']) ||
             empty($_POST['expectedKilometers']) ||

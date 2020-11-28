@@ -1,15 +1,15 @@
 <?php
 
 
-class TravelModel
-{
+class TravelModel {
+
     private $database;
 
     public function __construct($database) {
         $this->database = $database;
     }
 
-    public function saveTravel($travel){
+    public function saveTravel($travel) {
 
     $expectedFuel = $travel["expectedFuel"];
     $expectedKilometers = $travel["expectedKilometers"];
@@ -91,13 +91,28 @@ class TravelModel
         $this->database->execute($sql);
     }
 
-
-
     public function deleteTravelById($travelId)
     {
         $sql = "DELETE FROM viaje WHERE id_viaje = '$travelId'";
         $this->database->execute($sql);
     }
+
+    public function addDetourOf($travelId, $detourData) {
+        $time = $detourData["time"];
+        $reason = $detourData["reason"];
+
+        $sqlDesvio = "INSERT INTO desvio (tiempo, razon) VALUES ('$time', '$reason')";
+        $this->database->execute($sqlDesvio);
+
+        $lastId = $this->database->query("SELECT last_insert_id()");
+        $desvioId = $lastId[0]["last_insert_id()"];
+
+        $sqlViajeDesvio = "INSERT INTO viaje_desvio (id_viaje, id_desvio) VALUES ('$travelId', '$desvioId')";
+
+        $this->database->execute($sqlViajeDesvio);
+    }
+
+
 
     public function convertDatetimeFromMySQLToHTMLOf($travelArray) {
         is_null($travelArray[0]["fecha_salida"]) ? $travelArray[0]["fecha_salida"] = ""
@@ -110,6 +125,25 @@ class TravelModel
             : $travelArray[0]["fecha_llegada_estimada"] = date("Y-m-d\TH:i:s", strtotime($travelArray[0]["fecha_llegada_estimada"]));
 
         return $travelArray;
+    }
+
+    public function validateNewDetour() {
+        if (empty($_POST["time"]) || empty($_POST["reason"])) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function checkIfTravelExistsBy($id) {
+        $sql = "SELECT * FROM viaje WHERE id_viaje = '$id'";
+        $result = $this->database->query($sql);
+
+        if (empty($result)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 }
