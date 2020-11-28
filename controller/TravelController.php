@@ -158,6 +158,11 @@ class TravelController {
                 unset($_SESSION["detourReportedOk"]);
             }
 
+            if (isset($_SESSION["refuelReportedOk"])) {
+                $data["refuelReportedOk"] = "La carga de combustible se informó correctamente";
+                unset($_SESSION["refuelReportedOk"]);
+            }
+
             $data["idTravel"] = $_GET["id"];
             echo $this->render->render("view/loadTravelDataView.php", $data);
         } else {
@@ -192,6 +197,42 @@ class TravelController {
             $this->travelModel->addDetourOf($travelId, $detourData);
 
             $_SESSION["detourReportedOk"] = 1;
+
+            header("location: /pw2-grupo03/travel/loadData?id=$travelId");
+            exit();
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
+    }
+
+    public function reportRefuel() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1 && isset($_GET["id"])
+            && $this->travelModel->checkIfTravelExistsBy($_GET["id"])) {
+            $data["idTravel"] = $_GET["id"];
+            echo $this->render->render("view/reportTravelRefuelView.php", $data);
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
+    }
+
+    public function processRefuel() {
+        if (isset($_SESSION["loggedIn"])
+            && $_SESSION["chofer"] == 1
+            && isset($_POST["travelId"])
+            && $this->travelModel->validateNewRefuel()
+            && $this->travelModel->checkIfTravelExistsBy($_POST["travelId"])) {
+
+            $travelId = $_POST["travelId"];
+
+            $refuelData["place"] = $_POST["place"];
+            $refuelData["quantity"] = $_POST["quantity"];
+            $refuelData["amount"] = $_POST["amount"];
+
+            $this->travelModel->addRefuelOf($travelId, $refuelData);
+
+            $_SESSION["refuelReportedOk"] = 1;
 
             header("location: /pw2-grupo03/travel/loadData?id=$travelId");
             exit();

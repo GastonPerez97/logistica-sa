@@ -310,6 +310,39 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `grupo03`.`carga_combustible`
+-- -----------------------------------------------------
+CREATE TABLE `grupo03`.`carga_combustible` (
+ `id_carga_combustible` INT(11) NOT NULL AUTO_INCREMENT ,
+ `lugar` VARCHAR(100) NOT NULL ,
+ `cantidad` DECIMAL(10,2) NOT NULL ,
+ `importe` DECIMAL(10,2) NOT NULL ,
+ PRIMARY KEY (`id_carga_combustible`)) 
+ ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `grupo03`.`viaje_carga_combustible`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `grupo03`.`viaje_carga_combustible` (
+  `id_viaje` INT NOT NULL,
+  `id_carga_combustible` INT NOT NULL,
+  PRIMARY KEY (`id_viaje`, `id_carga_combustible`),
+  INDEX `carga_combustible_FK_idx` (`id_carga_combustible` ASC),
+  CONSTRAINT `viaje_carga_combustible_FK`
+    FOREIGN KEY (`id_viaje`)
+    REFERENCES `grupo03`.`viaje` (`id_viaje`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `carga_combustible_FK`
+    FOREIGN KEY (`id_carga_combustible`)
+    REFERENCES `grupo03`.`carga_combustible` (`id_carga_combustible`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `grupo03`.`viaje_chofer`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `grupo03`.`viaje_chofer` (

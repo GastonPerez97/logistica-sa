@@ -112,6 +112,22 @@ class TravelModel {
         $this->database->execute($sqlViajeDesvio);
     }
 
+    public function addRefuelOf($travelId, $detourData) {
+        $place = $detourData["place"];
+        $quantity = $detourData["quantity"];
+        $amount = $detourData["amount"];
+
+        $sqlCargaCombustible = "INSERT INTO carga_combustible (lugar, cantidad, importe) VALUES ('$place', '$quantity', '$amount')";
+        $this->database->execute($sqlCargaCombustible);
+
+        $lastId = $this->database->query("SELECT last_insert_id()");
+        $cargaCombustibleId = $lastId[0]["last_insert_id()"];
+
+        $sqlViajeCargaCombustible = "INSERT INTO viaje_carga_combustible (id_viaje, id_carga_combustible) VALUES ('$travelId', '$cargaCombustibleId')";
+
+        $this->database->execute($sqlViajeCargaCombustible);
+    }
+
 
 
     public function convertDatetimeFromMySQLToHTMLOf($travelArray) {
@@ -140,6 +156,14 @@ class TravelModel {
         $result = $this->database->query($sql);
 
         if (empty($result)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function validateNewRefuel() {
+        if (empty($_POST["place"]) || empty($_POST["quantity"]) || empty($_POST["amount"])) {
             return false;
         } else {
             return true;
