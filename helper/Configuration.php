@@ -108,13 +108,11 @@ class Configuration {
 
     public function getServiceController() {
         $serviceModel = $this->getServiceModel();
-        $userRoleModel = $this->getUserRoleModel();
-        return new ServiceController($serviceModel, $userRoleModel, $this->getRender());
+        return new ServiceController($serviceModel, $this->getRender());
     }
 
     public function getReportController() {
-        $userRoleModel = $this->getUserRoleModel();
-        return new ReportController($userRoleModel, $this->getRender());
+        return new ReportController($this->getRender());
     }
 
     public function getUsuariosController() {
@@ -126,19 +124,16 @@ class Configuration {
 
     public function getTravelController() {
         $travelModel = $this->getTravelModel();
-        $userRoleModel = $this->getUserRoleModel();
-        return new TravelController($travelModel, $userRoleModel, $this->getRender());
+        return new TravelController($travelModel, $this->getRender());
     }
     public function getClientController() {
         $clientModel = $this->getClientModel();
-        $userRoleModel = $this->getUserRoleModel();
-        return new ClientController($clientModel, $userRoleModel, $this->getRender());
+        return new ClientController($clientModel, $this->getRender());
     }
 
     public function getTransportUnitController() {
         $transportUnitModel = $this->getTransportUnitModel();
-        $userRoleModel = $this->getUserRoleModel();
-        return new TransportUnitController($transportUnitModel, $userRoleModel, $this->getRender());
+        return new TransportUnitController($transportUnitModel, $this->getRender());
     }
 
 }

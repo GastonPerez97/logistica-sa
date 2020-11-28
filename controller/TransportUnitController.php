@@ -1,22 +1,18 @@
 <?php
 
 
-class TransportUnitController
-{
+class TransportUnitController {
+
     private $transportUnitModel;
-    private $userRoleModel;
     private $render;
 
-    public function __construct($transportUnitModel, $userRoleModel, $render)
-    {
+    public function __construct($transportUnitModel, $render) {
         $this->render = $render;
         $this->transportUnitModel = $transportUnitModel;
-        $this->userRoleModel = $userRoleModel;
     }
 
-    public function execute()
-    {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isSupervisor()) {
+    public function execute() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["supervisor"] == 1) {
             $data["vehicles"] = $this->transportUnitModel->getVehicles();
             $data["trailers"] = $this->transportUnitModel->getTrailers();
             echo $this->render->render("view/transportUnitView.php", $data);
@@ -26,9 +22,8 @@ class TransportUnitController
         }
     }
 
-    public function newVehicle()
-    {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isSupervisor()) {
+    public function newVehicle() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["supervisor"] == 1) {
             $data["typesOfVehicles"] = $this->transportUnitModel->getTypesOfVehicles();
             $data["brands"] = $this->transportUnitModel->getBrands();
             $data["models"] = $this->transportUnitModel->getModels();
@@ -39,9 +34,8 @@ class TransportUnitController
         }
     }
 
-    public function newVehiclePost()
-    {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isSupervisor()) {
+    public function newVehiclePost() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["supervisor"] == 1) {
             $data = array();
 
             $newVehicle = array(
@@ -68,9 +62,8 @@ class TransportUnitController
         }
     }
 
-    public function newTrailer()
-    {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isSupervisor()) {
+    public function newTrailer() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["supervisor"] == 1) {
             $data["typesOfTrailers"] = $this->transportUnitModel->getTypesOfTrailers();
             $data["brands"] = $this->transportUnitModel->getBrands();
             $data["models"] = $this->transportUnitModel->getModels();
@@ -81,9 +74,8 @@ class TransportUnitController
         }
     }
 
-    public function newTrailerPost()
-    {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isSupervisor()) {
+    public function newTrailerPost() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["supervisor"] == 1) {
             $data = array();
 
             $newTrailer = array(
@@ -109,8 +101,7 @@ class TransportUnitController
         }
     }
 
-    public function getModels()
-    {
+    public function getModels() {
         $data["models"] = $this->transportUnitModel->getModelsByBrand($_POST["idBrand"]);
         return json_encode($data);
     }

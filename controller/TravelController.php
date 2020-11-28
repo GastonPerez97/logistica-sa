@@ -1,21 +1,18 @@
 <?php
 
 
-class TravelController
-{
+class TravelController {
+
     private $travelModel;
-    private $userRoleModel;
     private $render;
 
-    public function __construct($travelModel, $userRoleModel, $render) {
+    public function __construct($travelModel, $render) {
         $this->render = $render;
         $this->travelModel = $travelModel;
-        $this->userRoleModel = $userRoleModel;
     }
 
-    public function execute()
-    {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isChofer()) {
+    public function execute() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
             $data["travels"] = $this->travelModel->getTravels();
             echo $this->render->render("view/myTravelsView.php", $data);
         } else {
@@ -24,9 +21,8 @@ class TravelController
         }
     }
 
-    public function newTravel()
-    {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isChofer()) {
+    public function newTravel() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
             echo $this->render->render("view/newTravelView.php");
         } else {
             header("location: /pw2-grupo03");
@@ -34,10 +30,8 @@ class TravelController
         }
     }
 
-
-    public function addNewTravel()
-    {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isChofer()) {
+    public function addNewTravel() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
             $data = array();
 
             if (!$this->validateNewTravel()) {
@@ -63,23 +57,8 @@ class TravelController
         }
     }
 
-    public function validateNewTravel()
-    {
-        if (empty($_POST['expectedFuel']) ||
-            empty($_POST['expectedKilometers']) ||
-            empty($_POST['origin']) ||
-            empty($_POST['destination']) ||
-            empty($_POST['departureDate']) ||
-            empty($_POST['estimatedArrivalDate'])) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public function editTravel()
-    {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isChofer()) {
+    public function editTravel() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
             if (is_numeric($_GET["id"])) {
                 $travelId = $_GET["id"];
                 $data["travel"] = $this->travelModel->getTravelById($travelId);
@@ -97,9 +76,8 @@ class TravelController
         }
     }
 
-    public function processEditTravel()
-    {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isChofer()) {
+    public function processEditTravel() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
             $travelId = $_POST["id_viaje"];
             $travel = $this->travelModel->getTravelById($travelId);
 
@@ -156,9 +134,8 @@ class TravelController
         }
     }
 
-    public function deleteTravel()
-    {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isChofer()) {
+    public function deleteTravel() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
             $travelId = $_GET["id"];
 
             $this->travelModel->deleteTravelById($travelId);
@@ -173,5 +150,17 @@ class TravelController
         }
     }
 
+    public function validateNewTravel() {
+        if (empty($_POST['expectedFuel']) ||
+            empty($_POST['expectedKilometers']) ||
+            empty($_POST['origin']) ||
+            empty($_POST['destination']) ||
+            empty($_POST['departureDate']) ||
+            empty($_POST['estimatedArrivalDate'])) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
 }

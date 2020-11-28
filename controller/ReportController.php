@@ -3,16 +3,14 @@
 
 class ReportController {
 
-    private $userRoleModel;
     private $render;
 
-    public function __construct($userRoleModel, $render) {
+    public function __construct($render) {
         $this->render = $render;
-        $this->userRoleModel = $userRoleModel;
     }
 
     public function execute() {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isAdmin()) {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["admin"] == 1) {
             echo $this->render->render("view/reportView.php");
         } else {
             header("location: /pw2-grupo03");
@@ -21,7 +19,7 @@ class ReportController {
     }
 
     public function newProforma() {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isAdmin()) {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["admin"] == 1) {
             echo $this->render->render("view/newProformaView.php");
         } else {
             header("location: /pw2-grupo03");
@@ -30,7 +28,7 @@ class ReportController {
     }
 
     public function createProforma() {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isAdmin()) {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["admin"] == 1) {
             require('fpdf/fpdf.php');
             $idProforma = $_POST["idProforma"];
             $actualDate = $_POST["actualDate"];
