@@ -74,6 +74,11 @@ class Configuration {
         return new UserRoleModel($database);
     }
 
+    public function getReportModel(){
+        $database = $this->getDatabase();
+        return new ReportModel($database);
+    }
+
     public function getTravelModel(){
         $database = $this->getDatabase();
         return new TravelModel($database);
@@ -117,7 +122,8 @@ class Configuration {
         $reportModel = $this->getReportModel();
         $travelModel = $this->getTravelModel();
         $userModel = $this->getUserModel();
-        return new ReportController($reportModel, $travelModel, $userModel, $this->getRender());
+        $userRoleModel = $this->getUserRoleModel();
+        return new ReportController($reportModel, $travelModel, $userModel, $userRoleModel, $this->getRender());
     }
 
     public function getUsuariosController() {

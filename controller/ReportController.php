@@ -7,12 +7,14 @@ class ReportController {
     private $reportModel;
     private $travelModel;
     private $userModel;
+    private $userRoleModel;
 
-    public function __construct($reportModel, $travelModel, $userModel, $render)
+    public function __construct($reportModel, $travelModel, $userModel, $userRoleModel, $render)
     {
         $this->reportModel = $reportModel;
         $this->travelModel = $travelModel;
         $this->userModel = $userModel;
+        $this->userRoleModel = $userRoleModel;
         $this->render = $render;
     }
 
