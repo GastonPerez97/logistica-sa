@@ -94,8 +94,6 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`chofer` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = binary;
-
 
 -- -----------------------------------------------------
 -- Table `grupo03`.`marca`
@@ -336,13 +334,15 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `grupo03`.`cliente` (
   `id_cliente` INT NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(50) NOT NULL,
-  `dni` VARCHAR(45) NOT NULL,
+  `cuit` VARCHAR(45) NOT NULL,
   `telefono` VARCHAR(45) NOT NULL,
-  `nombre` VARCHAR(45) NOT NULL,
-  `apellido` VARCHAR(45) NOT NULL,
+  `direccion` VARCHAR(45) NOT NULL,
+  `denominacion` VARCHAR(45) NOT NULL,
+  `contacto1` VARCHAR(45) NULL,
+  `contacto2` VARCHAR(45) NULL,
   PRIMARY KEY (`id_cliente`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC),
-  UNIQUE INDEX `dni_UNIQUE` (`dni` ASC))
+  UNIQUE INDEX `cuit_UNIQUE` (`cuit` ASC))
 ENGINE = InnoDB;
 
 
@@ -419,21 +419,66 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `grupo03`.`costo`
+-- Table `grupo03`.`factura`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `grupo03`.`costo` (
-  `id_costo` INT NOT NULL AUTO_INCREMENT,
-  `detalle` VARCHAR(45) NOT NULL,
-  `importe` DECIMAL(10,2) NOT NULL,
-  `id_factura` INT NOT NULL,
-  PRIMARY KEY (`id_costo`),
-  INDEX `id_factura_INDEX` (`id_factura` ASC),
-  CONSTRAINT `factura_FK`
-    FOREIGN KEY (`id_factura`)
-    REFERENCES `grupo03`.`factura` (`id_factura`)
+CREATE TABLE IF NOT EXISTS `grupo03`.`factura` (
+  `id_factura` INT NOT NULL AUTO_INCREMENT,
+  `numero_factura` VARCHAR(45) NOT NULL,
+  `fecha_facturacion` DATE NOT NULL,
+  `fecha_pago` DATE NULL,
+  `id_cliente` INT NOT NULL,
+  `id_viaje` INT NOT NULL,
+  PRIMARY KEY (`id_factura`),
+  INDEX `id_cliente_INDEX` (`id_cliente` ASC),
+  INDEX `id_viaje_INDEX` (`id_viaje` ASC),
+  CONSTRAINT `cliente_FK`
+    FOREIGN KEY (`id_cliente`)
+    REFERENCES `grupo03`.`cliente` (`id_cliente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `viaje_factura_FK`
+    FOREIGN KEY (`id_viaje`)
+    REFERENCES `grupo03`.`viaje` (`id_viaje`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `grupo03`.`proforma`
+-- -----------------------------------------------------
+CREATE TABLE `grupo03`.`proforma` (
+  `id_proforma` INT NOT NULL AUTO_INCREMENT,
+  `fecha_carga_proforma` DATE NOT NULL,
+  `id_cliente` INT NOT NULL,
+  `id_viaje` INT NOT NULL,
+  `viatico_estimado` INT NOT NULL,
+  `peaje_y_pesaje_estimado` INT NOT NULL,
+  `extras_estimado` INT NULL,
+  `hazard_estimado` INT NULL,
+  `reefer_estimado` INT NULL,
+  `fee_estimado` INT NOT NULL,
+  `viatico_real` INT NULL,
+  `peaje_y_pesaje_real` INT NULL,
+  `extras_real` INT NULL,
+  `hazard_real` INT NULL,
+  `reefer_real` INT NULL,
+  `fee_real` INT NULL,
+  PRIMARY KEY (`id_proforma`),
+    INDEX `id_cliente_INDEX` (`id_cliente` ASC),
+    INDEX `id_viaje_INDEX` (`id_viaje` ASC),
+	INDEX `id_carga_INDEX` (`id_carga` ASC),
+  CONSTRAINT `cliente_proforma_FK`
+    FOREIGN KEY (`id_cliente`)
+    REFERENCES `grupo03`.`cliente` (`id_cliente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `viaje_FK`
+    FOREIGN KEY (`id_viaje`)
+    REFERENCES `grupo03`.`viaje` (`id_viaje`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 
 
 -- -----------------------------------------------------
@@ -560,7 +605,6 @@ INSERT INTO unidad_de_transporte (id_unidad_de_transporte, patente, numero_chasi
 										(149, 'AD105ZP', '733355');
 
 -- REMOLQUE/ARRASTRE --
-
 INSERT INTO remolque (id_remolque, id_tipo_remolque) VALUES (100, 1),
 															(101, 1),
 															(102, 1),
@@ -611,7 +655,8 @@ INSERT INTO remolque (id_remolque, id_tipo_remolque) VALUES (100, 1),
 															(147, 5),
 															(148, 5),
 															(149, 5);
-
+															
+-- VEHICULOS --
 INSERT INTO vehiculo (id_vehiculo, numero_motor, kilometraje, id_tipo_vehiculo)
 					VALUES (2, '53879558', 6000, 1),
 							(3, '69904367', 62000, 1),
@@ -640,6 +685,15 @@ INSERT INTO vehiculo (id_vehiculo, numero_motor, kilometraje, id_tipo_vehiculo)
 							(26, '31256965', 60200, 1),
 							(27, '32632699', 66000, 1),
 							(28, '64092078', 67000, 1);
+							
+-- TIPO CARGA --
+INSERT INTO `grupo03`.`tipo_carga` (`nombre`, `descripcion`) VALUES ('Ganel', 'Ganel');
+INSERT INTO `grupo03`.`tipo_carga` (`nombre`, `descripcion`) VALUES ('Liquida', 'Liquida');
+INSERT INTO `grupo03`.`tipo_carga` (`nombre`, `descripcion`) VALUES ('20\'\'', '20 Toneladas');
+INSERT INTO `grupo03`.`tipo_carga` (`nombre`, `descripcion`) VALUES ('40\'\'', '40 Toneladas');
+INSERT INTO `grupo03`.`tipo_carga` (`nombre`, `descripcion`) VALUES ('Jaula', 'jaula');
+INSERT INTO `grupo03`.`tipo_carga` (`nombre`, `descripcion`) VALUES ('CarCarrier', 'CarCarrier');
+							
 
 
 
