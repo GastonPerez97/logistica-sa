@@ -3,12 +3,17 @@
 
 class ReportController {
 
-    private $userRoleModel;
     private $render;
+    private $reportModel;
+    private $travelModel;
+    private $userModel;
 
-    public function __construct($userRoleModel, $render) {
+    public function __construct($reportModel, $travelModel, $userModel, $render)
+    {
+        $this->reportModel = $reportModel;
+        $this->travelModel = $travelModel;
+        $this->userModel = $userModel;
         $this->render = $render;
-        $this->userRoleModel = $userRoleModel;
     }
 
     public function execute() {
@@ -22,7 +27,10 @@ class ReportController {
 
     public function newProforma() {
         if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isAdmin()) {
-            echo $this->render->render("view/newProformaView.php");
+            $data["clients"] = $this->reportModel->getClients();
+            $data["travels"] = $this->travelModel->getTravels();
+            $data["drivers"] = $this->userModel->getDrivers();
+            echo $this->render->render("view/newProformaView.php", $data);
         } else {
             header("location: /pw2-grupo03");
             exit();
@@ -31,20 +39,41 @@ class ReportController {
 
     public function createProforma() {
         if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isAdmin()) {
+            $newProforma = array(
+                "idClient" => $_POST["idClient"],
+                "idTravel" => $_POST["idTravel"],
+                "expectedKilometers" => $_POST["expectedKilometers"],
+                "expectedFuel" => $_POST["expectedFuel"],
+                "expectedEtd" => $_POST["expectedEtd"],
+                "expectedEta" => $_POST["expectedEta"],
+                "expectedViaticos" => $_POST["expectedViaticos"],
+                "expectedToll" => $_POST["expectedToll"],
+                "expectedExtras" => $_POST["expectedExtras"],
+                "expectedHazardCost" => $_POST["expectedHazardCost"],
+                "expectedReeferCost" => $_POST["expectedReeferCost"],
+                "expectedFeeCost" => $_POST["expectedFeeCost"],
+            );
+
+            $this->reportModel->saveNewProforma($newProforma);
+
+
             require('fpdf/fpdf.php');
-            $idProforma = $_POST["idProforma"];
-            $actualDate = $_POST["actualDate"];
-            $idTravel = $_POST["idTravel"];
-            $denominacion = $_POST["denominacion"];
+            $idProforma= $this->reportModel->getLastId();
+            $actualDate = date("Y-m-d");
+            $companyName = $this->reportModel->getCompanyName($idProforma);
+            //los siguientes datos se deben traer desde la tabla cliente
             $cuit = $_POST["cuit"];
             $address = $_POST["address"];
             $phone = $_POST["phone"];
             $email = $_POST["email"];
             $contact1 = $_POST["contact1"];
             $contact2 = $_POST["contact2"];
+            //los siguientes datos se deben traer desde la tabla viaje
+            $idTravel = $_POST["idTravel"];
             $origin = $_POST["origin"];
             $destination = $_POST["destination"];
             $uploadDate = $_POST["uploadDate"];
+
             $typeLoad = $_POST["typeLoad"];
             $netWeight = $_POST["netWeight"];
             $hazard = $_POST["hazard"];
@@ -61,8 +90,8 @@ class ReportController {
             $expectedHazardCost = $_POST["expectedHazardCost"];
             $expectedReeferCost = $_POST["expectedReeferCost"];
             $expectedFeeCost = $_POST["expectedFeeCost"];
-            $driver = $_POST["driver"];
 
+            $driver = $_POST["driver"];
 
             $pdf = new FPDF();
             $pdf->AddPage();
@@ -71,10 +100,10 @@ class ReportController {
             $pdf->Cell(150, 10, utf8_decode("N° $idProforma"), 1, 1, 'C', 0);
             $pdf->Cell(50, 10, "Fecha", 1);
             $pdf->Cell(100, 10, "$actualDate", 1, 1, 'C', 0);
-            $pdf->Cell(50, 10, "", 0,1);
-            $pdf->Cell(50, 10, "Cliente",0,1);
+            $pdf->Cell(50, 10, "", 0, 1);
+            $pdf->Cell(50, 10, "Cliente", 0, 1);
             $pdf->Cell(50, 10, utf8_decode("Denominación"), 1, 0);
-            $pdf->Cell(100, 10, "$denominacion", 1, 1, 'C', 0);
+            $pdf->Cell(100, 10, "$companyName", 1, 1, 'C', 0);
             $pdf->Cell(50, 10, "CUIT", 1, 0);
             $pdf->Cell(100, 10, "$cuit", 1, 1, 'C', 0);
             $pdf->Cell(50, 10, utf8_decode("Dirección"), 1, 0);
@@ -87,18 +116,18 @@ class ReportController {
             $pdf->Cell(100, 10, "$contact1", 1, 1, 'C', 0);
             $pdf->Cell(50, 10, "Contacto 2", 1, 0);
             $pdf->Cell(100, 10, "$contact2", 1, 1, 'C', 0);
-            $pdf->Cell(50, 10, "", 0,1);
+            $pdf->Cell(50, 10, "", 0, 1);
 
-            $pdf->Cell(50, 10, "Viaje",0,1);
+            $pdf->Cell(50, 10, "Viaje", 0, 1);
             $pdf->Cell(50, 10, "Origen", 1, 0);
             $pdf->Cell(100, 10, "$origin", 1, 1, 'C', 0);
             $pdf->Cell(50, 10, "Destino", 1, 0);
             $pdf->Cell(100, 10, "$destination", 1, 1, 'C', 0);
             $pdf->Cell(50, 10, "Fecha de Carga", 1, 0);
             $pdf->Cell(100, 10, "$uploadDate", 1, 1, 'C', 0);
-            $pdf->Cell(50, 10, "", 0,1);
+            $pdf->Cell(50, 10, "", 0, 1);
 
-            $pdf->Cell(50, 10, "Carga",0,1);
+            $pdf->Cell(50, 10, "Carga", 0, 1);
             $pdf->Cell(50, 10, "Tipo", 1, 0);
             $pdf->Cell(100, 10, "$typeLoad", 1, 1, 'C', 0);
             $pdf->Cell(50, 10, "Peso Neto", 1, 0);
@@ -113,10 +142,10 @@ class ReportController {
             $pdf->Cell(25, 10, "$temperature", 1, 0, 'C', 0);
 
             $pdf->AddPage();
-            $pdf->Cell(50, 10, "Costeo",0,1);
-            $pdf->Cell(50, 10, "", 0,0);
-            $pdf->Cell(50, 10, "Estimado", 0,0, 'C');
-            $pdf->Cell(50, 10, "Real", 0,1, 'C');
+            $pdf->Cell(50, 10, "Costeo", 0, 1);
+            $pdf->Cell(50, 10, "", 0, 0);
+            $pdf->Cell(50, 10, "Estimado", 0, 0, 'C');
+            $pdf->Cell(50, 10, "Real", 0, 1, 'C');
             $pdf->Cell(50, 10, "Kilometros", 1, 0);
             $pdf->Cell(50, 10, "$expectedKilometers", 1, 0, 'C', 0);
             $pdf->Cell(50, 10, "", 1, 1, 'C', 0);
@@ -150,9 +179,9 @@ class ReportController {
             $pdf->Cell(50, 10, "Total", 1, 0);
             $pdf->Cell(50, 10, "", 1, 0, 'C', 0);
             $pdf->Cell(50, 10, "", 1, 1, 'C', 0);
-            $pdf->Cell(50, 10, "", 0,1);
+            $pdf->Cell(50, 10, "", 0, 1);
 
-            $pdf->Cell(50, 10, "Personal",0,1);
+            $pdf->Cell(50, 10, "Personal", 0, 1);
             $pdf->Cell(50, 10, "Chofer Asignado", 1, 0);
             $pdf->Cell(100, 10, "$driver", 1, 1, 'C', 0);
 

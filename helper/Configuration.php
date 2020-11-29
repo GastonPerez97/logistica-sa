@@ -10,6 +10,7 @@ include_once("model/UserRoleModel.php");
 include_once("model/TravelModel.php");
 include_once("model/TransportUnitModel.php");
 include_once("model/ClientModel.php");
+include_once("model/ReportModel.php");
 
 include_once("controller/LoginController.php");
 include_once("controller/LogoutController.php");
@@ -113,8 +114,10 @@ class Configuration {
     }
 
     public function getReportController() {
-        $userRoleModel = $this->getUserRoleModel();
-        return new ReportController($userRoleModel, $this->getRender());
+        $reportModel = $this->getReportModel();
+        $travelModel = $this->getTravelModel();
+        $userModel = $this->getUserModel();
+        return new ReportController($reportModel, $travelModel, $userModel, $this->getRender());
     }
 
     public function getUsuariosController() {
