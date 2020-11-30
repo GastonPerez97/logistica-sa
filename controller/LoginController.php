@@ -48,6 +48,7 @@ class LoginController {
 
             $_SESSION['loggedIn'] = 1;
             $_SESSION['username'] = $username;
+            $_SESSION['userId'] = $userId;
             $_SESSION["roles"] = $this->userRoleModel->getRolesOfUserBy($userId);
             $_SESSION['admin'] = $this->userRoleModel->isAdmin($userId);
             $_SESSION['supervisor'] = $this->userRoleModel->isSupervisor($userId);

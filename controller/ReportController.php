@@ -1,18 +1,17 @@
 <?php
 
-
 class ReportController {
 
-    private $userRoleModel;
     private $render;
+    private $QRModel;
 
-    public function __construct($userRoleModel, $render) {
+    public function __construct($QRModel, $render) {
         $this->render = $render;
-        $this->userRoleModel = $userRoleModel;
+        $this->QRModel = $QRModel;
     }
 
     public function execute() {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isAdmin()) {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["admin"] == 1) {
             echo $this->render->render("view/reportView.php");
         } else {
             header("location: /pw2-grupo03");
@@ -21,7 +20,7 @@ class ReportController {
     }
 
     public function newProforma() {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isAdmin()) {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["admin"] == 1) {
             echo $this->render->render("view/newProformaView.php");
         } else {
             header("location: /pw2-grupo03");
@@ -30,7 +29,7 @@ class ReportController {
     }
 
     public function createProforma() {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isAdmin()) {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["admin"] == 1) {
             require('fpdf/fpdf.php');
             $idProforma = $_POST["idProforma"];
             $actualDate = $_POST["actualDate"];
@@ -62,11 +61,15 @@ class ReportController {
             $expectedReeferCost = $_POST["expectedReeferCost"];
             $expectedFeeCost = $_POST["expectedFeeCost"];
             $driver = $_POST["driver"];
+            $qr = $this->QRModel->generateQROfReportOf($idTravel);
 
 
             $pdf = new FPDF();
             $pdf->AddPage();
             $pdf->AliasNbPages();
+
+            $pdf->Image($qr, 161, 0, 50, 0, "png");
+
             $pdf->SetFont('Arial', '', 16);
             $pdf->Cell(150, 10, utf8_decode("N° $idProforma"), 1, 1, 'C', 0);
             $pdf->Cell(50, 10, "Fecha", 1);

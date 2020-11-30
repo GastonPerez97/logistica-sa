@@ -10,6 +10,8 @@ include_once("model/UserRoleModel.php");
 include_once("model/TravelModel.php");
 include_once("model/TransportUnitModel.php");
 include_once("model/ClientModel.php");
+include_once("model/TravelDriverModel.php");
+include_once("model/QRModel.php");
 
 include_once("controller/LoginController.php");
 include_once("controller/LogoutController.php");
@@ -23,6 +25,7 @@ include_once("controller/ClientController.php");
 include_once("controller/ReportController.php");
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
+
 include_once("Router.php");
 
 class Configuration {
@@ -77,6 +80,7 @@ class Configuration {
         $database = $this->getDatabase();
         return new TravelModel($database);
     }
+
     public function getClientModel(){
         $database = $this->getDatabase();
         return new ClientModel($database);
@@ -86,6 +90,16 @@ class Configuration {
         $database = $this->getDatabase();
         return new TransportUnitModel($database);
     }
+
+    public function getTravelDriverModel(){
+        $database = $this->getDatabase();
+        return new TravelDriverModel($database);
+    }
+
+    public function getQRModel(){
+        return new QRModel();
+    }
+
 
     public function getLoginController() {
         $userModel = $this->getUserModel();
@@ -108,13 +122,12 @@ class Configuration {
 
     public function getServiceController() {
         $serviceModel = $this->getServiceModel();
-        $userRoleModel = $this->getUserRoleModel();
-        return new ServiceController($serviceModel, $userRoleModel, $this->getRender());
+        return new ServiceController($serviceModel, $this->getRender());
     }
 
     public function getReportController() {
-        $userRoleModel = $this->getUserRoleModel();
-        return new ReportController($userRoleModel, $this->getRender());
+        $qrModel = $this->getQRModel();
+        return new ReportController($qrModel, $this->getRender());
     }
 
     public function getUsuariosController() {
@@ -126,19 +139,18 @@ class Configuration {
 
     public function getTravelController() {
         $travelModel = $this->getTravelModel();
-        $userRoleModel = $this->getUserRoleModel();
-        return new TravelController($travelModel, $userRoleModel, $this->getRender());
+        $travelDriverModel = $this->getTravelDriverModel();
+        return new TravelController($travelModel, $travelDriverModel, $this->getRender());
     }
+
     public function getClientController() {
         $clientModel = $this->getClientModel();
-        $userRoleModel = $this->getUserRoleModel();
-        return new ClientController($clientModel, $userRoleModel, $this->getRender());
+        return new ClientController($clientModel, $this->getRender());
     }
 
     public function getTransportUnitController() {
         $transportUnitModel = $this->getTransportUnitModel();
-        $userRoleModel = $this->getUserRoleModel();
-        return new TransportUnitController($transportUnitModel, $userRoleModel, $this->getRender());
+        return new TransportUnitController($transportUnitModel, $this->getRender());
     }
 
 }

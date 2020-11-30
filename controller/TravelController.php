@@ -1,21 +1,20 @@
 <?php
 
 
-class TravelController
-{
+class TravelController {
+
     private $travelModel;
-    private $userRoleModel;
+    private $travelDriverModel;
     private $render;
 
-    public function __construct($travelModel, $userRoleModel, $render) {
+    public function __construct($travelModel, $travelDriverModel, $render) {
         $this->render = $render;
         $this->travelModel = $travelModel;
-        $this->userRoleModel = $userRoleModel;
+        $this->travelDriverModel = $travelDriverModel;
     }
 
-    public function execute()
-    {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isChofer()) {
+    public function execute() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
             $data["travels"] = $this->travelModel->getTravels();
             echo $this->render->render("view/myTravelsView.php", $data);
         } else {
@@ -24,9 +23,8 @@ class TravelController
         }
     }
 
-    public function newTravel()
-    {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isChofer()) {
+    public function newTravel() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
             echo $this->render->render("view/newTravelView.php");
         } else {
             header("location: /pw2-grupo03");
@@ -34,10 +32,8 @@ class TravelController
         }
     }
 
-
-    public function addNewTravel()
-    {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isChofer()) {
+    public function addNewTravel() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
             $data = array();
 
             if (!$this->validateNewTravel()) {
@@ -63,23 +59,8 @@ class TravelController
         }
     }
 
-    public function validateNewTravel()
-    {
-        if (empty($_POST['expectedFuel']) ||
-            empty($_POST['expectedKilometers']) ||
-            empty($_POST['origin']) ||
-            empty($_POST['destination']) ||
-            empty($_POST['departureDate']) ||
-            empty($_POST['estimatedArrivalDate'])) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public function editTravel()
-    {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isChofer()) {
+    public function editTravel() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
             if (is_numeric($_GET["id"])) {
                 $travelId = $_GET["id"];
                 $data["travel"] = $this->travelModel->getTravelById($travelId);
@@ -97,9 +78,8 @@ class TravelController
         }
     }
 
-    public function processEditTravel()
-    {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isChofer()) {
+    public function processEditTravel() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
             $travelId = $_POST["id_viaje"];
             $travel = $this->travelModel->getTravelById($travelId);
 
@@ -156,9 +136,8 @@ class TravelController
         }
     }
 
-    public function deleteTravel()
-    {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isChofer()) {
+    public function deleteTravel() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
             $travelId = $_GET["id"];
 
             $this->travelModel->deleteTravelById($travelId);
@@ -173,5 +152,153 @@ class TravelController
         }
     }
 
+    public function loadData() {
+        if (isset($_SESSION["loggedIn"])
+            && $_SESSION["chofer"] == 1
+            && isset($_GET["id"])
+            && $this->travelModel->checkIfTravelExistsBy($_GET["id"])
+            && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['userId'])) {
+
+            if (isset($_SESSION["detourReportedOk"])) {
+                $data["detourReportedOk"] = "El desvío se informó correctamente";
+                unset($_SESSION["detourReportedOk"]);
+            }
+
+            if (isset($_SESSION["refuelReportedOk"])) {
+                $data["refuelReportedOk"] = "La carga de combustible se informó correctamente";
+                unset($_SESSION["refuelReportedOk"]);
+            }
+
+            if (isset($_SESSION["positionReportedOk"])) {
+                $data["positionReportedOk"] = "La posición actual se informó correctamente";
+                unset($_SESSION["positionReportedOk"]);
+            }
+
+            $data["idTravel"] = $_GET["id"];
+            echo $this->render->render("view/loadTravelDataView.php", $data);
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
+    }
+
+    public function reportDetour() {
+        if (isset($_SESSION["loggedIn"])
+            && $_SESSION["chofer"] == 1
+            && isset($_GET["id"])
+            && $this->travelModel->checkIfTravelExistsBy($_GET["id"])
+            && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['userId'])) {
+
+            $data["idTravel"] = $_GET["id"];
+            echo $this->render->render("view/reportTravelDetourView.php", $data);
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
+    }
+
+    public function processDetour() {
+        if (isset($_SESSION["loggedIn"])
+            && $_SESSION["chofer"] == 1
+            && isset($_POST["travelId"])
+            && $this->travelModel->validateNewDetour()
+            && $this->travelModel->checkIfTravelExistsBy($_POST["travelId"])
+            && $this->travelDriverModel->isTravelAssignedToDriver($_POST["travelId"], $_SESSION['userId'])) {
+
+            $travelId = $_POST["travelId"];
+
+            $detourData["time"] = $_POST["time"];
+            $detourData["reason"] = $_POST["reason"];
+
+            $this->travelModel->reportDetourOf($travelId, $detourData);
+
+            $_SESSION["detourReportedOk"] = 1;
+
+            header("location: /pw2-grupo03/travel/loadData?id=$travelId");
+            exit();
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
+    }
+
+    public function reportRefuel() {
+        if (isset($_SESSION["loggedIn"])
+            && $_SESSION["chofer"] == 1
+            && isset($_GET["id"])
+            && $this->travelModel->checkIfTravelExistsBy($_GET["id"])
+            && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['userId'])) {
+
+            $data["idTravel"] = $_GET["id"];
+            echo $this->render->render("view/reportTravelRefuelView.php", $data);
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
+    }
+
+    public function processRefuel() {
+        if (isset($_SESSION["loggedIn"])
+            && $_SESSION["chofer"] == 1
+            && isset($_POST["travelId"])
+            && $this->travelModel->validateNewRefuel()
+            && $this->travelModel->checkIfTravelExistsBy($_POST["travelId"])
+            && $this->travelDriverModel->isTravelAssignedToDriver($_POST["travelId"], $_SESSION['userId'])) {
+
+            $travelId = $_POST["travelId"];
+
+            $refuelData["place"] = $_POST["place"];
+            $refuelData["quantity"] = $_POST["quantity"];
+            $refuelData["amount"] = $_POST["amount"];
+
+            $this->travelModel->reportRefuelOf($travelId, $refuelData);
+
+            $_SESSION["refuelReportedOk"] = 1;
+
+            header("location: /pw2-grupo03/travel/loadData?id=$travelId");
+            exit();
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
+    }
+
+    public function reportPosition() {
+        if (isset($_SESSION["loggedIn"])
+            && $_SESSION["chofer"] == 1
+            && isset($_GET["id"])
+            && $this->travelModel->validateNewPosition()
+            && $this->travelModel->checkIfTravelExistsBy($_GET["id"])
+            && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['userId'])) {
+
+            $travelId = $_GET["id"];
+
+            $positionData["lat"] = $_GET["lat"];
+            $positionData["long"] = $_GET["long"];
+
+            $this->travelModel->reportPositionOf($travelId, $positionData);
+
+            $_SESSION["positionReportedOk"] = 1;
+
+            header("location: /pw2-grupo03/travel/loadData?id=$travelId");
+            exit();
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
+    }
+
+    public function validateNewTravel() {
+        if (empty($_POST['expectedFuel']) ||
+            empty($_POST['expectedKilometers']) ||
+            empty($_POST['origin']) ||
+            empty($_POST['destination']) ||
+            empty($_POST['departureDate']) ||
+            empty($_POST['estimatedArrivalDate'])) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
 }
