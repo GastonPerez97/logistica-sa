@@ -3,6 +3,7 @@
     RewriteBase /pw2-grupo03/
 
     RewriteRule ^(public)($|/) - [L,NC]
+    RewriteRule ^(third-party)/(phpqrcode)/(QRGenerator.php) - [L,NC]
 
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d

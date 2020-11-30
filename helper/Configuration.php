@@ -24,7 +24,7 @@ include_once("controller/ClientController.php");
 include_once("controller/ReportController.php");
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
-include_once('third-party/phpqrcode/qrlib.php');
+
 include_once("Router.php");
 
 class Configuration {

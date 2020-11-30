@@ -1,6 +1,5 @@
 <?php
 
-
 class ReportController {
 
     private $render;
@@ -65,6 +64,9 @@ class ReportController {
             $pdf = new FPDF();
             $pdf->AddPage();
             $pdf->AliasNbPages();
+
+            $pdf->Image("http://localhost/pw2-grupo03/third-party/phpqrcode/QRGenerator.php?id=$idTravel", 161, 0, 50, 0, "png");
+
             $pdf->SetFont('Arial', '', 16);
             $pdf->Cell(150, 10, utf8_decode("N° $idProforma"), 1, 1, 'C', 0);
             $pdf->Cell(50, 10, "Fecha", 1);
