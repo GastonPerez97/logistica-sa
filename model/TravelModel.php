@@ -97,7 +97,7 @@ class TravelModel {
         $this->database->execute($sql);
     }
 
-    public function addDetourOf($travelId, $detourData) {
+    public function reportDetourOf($travelId, $detourData) {
         $time = $detourData["time"];
         $reason = $detourData["reason"];
 
@@ -112,7 +112,7 @@ class TravelModel {
         $this->database->execute($sqlViajeDesvio);
     }
 
-    public function addRefuelOf($travelId, $detourData) {
+    public function reportRefuelOf($travelId, $detourData) {
         $place = $detourData["place"];
         $quantity = $detourData["quantity"];
         $amount = $detourData["amount"];
@@ -126,6 +126,21 @@ class TravelModel {
         $sqlViajeCargaCombustible = "INSERT INTO viaje_carga_combustible (id_viaje, id_carga_combustible) VALUES ('$travelId', '$cargaCombustibleId')";
 
         $this->database->execute($sqlViajeCargaCombustible);
+    }
+
+    public function reportPositionOf($travelId, $positionData) {
+        $lat = $positionData["lat"];
+        $long = $positionData["long"];
+
+        $sqlPosicion = "INSERT INTO posicion (latitud, longitud) VALUES ('$lat', '$long')";
+        $this->database->execute($sqlPosicion);
+
+        $lastId = $this->database->query("SELECT last_insert_id()");
+        $posicionId = $lastId[0]["last_insert_id()"];
+
+        $sqlViajePosicion = "INSERT INTO viaje_posicion (id_viaje, id_posicion) VALUES ('$travelId', '$posicionId')";
+
+        $this->database->execute($sqlViajePosicion);
     }
 
 
@@ -164,6 +179,14 @@ class TravelModel {
 
     public function validateNewRefuel() {
         if (empty($_POST["place"]) || empty($_POST["quantity"]) || empty($_POST["amount"])) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function validateNewPosition() {
+        if (empty($_GET["lat"]) || empty($_GET["long"])) {
             return false;
         } else {
             return true;

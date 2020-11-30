@@ -163,6 +163,11 @@ class TravelController {
                 unset($_SESSION["refuelReportedOk"]);
             }
 
+            if (isset($_SESSION["positionReportedOk"])) {
+                $data["positionReportedOk"] = "La posición actual se informó correctamente";
+                unset($_SESSION["positionReportedOk"]);
+            }
+
             $data["idTravel"] = $_GET["id"];
             echo $this->render->render("view/loadTravelDataView.php", $data);
         } else {
@@ -194,7 +199,7 @@ class TravelController {
             $detourData["time"] = $_POST["time"];
             $detourData["reason"] = $_POST["reason"];
 
-            $this->travelModel->addDetourOf($travelId, $detourData);
+            $this->travelModel->reportDetourOf($travelId, $detourData);
 
             $_SESSION["detourReportedOk"] = 1;
 
@@ -230,9 +235,33 @@ class TravelController {
             $refuelData["quantity"] = $_POST["quantity"];
             $refuelData["amount"] = $_POST["amount"];
 
-            $this->travelModel->addRefuelOf($travelId, $refuelData);
+            $this->travelModel->reportRefuelOf($travelId, $refuelData);
 
             $_SESSION["refuelReportedOk"] = 1;
+
+            header("location: /pw2-grupo03/travel/loadData?id=$travelId");
+            exit();
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
+    }
+
+    public function reportPosition() {
+        if (isset($_SESSION["loggedIn"])
+            && $_SESSION["chofer"] == 1
+            && isset($_GET["id"])
+            && $this->travelModel->validateNewPosition()
+            && $this->travelModel->checkIfTravelExistsBy($_GET["id"])) {
+
+            $travelId = $_GET["id"];
+
+            $positionData["lat"] = $_GET["lat"];
+            $positionData["long"] = $_GET["long"];
+
+            $this->travelModel->reportPositionOf($travelId, $positionData);
+
+            $_SESSION["positionReportedOk"] = 1;
 
             header("location: /pw2-grupo03/travel/loadData?id=$travelId");
             exit();
