@@ -4,11 +4,13 @@
 class TravelController {
 
     private $travelModel;
+    private $travelDriverModel;
     private $render;
 
-    public function __construct($travelModel, $render) {
+    public function __construct($travelModel, $travelDriverModel, $render) {
         $this->render = $render;
         $this->travelModel = $travelModel;
+        $this->travelDriverModel = $travelDriverModel;
     }
 
     public function execute() {
@@ -151,8 +153,12 @@ class TravelController {
     }
 
     public function loadData() {
-        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1 && isset($_GET["id"])
-            && $this->travelModel->checkIfTravelExistsBy($_GET["id"])) {
+        if (isset($_SESSION["loggedIn"])
+            && $_SESSION["chofer"] == 1
+            && isset($_GET["id"])
+            && $this->travelModel->checkIfTravelExistsBy($_GET["id"])
+            && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['userId'])) {
+
             if (isset($_SESSION["detourReportedOk"])) {
                 $data["detourReportedOk"] = "El desvío se informó correctamente";
                 unset($_SESSION["detourReportedOk"]);
@@ -177,8 +183,12 @@ class TravelController {
     }
 
     public function reportDetour() {
-        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1 && isset($_GET["id"])
-        && $this->travelModel->checkIfTravelExistsBy($_GET["id"])) {
+        if (isset($_SESSION["loggedIn"])
+            && $_SESSION["chofer"] == 1
+            && isset($_GET["id"])
+            && $this->travelModel->checkIfTravelExistsBy($_GET["id"])
+            && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['userId'])) {
+
             $data["idTravel"] = $_GET["id"];
             echo $this->render->render("view/reportTravelDetourView.php", $data);
         } else {
@@ -192,7 +202,8 @@ class TravelController {
             && $_SESSION["chofer"] == 1
             && isset($_POST["travelId"])
             && $this->travelModel->validateNewDetour()
-            && $this->travelModel->checkIfTravelExistsBy($_POST["travelId"])) {
+            && $this->travelModel->checkIfTravelExistsBy($_POST["travelId"])
+            && $this->travelDriverModel->isTravelAssignedToDriver($_POST["travelId"], $_SESSION['userId'])) {
 
             $travelId = $_POST["travelId"];
 
@@ -212,8 +223,12 @@ class TravelController {
     }
 
     public function reportRefuel() {
-        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1 && isset($_GET["id"])
-            && $this->travelModel->checkIfTravelExistsBy($_GET["id"])) {
+        if (isset($_SESSION["loggedIn"])
+            && $_SESSION["chofer"] == 1
+            && isset($_GET["id"])
+            && $this->travelModel->checkIfTravelExistsBy($_GET["id"])
+            && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['userId'])) {
+
             $data["idTravel"] = $_GET["id"];
             echo $this->render->render("view/reportTravelRefuelView.php", $data);
         } else {
@@ -227,7 +242,8 @@ class TravelController {
             && $_SESSION["chofer"] == 1
             && isset($_POST["travelId"])
             && $this->travelModel->validateNewRefuel()
-            && $this->travelModel->checkIfTravelExistsBy($_POST["travelId"])) {
+            && $this->travelModel->checkIfTravelExistsBy($_POST["travelId"])
+            && $this->travelDriverModel->isTravelAssignedToDriver($_POST["travelId"], $_SESSION['userId'])) {
 
             $travelId = $_POST["travelId"];
 
@@ -252,7 +268,8 @@ class TravelController {
             && $_SESSION["chofer"] == 1
             && isset($_GET["id"])
             && $this->travelModel->validateNewPosition()
-            && $this->travelModel->checkIfTravelExistsBy($_GET["id"])) {
+            && $this->travelModel->checkIfTravelExistsBy($_GET["id"])
+            && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['userId'])) {
 
             $travelId = $_GET["id"];
 

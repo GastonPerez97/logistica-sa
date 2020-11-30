@@ -10,6 +10,7 @@ include_once("model/UserRoleModel.php");
 include_once("model/TravelModel.php");
 include_once("model/TransportUnitModel.php");
 include_once("model/ClientModel.php");
+include_once("model/TravelDriverModel.php");
 
 include_once("controller/LoginController.php");
 include_once("controller/LogoutController.php");
@@ -23,6 +24,7 @@ include_once("controller/ClientController.php");
 include_once("controller/ReportController.php");
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
+include_once('third-party/phpqrcode/qrlib.php');
 include_once("Router.php");
 
 class Configuration {
@@ -87,6 +89,12 @@ class Configuration {
         return new TransportUnitModel($database);
     }
 
+    public function getTravelDriverModel(){
+        $database = $this->getDatabase();
+        return new TravelDriverModel($database);
+    }
+
+
     public function getLoginController() {
         $userModel = $this->getUserModel();
         $userRoleModel = $this->getUserRoleModel();
@@ -124,8 +132,10 @@ class Configuration {
 
     public function getTravelController() {
         $travelModel = $this->getTravelModel();
-        return new TravelController($travelModel, $this->getRender());
+        $travelDriverModel = $this->getTravelDriverModel();
+        return new TravelController($travelModel, $travelDriverModel, $this->getRender());
     }
+
     public function getClientController() {
         $clientModel = $this->getClientModel();
         return new ClientController($clientModel, $this->getRender());
