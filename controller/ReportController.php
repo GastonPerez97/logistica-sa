@@ -3,9 +3,11 @@
 class ReportController {
 
     private $render;
+    private $QRModel;
 
-    public function __construct($render) {
+    public function __construct($QRModel, $render) {
         $this->render = $render;
+        $this->QRModel = $QRModel;
     }
 
     public function execute() {
@@ -59,13 +61,14 @@ class ReportController {
             $expectedReeferCost = $_POST["expectedReeferCost"];
             $expectedFeeCost = $_POST["expectedFeeCost"];
             $driver = $_POST["driver"];
+            $qr = $this->QRModel->generateQROfReportOf($idTravel);
 
 
             $pdf = new FPDF();
             $pdf->AddPage();
             $pdf->AliasNbPages();
 
-            $pdf->Image("http://localhost/pw2-grupo03/third-party/phpqrcode/QRGenerator.php?id=$idTravel", 161, 0, 50, 0, "png");
+            $pdf->Image($qr, 161, 0, 50, 0, "png");
 
             $pdf->SetFont('Arial', '', 16);
             $pdf->Cell(150, 10, utf8_decode("N° $idProforma"), 1, 1, 'C', 0);
