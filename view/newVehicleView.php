@@ -52,6 +52,12 @@
                 {{/ models }}
             </select>
 
+            <label for="active"><b>Activo </b></label>
+            <input class="w3-radio" type="radio" name="active" value="1" checked>
+            <label>Si</label>
+            <input class="w3-radio" type="radio" name="active" value="0">
+            <label>No</label>
+
             <button class="form-button w3-round w3-green w3-margin-top" type="submit">Registrar</button>
 
             <div class="w3-margin-bottom">

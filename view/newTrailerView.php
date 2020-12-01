@@ -37,7 +37,7 @@
                 {{/ brands }}
             </select>
 
-            <label for="model"><b>Modelo <span style="color: red">*</span></b></label>
+            <label for="model"><b>Modelo <span style="color: #ff0000">*</span></b></label>
             <select class="w3-select" name="model" id="models-select">
                 {{# models }}
                 <option value="{{ id_modelo }}">
@@ -45,6 +45,12 @@
                 </option>
                 {{/ models }}
             </select>
+
+            <label for="active"><b>Activo </b></label>
+            <input class="w3-radio" type="radio" name="active" value="1" checked>
+            <label>Si</label>
+            <input class="w3-radio" type="radio" name="active" value="0">
+            <label>No</label>
 
             <button class="form-button w3-round w3-green w3-margin-top" type="submit">Registrar</button>
 

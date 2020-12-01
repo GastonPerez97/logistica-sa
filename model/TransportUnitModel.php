@@ -10,63 +10,155 @@ class TransportUnitModel
         $this->database = $database;
     }
 
-    public function saveNewVehicle($newService)
+    public function getVehicleById($idVehicle)
     {
-        $patentNumber = $newService["patentNumber"];
-        $yeorOfProduction = $newService["yeorOfProduction"];
-        $engineNumber = $newService["engineNumber"];
-        $chassisNumber = $newService["chassisNumber"];
-        $kilometers = $newService["kilometers"];
-        $typeOfVehicle = $newService["typeOfVehicle"];
-        $brand = $newService["brand"];
-        $model = $newService["model"];
+        $query = $this->database->prepare("SELECT       ut.*,
+                                                        v.*,
+                                                        m.nombre as marca,
+                                                        mo.nombre as modelo,
+                                                        tv.nombre as tipo,
+                                                        IF(activo = 1, 'Activo', 'Inactivo') as estado_pretty,
+                                                        activo as estado
+                                            FROM        unidad_de_transporte ut
+                                            INNER JOIN  vehiculo v ON ut.id_unidad_de_transporte = v.id_vehiculo
+                                            INNER JOIN  marca m ON ut.id_marca = m.id_marca
+                                            INNER JOIN  modelo mo ON ut.id_modelo = mo.id_modelo
+                                            INNER JOIN  tipo_vehiculo tv ON v.id_tipo_vehiculo = tv.id_tipo_vehiculo
+                                            WHERE       ut.id_unidad_de_transporte = ?");
+        $query->bind_param("i", $idVehicle);
+        $query->execute();
+        return $query->get_result();
+    }
 
-        $posicion = "";
+    public function getTrailerById($idTrailer)
+    {
+        $query = $this->database->prepare("SELECT       ut.*,
+                                                        r.*,
+                                                        m.nombre as marca,
+                                                        mo.nombre as modelo,
+                                                        tr.nombre as tipo,
+                                                        IF(activo = 1, 'Activo', 'Inactivo') as estado_pretty,
+                                                        activo as estado
+                                            FROM        unidad_de_transporte ut
+                                            INNER JOIN  remolque r ON ut.id_unidad_de_transporte = r.id_remolque
+                                            INNER JOIN  marca m ON ut.id_marca = m.id_marca
+                                            INNER JOIN  modelo mo ON ut.id_modelo = mo.id_modelo
+                                            INNER JOIN  tipo_remolque tr ON r.id_tipo_remolque = tr.id_tipo_remolque
+                                            WHERE       ut.id_unidad_de_transporte = ?");
+        $query->bind_param("i", $idTrailer);
+        $query->execute();
+        return $query->get_result();
+    }
+
+    public function saveTransportUnit($newTransportUnit) {
+        $patentNumber = $newTransportUnit["patentNumber"];
+        $yeorOfProduction = $newTransportUnit["yeorOfProduction"];
+        $chassisNumber = $newTransportUnit["chassisNumber"];
+        $brand = $newTransportUnit["brand"];
+        $model = $newTransportUnit["model"];
+        $active = intval($newTransportUnit["active"]);
 
         $insertTransportUnit = $this->database->prepare("INSERT INTO unidad_de_transporte
-                                            (patente, posicion_actual, anio_fabricacion, numero_chasis, id_marca, id_modelo)
+                                            (patente, anio_fabricacion, numero_chasis, id_marca, id_modelo, activo)
                                             VALUES (?, ?, ?, ?, ?, ?)");
 
-        $insertTransportUnit->bind_param("ssisii", $patentNumber, $posicion, $yeorOfProduction, $chassisNumber, $brand, $model);
+        $insertTransportUnit->bind_param("sisiii", $patentNumber, $yeorOfProduction, $chassisNumber, $brand, $model, $active);
         $insertTransportUnit->execute();
 
         $lastId = $this->database->query("SELECT last_insert_id()");
+
+        return $lastId[0]["last_insert_id()"];
+    }
+
+    public function saveNewVehicle($newVehicle)
+    {
+        $idTransportUnit = $newVehicle["idTransporUnit"];
+        $engineNumber = $newVehicle["engineNumber"];
+        $kilometers = $newVehicle["kilometers"];
+        $typeOfVehicle = $newVehicle["typeOfVehicle"];
 
         $insertVehicle = $this->database->prepare("INSERT INTO vehiculo
                                             (id_vehiculo, numero_motor, kilometraje, id_tipo_vehiculo)
                                             VALUES (?, ?, ?, ?)");
 
-        $insertVehicle->bind_param("isii", $lastId[0]["last_insert_id()"], $engineNumber, $kilometers, $typeOfVehicle);
+        $insertVehicle->bind_param("isii", $idTransportUnit, $engineNumber, $kilometers, $typeOfVehicle);
         $insertVehicle->execute();
     }
 
     public function saveNewTrailer($newTrailer)
     {
-        $patentNumber = $newTrailer["patentNumber"];
-        $yeorOfProduction = $newTrailer["yeorOfProduction"];
-        $chassisNumber = $newTrailer["chassisNumber"];
+        $idTransportUnit = $newTrailer["idTransporUnit"];
         $typeOfTrailer = $newTrailer["typeOfTrailer"];
-        $brand = $newTrailer["brand"];
-        $model = $newTrailer["model"];
-
-        $posicion = "";
-
-        $insertTransportUnit = $this->database->prepare("INSERT INTO unidad_de_transporte
-                                            (patente, posicion_actual, anio_fabricacion, numero_chasis, id_marca, id_modelo)
-                                            VALUES (?, ?, ?, ?, ?, ?)");
-
-        $insertTransportUnit->bind_param("ssisii", $patentNumber, $posicion, $yeorOfProduction, $chassisNumber, $brand, $model);
-        $insertTransportUnit->execute();
-
-        $lastId = $this->database->query("SELECT last_insert_id()");
 
         $insertTrailer = $this->database->prepare("INSERT INTO remolque
                                             (id_remolque, id_tipo_remolque)
                                             VALUES (?, ?)");
 
-        $insertTrailer->bind_param("ii", $lastId[0]["last_insert_id()"], $typeOfTrailer);
+        $insertTrailer->bind_param("ii", $idTransportUnit, $typeOfTrailer);
         $insertTrailer->execute();
+    }
 
+    public function editTransportUnit($transportUnit) {
+        $idTransportUnit = $transportUnit["idTransportUnit"];
+        $patentNumber = $transportUnit["patentNumber"];
+        $yeorOfProduction = $transportUnit["yeorOfProduction"];
+        $chassisNumber = $transportUnit["chassisNumber"];
+        $brand = $transportUnit["brand"];
+        $model = $transportUnit["model"];
+        $active = intval($transportUnit["active"]);
+
+        $editTransportUnit = $this->database->prepare("UPDATE       unidad_de_transporte
+                                                        SET         patente = ?, 
+                                                                    anio_fabricacion = ?, 
+                                                                    numero_chasis = ?, 
+                                                                    id_marca = ?, 
+                                                                    id_modelo = ?, 
+                                                                    activo = ?
+                                                        WHERE       id_unidad_de_transporte = ?");
+
+        $editTransportUnit->bind_param("sisiiii", $patentNumber, $yeorOfProduction, $chassisNumber, $brand, $model, $active, $idTransportUnit);
+        $editTransportUnit->execute();
+    }
+
+    public function editVehicle($vehicle) {
+        $idTransportUnit = $vehicle["idTransporUnit"];
+        $engineNumber = $vehicle["engineNumber"];
+        $kilometers = $vehicle["kilometers"];
+        $typeOfVehicle = $vehicle["typeOfVehicle"];
+
+        $editVehicle = $this->database->prepare("UPDATE       vehiculo
+                                                    SET         numero_motor = ?,
+                                                                kilometraje = ?,
+                                                                id_tipo_vehiculo = ?
+                                                    WHERE       id_vehiculo = ?");
+
+        $editVehicle->bind_param("siii", $engineNumber, $kilometers, $typeOfVehicle, $idTransportUnit);
+        $editVehicle->execute();
+    }
+
+    public function editTrailer($trailer) {
+        $idTransportUnit = $trailer["idTransporUnit"];
+        $typeOfTrailer = $trailer["typeOfTrailer"];
+
+        $editTrailer = $this->database->prepare("UPDATE       remolque
+                                                    SET         id_tipo_remolque = ?
+                                                    WHERE       id_remolque = ?");
+
+        $editTrailer->bind_param("ii", $typeOfTrailer, $idTransportUnit);
+        $editTrailer->execute();
+    }
+
+    public function enableTransportUnit($transportUnit)
+    {
+        $idTransportUnit = $transportUnit["id"];
+        $status = $transportUnit["status"];
+
+        $insertTrailer = $this->database->prepare("UPDATE unidad_de_transporte
+                                            SET activo = ?
+                                            WHERE id_unidad_de_transporte = ?");
+
+        $insertTrailer->bind_param("ii", $status, $idTransportUnit);
+        $insertTrailer->execute();
     }
 
     public function getVehicles()
@@ -75,7 +167,9 @@ class TransportUnitModel
                             v.*,
                             m.nombre as marca,
                             mo.nombre as modelo,
-                            tv.nombre as tipo
+                            tv.nombre as tipo,
+                            IF(activo = 1, 'Activo', 'Inactivo') as estado_pretty,
+                            activo as estado
                 FROM        unidad_de_transporte ut
                 INNER JOIN  vehiculo v ON ut.id_unidad_de_transporte = v.id_vehiculo
                 INNER JOIN  marca m ON ut.id_marca = m.id_marca
@@ -96,7 +190,9 @@ class TransportUnitModel
                             r.*,
                             m.nombre as marca,
                             mo.nombre as modelo,
-                            tr.nombre as tipo   
+                            tr.nombre as tipo,
+                            IF(activo = 1, 'Activo', 'Inactivo') as estado_pretty,
+                            activo as estado
                 FROM        unidad_de_transporte ut
                 INNER JOIN  remolque r ON ut.id_unidad_de_transporte = r.id_remolque
                 INNER JOIN  marca m ON ut.id_marca = m.id_marca

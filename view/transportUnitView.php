@@ -15,7 +15,7 @@
                     <div class="w3-col s12 m6 l4 w3-center" style="margin-bottom: 2em;">
                         <div class="w3-card-4 w3-round w3-margin">
                             <header class="w3-container w3-light-grey d-flex-centrado">
-                                <h3>Unidad N° {{id_vehiculo}}</h3>
+                                <h3>Unidad N° {{id_unidad_de_transporte}}</h3>
                             </header>
 
                             <div class="w3-container w3-margin-bottom">
@@ -53,9 +53,13 @@
                                     <h3 class="margin-0">Tipo de vehículo:</h3>
                                     <p class="margin-0">{{tipo}}</p>
                                 </div>
+                                <div class="detalles-viaje w3-margin-bottom">
+                                    <h3 class="margin-0">Estado:</h3>
+                                    <p class="margin-0">{{estado_pretty}}</p>
+                                </div>
 
-                                <!--<a href="/pw2-grupo03/transportUnit/enableTransportUnit?id={{id_vehiculo}}" class="w3-button w3-red w3-tiny w3-round w3-margin-bottom delete-btn-service">Des/Habilitar</a>
-                                <a href="/pw2-grupo03/transportUnit/editTransportUnit?id={{id_vehiculo}}" class="w3-button w3-blue w3-tiny w3-round w3-margin-bottom">Editar</a>-->
+                                <a href="/pw2-grupo03/transportUnit/enableTransportUnit?id={{id_unidad_de_transporte}}&actualState={{estado}}" class="w3-button w3-red w3-tiny w3-round w3-margin-bottom">Des/Habilitar</a>
+                                <a href="/pw2-grupo03/transportUnit/editTransportUnit?id={{id_unidad_de_transporte}}&type=0" class="w3-button w3-blue w3-tiny w3-round w3-margin-bottom">Editar</a>
                             </div>
                         </div>
                     </div>
@@ -69,7 +73,7 @@
                     <div class="w3-col s12 m6 l4 w3-center" style="margin-bottom: 2em;">
                         <div class="w3-card-4 w3-round w3-margin">
                             <header class="w3-container w3-light-grey d-flex-centrado">
-                                <h3>Unidad N° {{id_remolque}}</h3>
+                                <h3>Unidad N° {{id_unidad_de_transporte}}</h3>
                             </header>
 
                             <div class="w3-container w3-margin-bottom">
@@ -99,9 +103,13 @@
                                     <h3 class="margin-0">Tipo:</h3>
                                     <p class="margin-0">{{tipo}}</p>
                                 </div>
+                                <div class="detalles-viaje w3-margin-bottom">
+                                    <h3 class="margin-0">Estado:</h3>
+                                    <p class="margin-0">{{estado_pretty}}</p>
+                                </div>
 
-                                <!--<a href="/pw2-grupo03/transportUnit/enableTransportUnit?id={{id_remolque}}" class="w3-button w3-red w3-tiny w3-round w3-margin-bottom delete-btn-service">Des/Habilitar</a>
-                                <a href="/pw2-grupo03/transportUnit/editTransportUnit?id={{id_remolque}}" class="w3-button w3-blue w3-tiny w3-round w3-margin-bottom">Editar</a>-->
+                                <a href="/pw2-grupo03/transportUnit/enableTransportUnit?id={{id_unidad_de_transporte}}&actualState={{estado}}" class="w3-button w3-red w3-tiny w3-round w3-margin-bottom">Des/Habilitar</a>
+                                <a href="/pw2-grupo03/transportUnit/editTransportUnit?id={{id_unidad_de_transporte}}&type=1" class="w3-button w3-blue w3-tiny w3-round w3-margin-bottom">Editar</a>
                             </div>
                         </div>
                     </div>
