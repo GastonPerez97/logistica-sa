@@ -76,3 +76,28 @@
         })
     });
 </script>
+
+<script>
+    $('.delete-btn-client').on('click', function(e) {
+        e.preventDefault();
+        const href = $(this).attr('href');
+
+        var parts = href.split("="),
+                travelId = parts[parts.length - 1];
+
+        Swal.fire({
+            title: 'Eliminar Cliente',
+            text: "¿Estás seguro de querer eliminar este cliente con ID " + travelId + "?",
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Eliminar Cliente'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.location.href = href;
+            }
+        })
+    });
+</script>
