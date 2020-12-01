@@ -85,12 +85,18 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`chofer` (
   `id_chofer` INT NOT NULL AUTO_INCREMENT,
   `numero_licencia` VARCHAR(45) NOT NULL,
   `id_tipo_licencia` INT NOT NULL,
+  `id_usuario` INT,
   PRIMARY KEY (`id_chofer`),
   UNIQUE INDEX `license_number_UNIQUE` (`numero_licencia` ASC),
   INDEX `id_tipo_licencia_INDEX` (`id_tipo_licencia` ASC),
   CONSTRAINT `tipo_licencia_FK`
     FOREIGN KEY (`id_tipo_licencia`)
     REFERENCES `grupo03`.`tipo_licencia` (`id_tipo_licencia`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `usuario_chofer_FK`
+    FOREIGN KEY (`id_usuario`)
+    REFERENCES `grupo03`.`usuario` (`id_usuario`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -135,6 +141,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`unidad_de_transporte` (
   `numero_chasis` VARCHAR(45) NOT NULL,
   `id_marca` INT NOT NULL DEFAULT '10000',
   `id_modelo` INT NOT NULL DEFAULT '10000',
+  `activo` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_unidad_de_transporte`),
   UNIQUE INDEX `patente_UNIQUE` (`patente` ASC),
   UNIQUE INDEX `numero_chasis_UNIQUE` (`numero_chasis` ASC),
