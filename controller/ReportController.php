@@ -7,14 +7,12 @@ class ReportController {
     private $travelModel;
     private $userModel;
     private $loadModel;
-    private $QRModel;
 
-    public function __construct($reportModel, $travelModel, $userModel, $loadModel, $QRModel, $render) {
+    public function __construct($reportModel, $travelModel, $userModel, $loadModel, $render) {
         $this->reportModel = $reportModel;
         $this->travelModel = $travelModel;
         $this->userModel = $userModel;
         $this->loadModel = $loadModel;
-        $this->QRModel = $QRModel;
         $this->render = $render;
     }
 

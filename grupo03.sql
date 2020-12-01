@@ -526,7 +526,6 @@ CREATE TABLE `grupo03`.`proforma` (
   `fecha_carga_proforma` DATE NOT NULL,
   `id_cliente` INT NOT NULL,
   `id_viaje` INT NOT NULL,
-  `id_carga` INT NOT NULL,
   `viatico_estimado` INT NOT NULL,
   `peaje_y_pesaje_estimado` INT NOT NULL,
   `extras_estimado` INT NULL,
@@ -542,7 +541,6 @@ CREATE TABLE `grupo03`.`proforma` (
   PRIMARY KEY (`id_proforma`),
     INDEX `id_cliente_INDEX` (`id_cliente` ASC),
     INDEX `id_viaje_INDEX` (`id_viaje` ASC),
-	INDEX `id_carga_INDEX` (`id_carga` ASC),
   CONSTRAINT `cliente_proforma_FK`
     FOREIGN KEY (`id_cliente`)
     REFERENCES `grupo03`.`cliente` (`id_cliente`)
@@ -551,11 +549,6 @@ CREATE TABLE `grupo03`.`proforma` (
   CONSTRAINT `viaje_FK`
     FOREIGN KEY (`id_viaje`)
     REFERENCES `grupo03`.`viaje` (`id_viaje`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `carga_FK`
-    FOREIGN KEY (`id_carga`)
-    REFERENCES `grupo03`.`carga` (`id_carga`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

@@ -1,13 +1,14 @@
 <?php
 
 
-class ReportModel
-{
-    private $database;
+class ReportModel {
 
-    public function __construct($database)
-    {
+    private $database;
+    private $QRModel;
+
+    public function __construct($QRModel, $database) {
         $this->database = $database;
+        $this->QRModel = $QRModel;
     }
 
     public function getClients() {
@@ -16,16 +17,15 @@ class ReportModel
     }
 
     public function saveNewProforma($newProforma) {
-        $idClient = $_POST["idClient"];
-        $idTravel = $_POST["idTravel"];
-        $expectedViaticos = $_POST["expectedViaticos"];
-        $expectedToll = $_POST["expectedToll"];
-        $expectedExtras = $_POST["expectedExtras"];
-        $expectedHazardCost = $_POST["expectedHazardCost"];
-        $expectedReeferCost = $_POST["expectedReeferCost"];
-        $expectedFeeCost = $_POST["expectedFeeCost"];
+        $idClient = $newProforma["idClient"];
+        $idTravel = $newProforma["idTravel"];
+        $expectedViaticos = $newProforma["expectedViaticos"];
+        $expectedToll = $newProforma["expectedToll"];
+        $expectedExtras = $newProforma["expectedExtras"];
+        $expectedHazardCost = $newProforma["expectedHazardCost"];
+        $expectedReeferCost = $newProforma["expectedReeferCost"];
+        $expectedFeeCost = $newProforma["expectedFeeCost"];
         $actualDate = date("Y-m-d");
-
 
         $sql = "INSERT INTO proforma (fecha_carga_proforma, id_cliente, id_viaje, viatico_estimado, peaje_y_pesaje_estimado, extras_estimado, hazard_estimado, reefer_estimado, fee_estimado)
             VALUES ('$actualDate', '$idClient', '$idTravel', '$expectedViaticos','$expectedToll', '$expectedExtras', '$expectedHazardCost', '$expectedReeferCost', '$expectedFeeCost')";
@@ -33,7 +33,7 @@ class ReportModel
         $this->database->execute($sql);
     }
 
-    public function generatePdfProforma(){
+    public function generatePdfProforma() {
         require('third-party/fpdf/fpdf.php');
         $idProforma = $this->getLastId();
         $valueIdProforma = $idProforma["id"];
@@ -93,10 +93,14 @@ class ReportModel
 
         $driver = $this->getDriverForTravel($valueIdProforma);
         $valueDriver  = $driver["result"];
+        $qr = $this->QRModel->generateQROfReportOf($idTravel);
 
         $pdf = new FPDF();
         $pdf->AddPage();
         $pdf->AliasNbPages();
+
+        $pdf->Image($qr, 161, 0, 50, 0, "png");
+
         $pdf->SetFont('Arial', '', 16);
         $pdf->Cell(150, 10, utf8_decode("N° $valueIdProforma"), 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "Fecha", 1);
@@ -193,7 +197,6 @@ class ReportModel
     public function getLastId(){
         $sql = "SELECT MAX(id_proforma) AS id FROM proforma";
         return $this->database->fetch_assoc($sql);
-
     }
 
     public function getClientName($idProforma){
@@ -306,6 +309,5 @@ class ReportModel
         $sql = "SELECT nombre as result FROM tipo_carga WHERE id_tipo_carga = '$idTypeLoad'";
         return $this->database->fetch_assoc($sql);
     }
-
 
 }
