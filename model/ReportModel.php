@@ -33,32 +33,30 @@ class ReportModel {
         $this->database->execute($sql);
     }
 
-    public function generatePdfProforma() {
+    public function generatePdfProformaOf($idProforma) {
         require('third-party/fpdf/fpdf.php');
-        $idProforma = $this->getLastId();
-        $valueIdProforma = $idProforma["id"];
         $actualDate = date("Y-m-d");
-        $clientName = $this->getClientName($valueIdProforma);
+        $clientName = $this->getClientName($idProforma);
         $valueClientName = $clientName["result"];
-        $cuit = $this->getClientCuit($valueIdProforma);
+        $cuit = $this->getClientCuit($idProforma);
         $valueCuit = $cuit["result"];
-        $address = $this->getClientAddress($valueIdProforma);
+        $address = $this->getClientAddress($idProforma);
         $valueAddress = $address["result"];
-        $phone = $this->getClientPhone($valueIdProforma);
+        $phone = $this->getClientPhone($idProforma);
         $valuePhone = $phone["result"];
-        $email = $this->getClientEmail($valueIdProforma);
+        $email = $this->getClientEmail($idProforma);
         $valueEmail = $email["result"];
-        $contact1 = $this->getClientContact1($valueIdProforma);
+        $contact1 = $this->getClientContact1($idProforma);
         $valueContact1 = $contact1["result"];
-        $contact2 = $this->getClientContact2($valueIdProforma);
+        $contact2 = $this->getClientContact2($idProforma);
         $valueContact2 = $contact2["result"];
 
         $idTravel = $_POST["idTravel"];
-        $origin = $this->getTravelOrigin($valueIdProforma);
+        $origin = $this->getTravelOrigin($idProforma);
         $valueOrigin = $origin["result"];
-        $destination = $this->getTravelDestination($valueIdProforma);
+        $destination = $this->getTravelDestination($idProforma);
         $valueDestination = $destination["result"];
-        $uploadDate = $this->getTravelUploadDate($valueIdProforma);
+        $uploadDate = $this->getTravelUploadDate($idProforma);
         $valueUploadDate = $uploadDate["result"];
 
         $idTypeLoad = $_POST["idTypeLoad"];
@@ -70,28 +68,28 @@ class ReportModel {
         $reefer = $_POST["reefer"];
         $temperature = $_POST["temperature"];
 
-        $expectedKilometers = $this->getTravelExpectedKm($valueIdProforma);
+        $expectedKilometers = $this->getTravelExpectedKm($idProforma);
         $valueExpectedkm = $expectedKilometers["result"];
-        $expectedFuel = $this->getTravelExpectedFuel($valueIdProforma);
+        $expectedFuel = $this->getTravelExpectedFuel($idProforma);
         $valueExpectedFuel = $expectedFuel["result"];
-        $expectedEtd = $this->getTravelExpectedEtd($valueIdProforma);
+        $expectedEtd = $this->getTravelExpectedEtd($idProforma);
         $valueExpectedEtd = $expectedEtd["result"];
-        $expectedEta = $this->getTravelExpectedEta($valueIdProforma);
+        $expectedEta = $this->getTravelExpectedEta($idProforma);
         $valueExpectedEta = $expectedEta["result"];
-        $expectedViaticos = $this->getExpectedViaticos($valueIdProforma);
+        $expectedViaticos = $this->getExpectedViaticos($idProforma);
         $valueExpectedViaticos = $expectedViaticos["result"];
-        $expectedToll = $this->getExpectedToll($valueIdProforma);
+        $expectedToll = $this->getExpectedToll($idProforma);
         $valueExpectedToll = $expectedToll["result"];
-        $expectedExtras = $this->getExpectedExtras($valueIdProforma);
+        $expectedExtras = $this->getExpectedExtras($idProforma);
         $valueExpectedExtras = $expectedExtras["result"];
-        $expectedHazardCost = $this->getExpectedHazardCost($valueIdProforma);
+        $expectedHazardCost = $this->getExpectedHazardCost($idProforma);
         $valueExpectedHazardCost = $expectedHazardCost["result"];
-        $expectedReeferCost = $this->getExpectedReeferCost($valueIdProforma);
+        $expectedReeferCost = $this->getExpectedReeferCost($idProforma);
         $valueExpectedReeferCost  = $expectedReeferCost["result"];
-        $expectedFeeCost = $this->getExpectedFeeCost($valueIdProforma);
+        $expectedFeeCost = $this->getExpectedFeeCost($idProforma);
         $valueExpectedFeeCost  = $expectedFeeCost["result"];
 
-        $driver = $this->getDriverForTravel($valueIdProforma);
+        $driver = $this->getDriverForTravel($idProforma);
         $valueDriver  = $driver["result"];
         $qr = $this->QRModel->generateQROfReportOf($idTravel);
 
@@ -102,7 +100,7 @@ class ReportModel {
         $pdf->Image($qr, 161, 0, 50, 0, "png");
 
         $pdf->SetFont('Arial', '', 16);
-        $pdf->Cell(150, 10, utf8_decode("N° $valueIdProforma"), 1, 1, 'C', 0);
+        $pdf->Cell(150, 10, utf8_decode("N° $idProforma"), 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "Fecha", 1);
         $pdf->Cell(100, 10, "$actualDate", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "", 0, 1);
@@ -190,9 +188,26 @@ class ReportModel {
         $pdf->Cell(50, 10, "Chofer Asignado", 1, 0);
         $pdf->Cell(100, 10, "$valueDriver", 1, 1, 'C', 0);
 
-        $pdf->Output("", "Proforma $valueIdProforma - ID Viaje $idTravel");
+        $pdf->Output("", "Proforma $idProforma - ID Viaje $idTravel");
     }
 
+    public function getIdProformaOf($travelId) {
+        $sql = "SELECT id_proforma FROM proforma WHERE id_viaje = '$travelId'";
+        $result = $this->database->query($sql);
+
+        return $result[0]["id_proforma"];
+    }
+
+    public function checkIfProformaAlreadyExistsOf($travelId) {
+        $sql = "SELECT * FROM proforma WHERE id_viaje = '$travelId'";
+        $result = $this->database->query($sql);
+
+        if (empty($result)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     public function getLastId(){
         $sql = "SELECT MAX(id_proforma) AS id FROM proforma";
