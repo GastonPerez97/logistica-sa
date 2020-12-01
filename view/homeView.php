@@ -35,7 +35,7 @@
     {{#_SESSION.chofer}}
     <div class="w3-content w3-section">
         <div class="w3-container">
-            <a href="/pw2-grupo03/travel" class="w3-button w3-block w3-amber w3-padding-large w3-round-large"><b>Mis Viajes<b></a>
+            <a href="/pw2-grupo03/travel" class="w3-button w3-block w3-amber w3-padding-large w3-round-large"><b>Viajes<b></a>
         </div>
     </div>
     {{/_SESSION.chofer}}

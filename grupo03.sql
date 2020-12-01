@@ -85,12 +85,18 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`chofer` (
   `id_chofer` INT NOT NULL AUTO_INCREMENT,
   `numero_licencia` VARCHAR(45) NOT NULL,
   `id_tipo_licencia` INT NOT NULL,
+  `id_usuario` INT,
   PRIMARY KEY (`id_chofer`),
   UNIQUE INDEX `license_number_UNIQUE` (`numero_licencia` ASC),
   INDEX `id_tipo_licencia_INDEX` (`id_tipo_licencia` ASC),
   CONSTRAINT `tipo_licencia_FK`
     FOREIGN KEY (`id_tipo_licencia`)
     REFERENCES `grupo03`.`tipo_licencia` (`id_tipo_licencia`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `usuario_chofer_FK`
+    FOREIGN KEY (`id_usuario`)
+    REFERENCES `grupo03`.`usuario` (`id_usuario`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -133,6 +139,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`unidad_de_transporte` (
   `numero_chasis` VARCHAR(45) NOT NULL,
   `id_marca` INT NOT NULL DEFAULT '10000',
   `id_modelo` INT NOT NULL DEFAULT '10000',
+  `activo` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_unidad_de_transporte`),
   UNIQUE INDEX `patente_UNIQUE` (`patente` ASC),
   UNIQUE INDEX `numero_chasis_UNIQUE` (`numero_chasis` ASC),
@@ -305,6 +312,71 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`viaje_desvio` (
   CONSTRAINT `desvio_FK`
     FOREIGN KEY (`id_desvio`)
     REFERENCES `grupo03`.`desvio` (`id_desvio`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `grupo03`.`carga_combustible`
+-- -----------------------------------------------------
+CREATE TABLE `grupo03`.`carga_combustible` (
+ `id_carga_combustible` INT(11) NOT NULL AUTO_INCREMENT ,
+ `lugar` VARCHAR(100) NOT NULL ,
+ `cantidad` DECIMAL(10,2) NOT NULL ,
+ `importe` DECIMAL(10,2) NOT NULL ,
+ PRIMARY KEY (`id_carga_combustible`)) 
+ ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `grupo03`.`viaje_carga_combustible`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `grupo03`.`viaje_carga_combustible` (
+  `id_viaje` INT NOT NULL,
+  `id_carga_combustible` INT NOT NULL,
+  PRIMARY KEY (`id_viaje`, `id_carga_combustible`),
+  INDEX `carga_combustible_FK_idx` (`id_carga_combustible` ASC),
+  CONSTRAINT `viaje_carga_combustible_FK`
+    FOREIGN KEY (`id_viaje`)
+    REFERENCES `grupo03`.`viaje` (`id_viaje`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `carga_combustible_FK`
+    FOREIGN KEY (`id_carga_combustible`)
+    REFERENCES `grupo03`.`carga_combustible` (`id_carga_combustible`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `grupo03`.`posicion`
+-- -----------------------------------------------------
+CREATE TABLE `grupo03`.`posicion` (
+ `id_posicion` INT(11) NOT NULL AUTO_INCREMENT ,
+ `latitud` DECIMAL(10, 8) NOT NULL ,
+ `longitud` DECIMAL(11, 8) NOT NULL ,
+ PRIMARY KEY (`id_posicion`)) 
+ ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `grupo03`.`viaje_posicion`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `grupo03`.`viaje_posicion` (
+  `id_viaje` INT NOT NULL,
+  `id_posicion` INT NOT NULL,
+  PRIMARY KEY (`id_viaje`, `id_posicion`),
+  INDEX `posicion_FK_idx` (`id_posicion` ASC),
+  CONSTRAINT `viaje_posicion_FK`
+    FOREIGN KEY (`id_viaje`)
+    REFERENCES `grupo03`.`viaje` (`id_viaje`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `posicion_FK`
+    FOREIGN KEY (`id_posicion`)
+    REFERENCES `grupo03`.`posicion` (`id_posicion`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

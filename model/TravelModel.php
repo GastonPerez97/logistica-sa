@@ -1,15 +1,15 @@
 <?php
 
 
-class TravelModel
-{
+class TravelModel {
+
     private $database;
 
     public function __construct($database) {
         $this->database = $database;
     }
 
-    public function saveTravel($travel){
+    public function saveTravel($travel) {
 
     $expectedFuel = $travel["expectedFuel"];
     $expectedKilometers = $travel["expectedKilometers"];
@@ -91,13 +91,59 @@ class TravelModel
         $this->database->execute($sql);
     }
 
-
-
     public function deleteTravelById($travelId)
     {
         $sql = "DELETE FROM viaje WHERE id_viaje = '$travelId'";
         $this->database->execute($sql);
     }
+
+    public function reportDetourOf($travelId, $detourData) {
+        $time = $detourData["time"];
+        $reason = $detourData["reason"];
+
+        $sqlDesvio = "INSERT INTO desvio (tiempo, razon) VALUES ('$time', '$reason')";
+        $this->database->execute($sqlDesvio);
+
+        $lastId = $this->database->query("SELECT last_insert_id()");
+        $desvioId = $lastId[0]["last_insert_id()"];
+
+        $sqlViajeDesvio = "INSERT INTO viaje_desvio (id_viaje, id_desvio) VALUES ('$travelId', '$desvioId')";
+
+        $this->database->execute($sqlViajeDesvio);
+    }
+
+    public function reportRefuelOf($travelId, $detourData) {
+        $place = $detourData["place"];
+        $quantity = $detourData["quantity"];
+        $amount = $detourData["amount"];
+
+        $sqlCargaCombustible = "INSERT INTO carga_combustible (lugar, cantidad, importe) VALUES ('$place', '$quantity', '$amount')";
+        $this->database->execute($sqlCargaCombustible);
+
+        $lastId = $this->database->query("SELECT last_insert_id()");
+        $cargaCombustibleId = $lastId[0]["last_insert_id()"];
+
+        $sqlViajeCargaCombustible = "INSERT INTO viaje_carga_combustible (id_viaje, id_carga_combustible) VALUES ('$travelId', '$cargaCombustibleId')";
+
+        $this->database->execute($sqlViajeCargaCombustible);
+    }
+
+    public function reportPositionOf($travelId, $positionData) {
+        $lat = $positionData["lat"];
+        $long = $positionData["long"];
+
+        $sqlPosicion = "INSERT INTO posicion (latitud, longitud) VALUES ('$lat', '$long')";
+        $this->database->execute($sqlPosicion);
+
+        $lastId = $this->database->query("SELECT last_insert_id()");
+        $posicionId = $lastId[0]["last_insert_id()"];
+
+        $sqlViajePosicion = "INSERT INTO viaje_posicion (id_viaje, id_posicion) VALUES ('$travelId', '$posicionId')";
+
+        $this->database->execute($sqlViajePosicion);
+    }
+
+
 
     public function convertDatetimeFromMySQLToHTMLOf($travelArray) {
         is_null($travelArray[0]["fecha_salida"]) ? $travelArray[0]["fecha_salida"] = ""
@@ -110,6 +156,41 @@ class TravelModel
             : $travelArray[0]["fecha_llegada_estimada"] = date("Y-m-d\TH:i:s", strtotime($travelArray[0]["fecha_llegada_estimada"]));
 
         return $travelArray;
+    }
+
+    public function validateNewDetour() {
+        if (empty($_POST["time"]) || empty($_POST["reason"])) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function checkIfTravelExistsBy($id) {
+        $sql = "SELECT * FROM viaje WHERE id_viaje = '$id'";
+        $result = $this->database->query($sql);
+
+        if (empty($result)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function validateNewRefuel() {
+        if (empty($_POST["place"]) || empty($_POST["quantity"]) || empty($_POST["amount"])) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function validateNewPosition() {
+        if (empty($_GET["lat"]) || empty($_GET["long"])) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 }

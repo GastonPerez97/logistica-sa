@@ -1,22 +1,18 @@
 <?php
 
 
-class ServiceController
-{
+class ServiceController {
+
     private $serviceModel;
-    private $userRoleModel;
     private $render;
 
-    public function __construct($serviceModel, $userRoleModel, $render)
-    {
+    public function __construct($serviceModel, $render) {
         $this->render = $render;
         $this->serviceModel = $serviceModel;
-        $this->userRoleModel = $userRoleModel;
     }
 
-    public function execute()
-    {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isEncargado()) {
+    public function execute() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["encargado"] == 1) {
             $data["services"] = $this->serviceModel->getServices();
             echo $this->render->render("view/serviceView.php", $data);
         } else {
@@ -26,9 +22,8 @@ class ServiceController
     }
 
 
-    public function newService()
-    {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isEncargado()) {
+    public function newService() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["encargado"] == 1) {
             echo $this->render->render("view/newServiceView.php");
         } else {
             header("location: /pw2-grupo03");
@@ -37,9 +32,8 @@ class ServiceController
     }
 
 
-    public function addNewService()
-    {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isEncargado()) {
+    public function addNewService() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["encargado"] == 1) {
             $data = array();
 
     /*    if (!$this->validateNewService()) {
@@ -79,9 +73,8 @@ class ServiceController
     }
  */
 
-    public function editService()
-    {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isEncargado()) {
+    public function editService() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["encargado"] == 1) {
             if (is_numeric($_GET["id"])) {
                 $serviceId = $_GET["id"];
                 $data["service"] = $this->serviceModel->getServiceById($serviceId);
@@ -97,9 +90,8 @@ class ServiceController
         }
     }
 
-    public function processEditService()
-    {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isEncargado()) {
+    public function processEditService() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["encargado"] == 1) {
             $serviceId = $_POST["idService"];
             $service = $this->serviceModel->getServiceById($serviceId);
 
@@ -117,9 +109,8 @@ class ServiceController
         }
     }
 
-    public function deleteService()
-    {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isEncargado()) {
+    public function deleteService() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["encargado"] == 1) {
             $serviceId = $_GET["id"];
 
             $this->serviceModel->deleteServiceById($serviceId);
@@ -133,6 +124,5 @@ class ServiceController
             exit();
         }
     }
-
 
 }

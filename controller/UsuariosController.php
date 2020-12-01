@@ -15,7 +15,7 @@ class UsuariosController {
     }
 
     public function execute() {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isAdmin()) {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["admin"] == 1) {
             if (isset($_SESSION["userDeletedOk"]) && $_SESSION["userDeletedOk"] === 1) {
                 $data["userDeletedOk"] = "El usuario ha sido eliminado exitosamente";
                 unset($_SESSION["userDeletedOk"]);
@@ -31,7 +31,7 @@ class UsuariosController {
     }
 
     public function editarUsuario() {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isAdmin()) {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["admin"] == 1) {
             if (is_numeric($_GET["id"])){
                 $userId = $_GET["id"];
                 $data["user"] = $this->userModel->getUserById($userId);
@@ -69,7 +69,7 @@ class UsuariosController {
     }
 
     public function processEditUser() {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isAdmin()) {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["admin"] == 1) {
             $userId = $_POST["userId"];
             $user = $this->userModel->getUserById($userId);
 
@@ -102,7 +102,7 @@ class UsuariosController {
     }
 
     public function verUsuario() {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isAdmin()) {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["admin"] == 1) {
             if (is_numeric($_GET["id"])){
                 if (isset($_SESSION["userEditedOk"]) && $_SESSION["userEditedOk"] === 1) {
                     $data["userEditedOk"] = "El usuario ha sido editado exitosamente";
@@ -125,7 +125,7 @@ class UsuariosController {
     }
 
     public function deleteUser() {
-        if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isAdmin()) {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["admin"] == 1) {
             $userId = $_GET["id"];
 
             $this->userModel->removeRolesOfUser($userId);
