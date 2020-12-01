@@ -10,6 +10,8 @@ include_once("model/UserRoleModel.php");
 include_once("model/TravelModel.php");
 include_once("model/TransportUnitModel.php");
 include_once("model/ClientModel.php");
+include_once("model/ReportModel.php");
+include_once("model/LoadModel.php");
 include_once("model/TravelDriverModel.php");
 include_once("model/QRModel.php");
 
@@ -76,6 +78,11 @@ class Configuration {
         return new UserRoleModel($database);
     }
 
+    public function getReportModel(){
+        $database = $this->getDatabase();
+        return new ReportModel($database);
+    }
+
     public function getTravelModel(){
         $database = $this->getDatabase();
         return new TravelModel($database);
@@ -84,6 +91,11 @@ class Configuration {
     public function getClientModel(){
         $database = $this->getDatabase();
         return new ClientModel($database);
+    }
+
+    public function getLoadModel(){
+        $database = $this->getDatabase();
+        return new LoadModel($database);
     }
 
     public function getTransportUnitModel(){
@@ -126,8 +138,12 @@ class Configuration {
     }
 
     public function getReportController() {
+        $reportModel = $this->getReportModel();
+        $travelModel = $this->getTravelModel();
+        $userModel = $this->getUserModel();
+        $loadModel = $this->getLoadModel();
         $qrModel = $this->getQRModel();
-        return new ReportController($qrModel, $this->getRender());
+        return new ReportController($reportModel, $travelModel, $userModel, $loadModel, $qrModel, $this->getRender());
     }
 
     public function getUsuariosController() {

@@ -38,6 +38,11 @@ class UserModel {
         $sql = "SELECT U.id_usuario, U.nombre, U.apellido, U.email FROM usuario U";
         return $this->database->query($sql);
     }
+
+    public function getDrivers() {
+        $sql = "SELECT id_chofer, numero_licencia, id_tipo_licencia FROM chofer";
+        return $this->database->query($sql);
+    }
     
     public function assignRolesToUser($userId, $roles) {
         $this->removeRolesOfUser($userId);

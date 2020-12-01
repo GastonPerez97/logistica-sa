@@ -30,4 +30,9 @@ class MysqlDatabase{
         return $this->connection->prepare($sql);
     }
 
+    public function fetch_assoc($sql){
+        $result = mysqli_query($this->connection, $sql);
+        return mysqli_fetch_assoc($result);
+    }
+
 }
