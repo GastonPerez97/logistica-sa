@@ -23,15 +23,11 @@
 
             <label for="" style="font-size: x-large"><b>Datos Carga</b></label>
             <br><br>
-            <label for="typeLoad"><b>Tipo <span style="color: red">*</span></b></label>
-            <select name="typeLoad" class="login-input">
-                <option selected="true" disabled="disabled">----</option>
-                <option value="Granel">Granel</option>
-                <option value="Liquida">Liquida</option>
-                <option value="20">20''</option>
-                <option value="40">40''</option>
-                <option value="Jaula">Jaula</option>
-                <option value="CarCarrier">CarCarrier</option>
+            <label for="idTypeLoad"><b>Tipo <span style="color: red">*</span></b></label>
+            <select name="idTypeLoad" class="login-input">
+                {{#typeLoad}}
+                <option value="{{id_tipo_carga}}">{{nombre}}</option>
+                {{/typeLoad}}
             </select>
 
             <label for="netWeight"><b>Peso Neto <span style="color: red">*</span></b></label>
@@ -39,8 +35,8 @@
 
             <label for="hazard"><b>Hazard</b></label>
             <select name="hazard" class="login-input">
-                <option selected="true">NO</option>
-                <option value="Granel">SI</option>
+                <option selected="0">NO</option>
+                <option value="1">SI</option>
             </select>
 
             <label for="imoClass"><b>IMO Class</b></label>
@@ -63,8 +59,8 @@
 
             <label for="reefer"><b>Reefer</b></label>
             <select name="reefer" class="login-input">
-                <option selected="true">NO</option>
-                <option value="Granel">SI</option>
+                <option selected="0">NO</option>
+                <option value="1">SI</option>
             </select>
 
             <label for="temperature"><b>Temperatura</b></label>

@@ -8,13 +8,15 @@ class ReportController {
     private $travelModel;
     private $userModel;
     private $userRoleModel;
+    private $loadModel;
 
-    public function __construct($reportModel, $travelModel, $userModel, $userRoleModel, $render)
+    public function __construct($reportModel, $travelModel, $userModel, $userRoleModel, $loadModel, $render)
     {
         $this->reportModel = $reportModel;
         $this->travelModel = $travelModel;
         $this->userModel = $userModel;
         $this->userRoleModel = $userRoleModel;
+        $this->loadModel = $loadModel;
         $this->render = $render;
     }
 
@@ -31,6 +33,7 @@ class ReportController {
         if (isset($_SESSION["loggedIn"]) && $this->userRoleModel->isAdmin()) {
             $data["clients"] = $this->reportModel->getClients();
             $data["travels"] = $this->travelModel->getTravels();
+            $data["typeLoad"] = $this->loadModel->getTypeLoad();
             echo $this->render->render("view/newProformaView.php", $data);
         } else {
             header("location: /pw2-grupo03");
@@ -51,6 +54,17 @@ class ReportController {
                 "expectedFeeCost" => $_POST["expectedFeeCost"],
             );
             $this->reportModel->saveNewProforma($newProforma);
+
+            $newLoad = array (
+                "idTravel" => $_POST["idTravel"],
+                "idTypeLoad" => $_POST["idTypeLoad"],
+                "netWeight" => $_POST["netWeight"],
+                "hazard" => $_POST["hazard"],
+                "reefer" => $_POST["reefer"],
+                "temperature" => $_POST["temperature"],
+            );
+            $this->loadModel->saveNewLoad($newLoad);
+
             $this->reportModel->generatePdfProforma();
 
         } else {

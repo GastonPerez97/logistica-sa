@@ -258,6 +258,8 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`carga` (
   `id_carga` INT NOT NULL AUTO_INCREMENT,
   `peso` DECIMAL(10,2) ZEROFILL NOT NULL,
   `fragil` BIT NOT NULL,
+  `refrigerada` BIT NOT NULL,
+  `temperatura` INT NULL,
   `id_tipo_carga` INT NOT NULL,
   `id_viaje` INT NOT NULL,
   PRIMARY KEY (`id_carga`),

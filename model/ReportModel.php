@@ -61,7 +61,9 @@ class ReportModel
         $uploadDate = $this->getTravelUploadDate($valueIdProforma);
         $valueUploadDate = $uploadDate["result"];
 
-        $typeLoad = $_POST["typeLoad"];
+        $idTypeLoad = $_POST["idTypeLoad"];
+        $nameLoad = $this->getNameLoad($idTypeLoad);
+        $valueNameLoad = $nameLoad["result"];
         $netWeight = $_POST["netWeight"];
         $hazard = $_POST["hazard"];
         $imoClass = $_POST["imoClass"];
@@ -128,7 +130,7 @@ class ReportModel
 
         $pdf->Cell(50, 10, "Carga", 0, 1);
         $pdf->Cell(50, 10, "Tipo", 1, 0);
-        $pdf->Cell(100, 10, "$typeLoad", 1, 1, 'C', 0);
+        $pdf->Cell(100, 10, "$valueNameLoad", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "Peso Neto", 1, 0);
         $pdf->Cell(100, 10, "$netWeight", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "Hazard", 1, 0);
@@ -138,7 +140,7 @@ class ReportModel
         $pdf->Cell(50, 10, "Reefer", 1, 0);
         $pdf->Cell(25, 10, "$reefer", 1, 0, 'C', 0);
         $pdf->Cell(50, 10, "Temperatura", 1, 0);
-        $pdf->Cell(25, 10, "$temperature", 1, 0, 'C', 0);
+        $pdf->Cell(25, 10, utf8_decode("$temperature °"), 1, 0, 'C', 0);
 
         $pdf->AddPage();
         $pdf->Cell(50, 10, "Costeo", 0, 1);
@@ -296,6 +298,12 @@ class ReportModel
 
     public function getDriverForTravel($idProforma){
         $sql = "SELECT id_chofer as result FROM viaje_chofer WHERE id_viaje IN (SELECT id_viaje FROM proforma WHERE id_proforma = '$idProforma');";
+        return $this->database->fetch_assoc($sql);
+    }
+
+    public function getNameLoad($idTypeLoad)
+    {
+        $sql = "SELECT nombre as result FROM tipo_carga WHERE id_tipo_carga = '$idTypeLoad'";
         return $this->database->fetch_assoc($sql);
     }
 
