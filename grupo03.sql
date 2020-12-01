@@ -232,6 +232,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`viaje` (
   `kilometros_reales` DECIMAL(10,2) ZEROFILL NOT NULL,
   `origen` VARCHAR(150) NOT NULL,
   `destino` VARCHAR(150) NOT NULL,
+  `fecha_salida_estimada` DATETIME NOT NULL,
   `fecha_salida` DATETIME NOT NULL,
   `fecha_llegada_estimada` DATETIME NOT NULL,
   `fecha_llegada` DATETIME NULL,

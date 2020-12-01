@@ -35,7 +35,7 @@
             </select>
 
             <label for="netWeight"><b>Peso Neto <span style="color: red">*</span></b></label>
-            <input type="number" placeholder="Ingresar peso neto de carga" name="netWeight" class="login-input">
+            <input type="number" placeholder="Ingresar peso neto de carga" name="netWeight" class="login-input" required>
 
             <label for="hazard"><b>Hazard</b></label>
             <select name="hazard" class="login-input">
@@ -93,12 +93,6 @@
             <hr>
 
             <br><br>
-            <label for="driver"><b>ID Chofer Asignado <span style="color: red">*</span></b></label>
-            <select name="driver" class="login-input">
-                {{#drivers}}
-                <option value="{{id_chofer}}">{{id_chofer}}</option>
-                {{/drivers}}
-            </select>
 
             <button class="form-button w3-round w3-green w3-margin-top" type="submit">Generar</button>
             <div class="w3-margin-bottom">
