@@ -17,6 +17,11 @@ class TravelController {
 
     public function execute() {
         if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
+            if (isset($_SESSION["proformaError"])) {
+                $data["proformaError"] = "Error: La proforma de este viaje no fue generada todavía";
+                unset($_SESSION["proformaError"]);
+            }
+
             $data["travels"] = $this->travelModel->getTravels();
             echo $this->render->render("view/myTravelsView.php", $data);
         } else {
@@ -155,15 +160,18 @@ class TravelController {
     }
 
     public function viewProforma() {
-        if (isset($_SESSION["loggedIn"])
-            && $_SESSION["chofer"] == 1
-            && isset($_GET["id"])
-            && $this->reportModel->checkIfProformaAlreadyExistsOf($_GET["id"])) {
-
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1 && isset($_GET["id"])) {
             $travelId = $_GET["id"];
 
-            $idProforma = $this->reportModel->getIdProformaOf($travelId);
-            $this->reportModel->renderPdfProformaOf($idProforma);
+            if ($this->reportModel->checkIfProformaAlreadyExistsOf($travelId)) {
+                $idProforma = $this->reportModel->getIdProformaOf($travelId);
+                $this->reportModel->renderPdfProformaOf($idProforma);
+            } else {
+                $_SESSION["proformaError"] = 1;
+
+                header("location: /pw2-grupo03/travel");
+                exit();
+            }
         } else {
             header("location: /pw2-grupo03");
             exit();
