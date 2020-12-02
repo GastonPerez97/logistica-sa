@@ -191,6 +191,166 @@ class ReportModel {
         $pdf->Output("", "Proforma $idProforma - ID Viaje $idTravel");
     }
 
+    public function renderPdfProformaOf($idProforma) {
+        require('third-party/fpdf/fpdf.php');
+        $proforma = $this->getProformaBy($idProforma);
+
+        $proformaCreationDate = $proforma["fecha_carga_proforma"];
+        $clientName = $proforma["denominacion"];
+        $cuit = $proforma["cuit"];
+        $address = $proforma["direccion"];
+        $phone = $proforma["telefono"];
+        $email = $proforma["email"];
+        $contact1 = $proforma["contacto1"];
+        $contact2 = $proforma["contacto2"];
+
+        $idTravel = $proforma["id_viaje"];
+        $origin = $proforma["origen"];
+        $destination = $proforma["destino"];
+        $uploadDate = $proforma["fecha_salida"];
+
+        $nameLoad = $proforma["nombre"];
+
+        $netWeight = $proforma["peso"];
+        $reefer = $proforma["refrigerada"];
+        $temperature = $proforma["temperatura"];
+
+        $expectedKilometers = $proforma["kilometros_previstos"];
+        $expectedFuel = $proforma["consumo_combustible_previsto"];
+        $expectedEtd = $proforma["fecha_salida_estimada"];
+        $expectedEta = $proforma["fecha_llegada_estimada"];
+        $expectedViaticos = $proforma["viatico_estimado"];
+        $expectedToll = $proforma["peaje_y_pesaje_estimado"];
+        $expectedExtras = $proforma["extras_estimado"];
+        $expectedHazardCost = $proforma["hazard_estimado"];
+        $expectedReeferCost = $proforma["reefer_estimado"];
+        $expectedFeeCost = $proforma["fee_estimado"];
+
+        $realKilometers = $proforma["kilometros_reales"];
+        $realFuel = $proforma["consumo_combustible_real"];
+        $realEtd = $proforma["fecha_salida"];
+        $realEta = $proforma["fecha_llegada"];
+        $realViaticos = $proforma["viatico_real"];
+        $realToll = $proforma["peaje_y_pesaje_real"];
+        $realExtras = $proforma["extras_real"];
+        $realHazardCost = $proforma["hazard_real"];
+        $realReeferCost = $proforma["reefer_real"];
+        $realFeeCost = $proforma["fee_real"];
+
+        $driver = $proforma["id_chofer"];
+        $driverLicenceNumber = $proforma["numero_licencia"];
+
+        $qr = $this->QRModel->generateQROfReportOf($idTravel);
+
+        $pdf = new FPDF();
+        $pdf->AddPage();
+        $pdf->AliasNbPages();
+
+        $pdf->Image($qr, 161, 0, 50, 0, "png");
+
+        $pdf->SetFont('Arial', '', 16);
+        $pdf->Cell(150, 10, utf8_decode("N° $idProforma"), 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "Fecha", 1);
+        $pdf->Cell(100, 10, "$proformaCreationDate", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "", 0, 1);
+        $pdf->Cell(50, 10, "Cliente", 0, 1);
+        $pdf->Cell(50, 10, utf8_decode("Denominación"), 1, 0);
+        $pdf->Cell(100, 10, "$clientName", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "CUIT", 1, 0);
+        $pdf->Cell(100, 10, "$cuit", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, utf8_decode("Dirección"), 1, 0);
+        $pdf->Cell(100, 10, "$address", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, utf8_decode("Teléfono"), 1, 0);
+        $pdf->Cell(100, 10, "$phone", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "Email", 1, 0);
+        $pdf->Cell(100, 10, "$email", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "Contacto 1", 1, 0);
+        $pdf->Cell(100, 10, "$contact1", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "Contacto 2", 1, 0);
+        $pdf->Cell(100, 10, "$contact2", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "", 0, 1);
+
+        $pdf->Cell(50, 10, "Viaje", 0, 1);
+        $pdf->Cell(50, 10, "Origen", 1, 0);
+        $pdf->Cell(100, 10, "$origin", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "Destino", 1, 0);
+        $pdf->Cell(100, 10, "$destination", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "Fecha de Carga", 1, 0);
+        $pdf->Cell(100, 10, "$uploadDate", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "", 0, 1);
+
+        $pdf->Cell(50, 10, "Carga", 0, 1);
+        $pdf->Cell(50, 10, "Tipo", 1, 0);
+        $pdf->Cell(100, 10, "$nameLoad", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "Peso Neto", 1, 0);
+        $pdf->Cell(100, 10, "$netWeight", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "Reefer", 1, 0);
+        $pdf->Cell(25, 10, "$reefer", 1, 0, 'C', 0);
+        $pdf->Cell(50, 10, "Temperatura", 1, 0);
+        $pdf->Cell(25, 10, utf8_decode("$temperature °"), 1, 0, 'C', 0);
+
+        $pdf->AddPage();
+        $pdf->Cell(50, 10, "Costeo", 0, 1);
+        $pdf->Cell(50, 10, "", 0, 0);
+        $pdf->Cell(50, 10, "Estimado", 0, 0, 'C');
+        $pdf->Cell(50, 10, "Real", 0, 1, 'C');
+        $pdf->Cell(50, 10, "Kilometros", 1, 0);
+        $pdf->Cell(50, 10, "$expectedKilometers", 1, 0, 'C', 0);
+        $pdf->Cell(50, 10, "$realKilometers", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "Combustible", 1, 0);
+        $pdf->Cell(50, 10, "$expectedFuel", 1, 0, 'C', 0);
+        $pdf->Cell(50, 10, "$realFuel", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "ETD", 1, 0);
+        $pdf->Cell(50, 10, "$expectedEtd", 1, 0, 'C', 0);
+        $pdf->Cell(50, 10, "$realEtd", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "ETA", 1, 0);
+        $pdf->Cell(50, 10, "$expectedEta", 1, 0, 'C', 0);
+        $pdf->Cell(50, 10, "$realEta", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "Viaticos", 1, 0);
+        $pdf->Cell(50, 10, "$expectedViaticos", 1, 0, 'C', 0);
+        $pdf->Cell(50, 10, "$realViaticos", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "Peajes y Pesajes", 1, 0);
+        $pdf->Cell(50, 10, "$expectedToll", 1, 0, 'C', 0);
+        $pdf->Cell(50, 10, "$realToll", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "Extras", 1, 0);
+        $pdf->Cell(50, 10, "$expectedExtras", 1, 0, 'C', 0);
+        $pdf->Cell(50, 10, "$realExtras", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "Hazard", 1, 0);
+        $pdf->Cell(50, 10, "$expectedHazardCost", 1, 0, 'C', 0);
+        $pdf->Cell(50, 10, "$realHazardCost", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "Reefer", 1, 0);
+        $pdf->Cell(50, 10, "$expectedReeferCost", 1, 0, 'C', 0);
+        $pdf->Cell(50, 10, "$realReeferCost", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "Fee", 1, 0);
+        $pdf->Cell(50, 10, "$expectedFeeCost", 1, 0, 'C', 0);
+        $pdf->Cell(50, 10, "$realFeeCost", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "Total", 1, 0);
+        $pdf->Cell(50, 10, "", 1, 0, 'C', 0);
+        $pdf->Cell(50, 10, "", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "", 0, 1);
+
+        $pdf->Cell(50, 10, "Personal", 0, 1);
+        $pdf->Cell(50, 10, "Chofer Asignado", 1, 0);
+        $pdf->Cell(100, 10, "$driver", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "Numero Licencia", 1, 0);
+        $pdf->Cell(100, 10, "$driverLicenceNumber", 1, 1, 'C', 0);
+
+        $pdf->Output("", "Proforma $idProforma - ID Viaje $idTravel");
+    }
+
+    public function getProformaBy($proformaId) {
+        $sql = "SELECT * FROM proforma P JOIN cliente C ON P.id_cliente = C.id_cliente
+						 JOIN viaje V ON P.id_viaje = V.id_viaje
+                         JOIN viaje_chofer VC ON v.id_viaje = VC.id_viaje
+                         JOIN chofer CHOFER ON VC.id_chofer = CHOFER.id_chofer
+                         JOIN carga CARGA ON V.id_viaje = CARGA.id_viaje
+                         JOIN tipo_carga TC ON CARGA.id_tipo_carga = TC.id_tipo_carga
+                WHERE id_proforma = '$proformaId'";
+
+        $result = $this->database->query($sql);
+        return $result[0];
+    }
+
     public function getIdProformaOf($travelId) {
         $sql = "SELECT id_proforma FROM proforma WHERE id_viaje = '$travelId'";
         $result = $this->database->query($sql);

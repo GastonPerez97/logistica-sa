@@ -156,7 +156,8 @@ class Configuration {
     public function getTravelController() {
         $travelModel = $this->getTravelModel();
         $travelDriverModel = $this->getTravelDriverModel();
-        return new TravelController($travelModel, $travelDriverModel, $this->getRender());
+        $reportModel = $this->getReportModel();
+        return new TravelController($travelModel, $travelDriverModel, $reportModel, $this->getRender());
     }
 
     public function getClientController() {

@@ -5,12 +5,14 @@ class TravelController {
 
     private $travelModel;
     private $travelDriverModel;
+    private $reportModel;
     private $render;
 
-    public function __construct($travelModel, $travelDriverModel, $render) {
+    public function __construct($travelModel, $travelDriverModel, $reportModel, $render) {
         $this->render = $render;
         $this->travelModel = $travelModel;
         $this->travelDriverModel = $travelDriverModel;
+        $this->reportModel = $reportModel;
     }
 
     public function execute() {
@@ -146,6 +148,22 @@ class TravelController {
 
             header("location: /pw2-grupo03/travel");
             exit();
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
+    }
+
+    public function viewProforma() {
+        if (isset($_SESSION["loggedIn"])
+            && $_SESSION["chofer"] == 1
+            && isset($_GET["id"])
+            && $this->reportModel->checkIfProformaAlreadyExistsOf($_GET["id"])) {
+
+            $travelId = $_GET["id"];
+
+            $idProforma = $this->reportModel->getIdProformaOf($travelId);
+            $this->reportModel->renderPdfProformaOf($idProforma);
         } else {
             header("location: /pw2-grupo03");
             exit();
