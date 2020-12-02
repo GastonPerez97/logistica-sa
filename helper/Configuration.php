@@ -78,11 +78,6 @@ class Configuration {
         return new UserRoleModel($database);
     }
 
-    public function getReportModel(){
-        $database = $this->getDatabase();
-        return new ReportModel($database);
-    }
-
     public function getTravelModel(){
         $database = $this->getDatabase();
         return new TravelModel($database);
@@ -110,6 +105,12 @@ class Configuration {
 
     public function getQRModel(){
         return new QRModel();
+    }
+
+    public function getReportModel() {
+        $database = $this->getDatabase();
+        $qrModel = $this->getQRModel();
+        return new ReportModel($qrModel, $database);
     }
 
 
@@ -142,8 +143,7 @@ class Configuration {
         $travelModel = $this->getTravelModel();
         $userModel = $this->getUserModel();
         $loadModel = $this->getLoadModel();
-        $qrModel = $this->getQRModel();
-        return new ReportController($reportModel, $travelModel, $userModel, $loadModel, $qrModel, $this->getRender());
+        return new ReportController($reportModel, $travelModel, $userModel, $loadModel, $this->getRender());
     }
 
     public function getUsuariosController() {
@@ -156,7 +156,8 @@ class Configuration {
     public function getTravelController() {
         $travelModel = $this->getTravelModel();
         $travelDriverModel = $this->getTravelDriverModel();
-        return new TravelController($travelModel, $travelDriverModel, $this->getRender());
+        $reportModel = $this->getReportModel();
+        return new TravelController($travelModel, $travelDriverModel, $reportModel, $this->getRender());
     }
 
     public function getClientController() {

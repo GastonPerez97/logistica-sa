@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`chofer` (
     REFERENCES `grupo03`.`usuario` (`id_usuario`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `grupo03`.`marca`
@@ -541,7 +541,6 @@ CREATE TABLE `grupo03`.`proforma` (
   PRIMARY KEY (`id_proforma`),
     INDEX `id_cliente_INDEX` (`id_cliente` ASC),
     INDEX `id_viaje_INDEX` (`id_viaje` ASC),
-	INDEX `id_carga_INDEX` (`id_carga` ASC),
   CONSTRAINT `cliente_proforma_FK`
     FOREIGN KEY (`id_cliente`)
     REFERENCES `grupo03`.`cliente` (`id_cliente`)
