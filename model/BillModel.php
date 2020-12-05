@@ -39,6 +39,15 @@ class BillModel {
         }
     }
 
+    public function createBillOf($billData) {
+        $clientId = $billData["clientId"];
+        $travelId = $billData["travelId"];
+        $billDate = $billData["billDate"];
+
+        $sql = "INSERT INTO factura (fecha_facturacion, id_cliente, id_viaje) VALUES ('$billDate', '$clientId', '$travelId')";
+        $this->database->execute($sql);
+    }
+
     public function generateBillOf($travelId) {
         require('third-party/fpdf/fpdfBill.php');
 

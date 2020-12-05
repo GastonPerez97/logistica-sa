@@ -150,7 +150,8 @@ class Configuration {
         $travelModel = $this->getTravelModel();
         $userModel = $this->getUserModel();
         $loadModel = $this->getLoadModel();
-        return new ReportController($reportModel, $travelModel, $userModel, $loadModel, $this->getRender());
+        $billModel = $this->getBillModel();
+        return new ReportController($reportModel, $travelModel, $userModel, $loadModel, $billModel, $this->getRender());
     }
 
     public function getUsuariosController() {
