@@ -14,6 +14,7 @@ include_once("model/ReportModel.php");
 include_once("model/LoadModel.php");
 include_once("model/TravelDriverModel.php");
 include_once("model/QRModel.php");
+include_once("model/BillModel.php");
 
 include_once("controller/LoginController.php");
 include_once("controller/LogoutController.php");
@@ -25,6 +26,7 @@ include_once("controller/TravelController.php");
 include_once("controller/TransportUnitController.php");
 include_once("controller/ClientController.php");
 include_once("controller/ReportController.php");
+include_once("controller/BillController.php");
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 
@@ -107,6 +109,11 @@ class Configuration {
         return new QRModel();
     }
 
+    public function getBillModel(){
+        $database = $this->getDatabase();
+        return new BillModel($database);
+    }
+
     public function getReportModel() {
         $database = $this->getDatabase();
         $qrModel = $this->getQRModel();
@@ -168,6 +175,11 @@ class Configuration {
     public function getTransportUnitController() {
         $transportUnitModel = $this->getTransportUnitModel();
         return new TransportUnitController($transportUnitModel, $this->getRender());
+    }
+
+    public function getBillController() {
+        $billModel = $this->getBillModel();
+        return new BillController($billModel, $this->getRender());
     }
 
 }
