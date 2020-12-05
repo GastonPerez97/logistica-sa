@@ -28,6 +28,17 @@ class BillModel {
         return $result[0];
     }
 
+    public function checkIfBillExistsOf($travelId) {
+        $sql = "SELECT * FROM factura WHERE id_viaje = '$travelId'";
+        $result = $this->database->query($sql);
+
+        if (empty($result)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public function generateBillOf($travelId) {
         require('third-party/fpdf/fpdfBill.php');
 

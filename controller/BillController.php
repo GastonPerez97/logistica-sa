@@ -24,7 +24,13 @@ class BillController {
     public function viewBill() {
         if (isset($_SESSION["loggedIn"]) && $_SESSION["supervisor"] == 1 && isset($_GET["id"])) {
             $travelId = $_GET["id"];
-            $this->billModel->generateBillOf($travelId);
+
+            if ($this->billModel->checkIfBillExistsOf($travelId)) {
+                $this->billModel->generateBillOf($travelId);
+            } else {
+                header("location: /pw2-grupo03/bill");
+                exit();
+            }
         } else {
             header("location: /pw2-grupo03");
             exit();
