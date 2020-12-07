@@ -25,7 +25,22 @@ class UserModel {
     }
 
     public function getUserById($userId) {
-        $sql = "SELECT * FROM usuario WHERE id_usuario = '$userId'";
+        /*$query = $this->database->prepare("SELECT      us.*,
+                                                        dr.numero_licencia,
+                                                        dr.id_tipo_licencia
+                                            FROM        usuario us
+                                            LEFT JOIN   chofer dr ON us.id_usuario = dr.id_usuario
+                                            WHERE       us.id_usuario = ?");
+        $query->bind_param("i", $userId);
+        $query->execute();
+        return $query->get_result();*/
+        $sql = "SELECT      us.*,
+                            dr.numero_licencia,
+                            dr.id_tipo_licencia 
+                FROM        usuario us
+                LEFT JOIN   chofer dr ON us.id_usuario = dr.id_usuario
+                WHERE       us.id_usuario = '$userId'";
+        //die($this->database->query($sql));
         return $this->database->query($sql);
     }
 
