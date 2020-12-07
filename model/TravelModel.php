@@ -15,11 +15,13 @@ class TravelModel {
     $expectedKilometers = $travel["expectedKilometers"];
     $origin = $travel["origin"];
     $destination = $travel["destination"];
-    $departureDate = $travel["departureDate"];
+    $estimatedDepartureDate = $travel["estimatedDepartureDate"];
     $estimatedArrivalDate = $travel["estimatedArrivalDate"];
+    $idClient = $travel["idClient"];
 
-    $sql = "INSERT INTO viaje (consumo_combustible_previsto, kilometros_previstos, origen, destino,  fecha_salida ,  fecha_llegada_estimada)
-                VALUES ('$expectedFuel', '$expectedKilometers', '$origin', '$destination', '$departureDate', '$estimatedArrivalDate')";
+
+    $sql = "INSERT INTO viaje (consumo_combustible_previsto, kilometros_previstos, origen, destino,  fecha_salida_estimada ,  fecha_llegada_estimada)
+                VALUES ('$expectedFuel', '$expectedKilometers', '$origin', '$destination', '$estimatedDepartureDate', '$estimatedArrivalDate')";
 
     $this->database->execute($sql);
 
@@ -78,12 +80,17 @@ class TravelModel {
         $sql = "UPDATE viaje SET fecha_salida = '$newDepartureDate' WHERE  id_viaje = '$travelId'";
         $this->database->execute($sql);
     }
-
+    public function changeEstimatedDepartureDate($travelId, $newEstimatedDepartureDate)
+    {
+        $sql = "UPDATE viaje SET fecha_salida_estimada = '$newEstimatedDepartureDate' WHERE  id_viaje = '$travelId'";
+        $this->database->execute($sql);
+    }
     public function changeEstimatedArrivalDate($travelId, $newEstimatedArrivalDate)
     {
         $sql = "UPDATE viaje SET fecha_llegada_estimada = '$newEstimatedArrivalDate' WHERE  id_viaje = '$travelId'";
         $this->database->execute($sql);
     }
+
 
     public function changeArrivalDate($travelId, $newArrivalDate)
     {

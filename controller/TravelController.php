@@ -5,13 +5,15 @@ class TravelController {
 
     private $travelModel;
     private $travelDriverModel;
+    private $clientModel;
     private $reportModel;
     private $render;
 
-    public function __construct($travelModel, $travelDriverModel, $reportModel, $render) {
+    public function __construct($travelModel, $travelDriverModel, $clientModel, $reportModel, $render) {
         $this->render = $render;
         $this->travelModel = $travelModel;
         $this->travelDriverModel = $travelDriverModel;
+        $this->clientModel =$clientModel;
         $this->reportModel = $reportModel;
     }
 
@@ -32,7 +34,9 @@ class TravelController {
 
     public function newTravel() {
         if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
-            echo $this->render->render("view/newTravelView.php");
+
+            $data["clients"] = $this-> clientModel->getClients();
+            echo $this->render->render("view/newTravelView.php",$data);
         } else {
             header("location: /pw2-grupo03");
             exit();
@@ -52,8 +56,9 @@ class TravelController {
                     "expectedKilometers" => $_POST["expectedKilometers"],
                     "origin" => $_POST["origin"],
                     "destination" => $_POST["destination"],
-                    "departureDate" => $_POST["departureDate"],
+                    "estimatedDepartureDate" => $_POST["estimatedDepartureDate"],
                     "estimatedArrivalDate" => $_POST["estimatedArrivalDate"],
+                    "idClient"=>$_POST ["idClient"],
                 );
 
                 $this->travelModel->saveTravel($newTravel);
@@ -95,20 +100,14 @@ class TravelController {
                 $this->travelModel->changeExpectedFuel($travelId, $newExpectedFuel);
             }
 
-            if ($_POST["realFuel"] != $travel["realFuel"]) {
-                $newRealFuel = $_POST["realFuel"];
-                $this->travelModel->changeRealFuel($travelId, $newRealFuel);
-            }
+
 
             if ($_POST["expectedKilometers"] != $travel["expectedKilometers"]) {
                 $newExpectedKilometers = $_POST["expectedKilometers"];
                 $this->travelModel->changeExpectedKilometers($travelId, $newExpectedKilometers);
             }
 
-            if ($_POST["realKilometers"] != $travel["realKilometers"]) {
-                $newRealKilometers = $_POST["realKilometers"];
-                $this->travelModel->changeRealKilometers($travelId, $newRealKilometers);
-            }
+
 
             if ($_POST["origin"] != $travel["origin"]) {
                 $newOrigin = $_POST["origin"];
@@ -120,9 +119,9 @@ class TravelController {
                 $this->travelModel->changeDestination($travelId, $newDestination);
             }
 
-            if ($_POST["departureDate"] != $travel["departureDate"]) {
-                $newDepartureDate = $_POST["departureDate"];
-                $this->travelModel->changeDepartureDate($travelId, $newDepartureDate);
+            if ($_POST["estimatedDepartureDate"] != $travel["estimatedDepartureDate"]) {
+                $newEstimatedDepartureDate = $_POST["estimatedDepartureDate"];
+                $this->travelModel->changeEstimatedDepartureDate($travelId, $newEstimatedDepartureDate);
             }
 
             if ($_POST["estimatedArrivalDate"] != $travel["estimatedArrivalDate"]) {
@@ -130,10 +129,6 @@ class TravelController {
                 $this->travelModel->changeEstimatedArrivalDate($travelId, $newEstimatedArrivalDate);
             }
 
-            if ($_POST["arrivalDate"] != $travel["arrivalDate"]) {
-                $newArrivalDate = $_POST["arrivalDate"];
-                $this->travelModel->changeArrivalDate($travelId, $newArrivalDate);
-            }
 
             header("location: /pw2-grupo03/travel/editTravel?id=$travelId");
             exit();
@@ -142,6 +137,54 @@ class TravelController {
             exit();
         }
     }
+    public function finalizeTravel() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
+            if (is_numeric($_GET["id"])) {
+                $travelId = $_GET["id"];
+                $data["travel"] = $this->travelModel->getTravelById($travelId);
+
+                $data["travel"] = $this->travelModel->convertDatetimeFromMySQLToHTMLOf($data["travel"]);
+
+                echo $this->render->render("view/finalizeTravelView.php", $data);
+            } else {
+                header("location: /pw2-grupo03/travel");
+                exit();
+            }
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
+    }
+    public function processFinalizeTravel()
+    {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
+            $travelId = $_POST["id_viaje"];
+            $travel = $this->travelModel->getTravelById($travelId);
+            if ($_POST["realFuel"] != $travel["realFuel"]) {
+                $newRealFuel = $_POST["realFuel"];
+                $this->travelModel->changeRealFuel($travelId, $newRealFuel);
+            }
+            if ($_POST["realKilometers"] != $travel["realKilometers"]) {
+                $newRealKilometers = $_POST["realKilometers"];
+                $this->travelModel->changeRealKilometers($travelId, $newRealKilometers);
+            }
+            if ($_POST["departureDate"] != $travel["departureDate"]) {
+                $newDepartureDate = $_POST["departureDate"];
+                $this->travelModel->changeDepartureDate($travelId, $newDepartureDate);
+            }
+
+            if ($_POST["arrivalDate"] != $travel["arrivalDate"]) {
+                $newArrivalDate = $_POST["arrivalDate"];
+                $this->travelModel->changeArrivalDate($travelId, $newArrivalDate);
+            }
+
+            header("location: /pw2-grupo03/travel/finalizeTravel?id=$travelId");
+            exit();
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
+        }
 
     public function deleteTravel() {
         if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
