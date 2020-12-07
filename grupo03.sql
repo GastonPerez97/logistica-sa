@@ -234,16 +234,23 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `grupo03`.`viaje` (
   `id_viaje` INT NOT NULL AUTO_INCREMENT,
   `consumo_combustible_previsto` DECIMAL(10,2) NOT NULL,
-  `consumo_combustible_real` DECIMAL(10,2) ZEROFILL NOT NULL,
+  `consumo_combustible_real` DECIMAL(10,2) ZEROFILL NULL,
   `kilometros_previstos` DECIMAL(10,2) NOT NULL,
-  `kilometros_reales` DECIMAL(10,2) ZEROFILL NOT NULL,
+  `kilometros_reales` DECIMAL(10,2) ZEROFILL NULL,
   `origen` VARCHAR(150) NOT NULL,
   `destino` VARCHAR(150) NOT NULL,
   `fecha_salida_estimada` DATETIME NOT NULL,
-  `fecha_salida` DATETIME NOT NULL,
+  `fecha_salida` DATETIME NULL,
   `fecha_llegada_estimada` DATETIME NOT NULL,
   `fecha_llegada` DATETIME NULL,
-  PRIMARY KEY (`id_viaje`))
+  `id_cliente` INT NOT NULL,
+  PRIMARY KEY (`id_viaje`),
+  INDEX `id_cliente_INDEX` (`id_cliente` ASC),
+    CONSTRAINT `id_cliente_FK`
+    FOREIGN KEY (`id_cliente`)
+    REFERENCES `grupo03`.`cliente` (`id_cliente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -524,7 +531,6 @@ ENGINE = InnoDB;
 CREATE TABLE `grupo03`.`proforma` (
   `id_proforma` INT NOT NULL AUTO_INCREMENT,
   `fecha_carga_proforma` DATE NOT NULL,
-  `id_cliente` INT NOT NULL,
   `id_viaje` INT NOT NULL,
   `viatico_estimado` INT NOT NULL,
   `peaje_y_pesaje_estimado` INT NOT NULL,
@@ -539,13 +545,7 @@ CREATE TABLE `grupo03`.`proforma` (
   `reefer_real` INT NULL,
   `fee_real` INT NULL,
   PRIMARY KEY (`id_proforma`),
-    INDEX `id_cliente_INDEX` (`id_cliente` ASC),
-    INDEX `id_viaje_INDEX` (`id_viaje` ASC),
-  CONSTRAINT `cliente_proforma_FK`
-    FOREIGN KEY (`id_cliente`)
-    REFERENCES `grupo03`.`cliente` (`id_cliente`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  INDEX `id_viaje_INDEX` (`id_viaje` ASC),
   CONSTRAINT `viaje_FK`
     FOREIGN KEY (`id_viaje`)
     REFERENCES `grupo03`.`viaje` (`id_viaje`)

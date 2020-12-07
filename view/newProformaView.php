@@ -6,13 +6,6 @@
 
         <div class="container">
 
-            <label for="idClient"><b>Cliente<span style="color: red">*</span></b></label>
-            <select name="idClient" class="login-input">
-                {{#clients}}
-                <option value="{{id_cliente}}">{{denominacion}}</option>
-                {{/clients}}
-            </select>
-
             <label for="idTravel"><b>ID Viaje <span style="color: red">*</span></b></label>
             <select name="idTravel" class="login-input">
                 {{#travels}}

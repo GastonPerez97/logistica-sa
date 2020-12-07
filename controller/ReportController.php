@@ -48,7 +48,6 @@ class ReportController {
         if (isset($_SESSION["loggedIn"]) && $_SESSION["admin"] == 1) {
             if (!$this->reportModel->checkIfProformaAlreadyExistsOf($_POST["idTravel"])) {
                 $newProforma = array(
-                    "idClient" => $_POST["idClient"],
                     "idTravel" => $_POST["idTravel"],
                     "expectedViaticos" => $_POST["expectedViaticos"],
                     "expectedToll" => $_POST["expectedToll"],

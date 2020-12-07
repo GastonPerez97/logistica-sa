@@ -17,7 +17,6 @@ class ReportModel {
     }
 
     public function saveNewProforma($newProforma) {
-        $idClient = $newProforma["idClient"];
         $idTravel = $newProforma["idTravel"];
         $expectedViaticos = $newProforma["expectedViaticos"];
         $expectedToll = $newProforma["expectedToll"];
@@ -27,8 +26,8 @@ class ReportModel {
         $expectedFeeCost = $newProforma["expectedFeeCost"];
         $actualDate = date("Y-m-d");
 
-        $sql = "INSERT INTO proforma (fecha_carga_proforma, id_cliente, id_viaje, viatico_estimado, peaje_y_pesaje_estimado, extras_estimado, hazard_estimado, reefer_estimado, fee_estimado)
-            VALUES ('$actualDate', '$idClient', '$idTravel', '$expectedViaticos','$expectedToll', '$expectedExtras', '$expectedHazardCost', '$expectedReeferCost', '$expectedFeeCost')";
+        $sql = "INSERT INTO proforma (fecha_carga_proforma, id_viaje, viatico_estimado, peaje_y_pesaje_estimado, extras_estimado, hazard_estimado, reefer_estimado, fee_estimado)
+            VALUES ('$actualDate', '$idTravel', '$expectedViaticos','$expectedToll', '$expectedExtras', '$expectedHazardCost', '$expectedReeferCost', '$expectedFeeCost')";
 
         $this->database->execute($sql);
     }
@@ -36,21 +35,6 @@ class ReportModel {
     public function generatePdfProformaOf($idProforma) {
         require('third-party/fpdf/fpdf.php');
         $actualDate = date("Y-m-d");
-        $clientName = $this->getClientName($idProforma);
-        $valueClientName = $clientName["result"];
-        $cuit = $this->getClientCuit($idProforma);
-        $valueCuit = $cuit["result"];
-        $address = $this->getClientAddress($idProforma);
-        $valueAddress = $address["result"];
-        $phone = $this->getClientPhone($idProforma);
-        $valuePhone = $phone["result"];
-        $email = $this->getClientEmail($idProforma);
-        $valueEmail = $email["result"];
-        $contact1 = $this->getClientContact1($idProforma);
-        $valueContact1 = $contact1["result"];
-        $contact2 = $this->getClientContact2($idProforma);
-        $valueContact2 = $contact2["result"];
-
         $idTravel = $_POST["idTravel"];
         $origin = $this->getTravelOrigin($idProforma);
         $valueOrigin = $origin["result"];
@@ -58,6 +42,21 @@ class ReportModel {
         $valueDestination = $destination["result"];
         $uploadDate = $this->getTravelUploadDate($idProforma);
         $valueUploadDate = $uploadDate["result"];
+
+        $clientName = $this->getClientName($idTravel);
+        $valueClientName = $clientName["result"];
+        $cuit = $this->getClientCuit($idTravel);
+        $valueCuit = $cuit["result"];
+        $address = $this->getClientAddress($idTravel);
+        $valueAddress = $address["result"];
+        $phone = $this->getClientPhone($idTravel);
+        $valuePhone = $phone["result"];
+        $email = $this->getClientEmail($idTravel);
+        $valueEmail = $email["result"];
+        $contact1 = $this->getClientContact1($idTravel);
+        $valueContact1 = $contact1["result"];
+        $contact2 = $this->getClientContact2($idTravel);
+        $valueContact2 = $contact2["result"];
 
         $idTypeLoad = $_POST["idTypeLoad"];
         $nameLoad = $this->getNameLoad($idTypeLoad);
@@ -374,38 +373,38 @@ class ReportModel {
         return $this->database->fetch_assoc($sql);
     }
 
-    public function getClientName($idProforma){
-        $sql = "SELECT denominacion as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM proforma WHERE id_proforma = '$idProforma')";
+    public function getClientName($idTravel){
+        $sql = "SELECT denominacion as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM viaje WHERE id_viaje = '$idTravel')";
         return $this->database->fetch_assoc($sql);
     }
 
-    public function getClientCuit($idProforma){
-        $sql = "SELECT cuit as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM proforma WHERE id_proforma = '$idProforma')";
+    public function getClientCuit($idTravel){
+        $sql = "SELECT cuit as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM viaje WHERE id_viaje = '$idTravel')";
         return $this->database->fetch_assoc($sql);
     }
 
-    public function getClientAddress($idProforma){
-        $sql = "SELECT direccion as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM proforma WHERE id_proforma = '$idProforma')";
+    public function getClientAddress($idTravel){
+        $sql = "SELECT direccion as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM viaje WHERE id_viaje = '$idTravel')";
         return $this->database->fetch_assoc($sql);
     }
 
-    public function getClientPhone($idProforma){
-        $sql = "SELECT telefono as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM proforma WHERE id_proforma = '$idProforma')";
+    public function getClientPhone($idTravel){
+        $sql = "SELECT telefono as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM viaje WHERE id_viaje = '$idTravel')";
         return $this->database->fetch_assoc($sql);
     }
 
-    public function getClientEmail($idProforma){
-        $sql = "SELECT email as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM proforma WHERE id_proforma = '$idProforma')";
+    public function getClientEmail($idTravel){
+        $sql = "SELECT email as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM viaje WHERE id_viaje = '$idTravel')";
         return $this->database->fetch_assoc($sql);
     }
 
-    public function getClientContact1($idProforma){
-        $sql = "SELECT contacto1 as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM proforma WHERE id_proforma = '$idProforma')";
+    public function getClientContact1($idTravel){
+        $sql = "SELECT contacto1 as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM viaje WHERE id_viaje = '$idTravel')";
         return $this->database->fetch_assoc($sql);
     }
 
-    public function getClientContact2($idProforma){
-        $sql = "SELECT contacto2 as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM proforma WHERE id_proforma = '$idProforma')";
+    public function getClientContact2($idTravel){
+        $sql = "SELECT contacto2 as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM viaje WHERE id_viaje = '$idTravel')";
         return $this->database->fetch_assoc($sql);
     }
 
