@@ -83,4 +83,28 @@ class UserModel {
         $this->database->execute($sql);
     }
 
+    public function checkIfEmailAndDniAlreadyExists($email, $dni) {
+        $sql = "SELECT * FROM usuario WHERE email = '$email' OR dni = '$dni'";
+        $result = $this->database->query($sql);
+
+        if (empty($result)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function validateRegistration() {
+        if (empty($_POST['name']) ||
+            empty($_POST['surname']) ||
+            empty($_POST['dni']) ||
+            empty($_POST['email']) ||
+            empty($_POST['pass']) ||
+            empty($_POST['birthdate'])) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 }
