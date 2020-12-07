@@ -11,18 +11,32 @@ class TravelModel {
 
     public function saveTravel($travel) {
 
-    $expectedFuel = $travel["expectedFuel"];
-    $expectedKilometers = $travel["expectedKilometers"];
-    $origin = $travel["origin"];
-    $destination = $travel["destination"];
-    $departureDate = $travel["departureDate"];
-    $estimatedArrivalDate = $travel["estimatedArrivalDate"];
+        $expectedFuel = $travel["expectedFuel"];
+        $expectedKilometers = $travel["expectedKilometers"];
+        $origin = $travel["origin"];
+        $destination = $travel["destination"];
+        $departureDate = $travel["departureDate"];
+        $estimatedArrivalDate = $travel["estimatedArrivalDate"];
+        $estimatedDepartureDate = $travel["estimatedDepartureDate"];
+        $driverId = $travel["driverId"];
 
-    $sql = "INSERT INTO viaje (consumo_combustible_previsto, kilometros_previstos, origen, destino,  fecha_salida ,  fecha_llegada_estimada)
-                VALUES ('$expectedFuel', '$expectedKilometers', '$origin', '$destination', '$departureDate', '$estimatedArrivalDate')";
+        $insertTravel = $this->database->prepare("INSERT INTO viaje
+                                            (consumo_combustible_previsto, kilometros_previstos, origen, destino, 
+                                            fecha_salida, fecha_llegada_estimada, fecha_salida_estimada)
+                                            VALUES (?, ?, ?, ?, ?, ?, ?)");
 
-    $this->database->execute($sql);
+        $insertTravel->bind_param("ddsssss", $expectedFuel, $expectedKilometers, $origin, $destination, $departureDate, $estimatedArrivalDate, $estimatedDepartureDate);
+        $insertTravel->execute();
 
+        $lastId = $this->database->query("SELECT last_insert_id()");
+        $travelId = $lastId[0]["last_insert_id()"];
+
+        $insertDriver = $this->database->prepare("INSERT INTO viaje_chofer
+                                                    (id_viaje, id_chofer)
+                                                    VALUES (?, ?)");
+
+        $insertDriver->bind_param("ii", $travelId, $driverId);
+        $insertDriver->execute();
     }
 
     public function getTravels()

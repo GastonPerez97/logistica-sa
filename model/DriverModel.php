@@ -38,8 +38,6 @@ class DriverModel {
         $query->execute();
         $queryResult = $query->get_result();
 
-        //die(var_dump(mysqli_fetch_assoc($queryResult)["id_usuario"]));
-
         $user["id_usuario"] = mysqli_fetch_assoc($queryResult)["id_usuario"];
 
         if ($user["id_usuario"] != 0) {
@@ -51,6 +49,26 @@ class DriverModel {
 
     public function getTypesOfLicence() {
         $sql = "SELECT * FROM tipo_licencia";
+        return $this->database->query($sql);
+    }
+
+    public function getAvailableDrivers() {
+
+        $sql = "SELECT      ch.id_chofer,
+                            us.nombre,
+                            us.apellido,
+                            ch.numero_licencia,
+                            tipo.nombre AS tipo_licencia
+                FROM        usuario us
+                INNER JOIN  usuario_rol ur ON us.id_usuario = ur.id_usuario
+                INNER JOIN  chofer ch ON us.id_usuario = ch.id_usuario
+                INNER JOIN  tipo_licencia tipo ON ch.id_tipo_licencia = tipo.id_tipo_licencia
+                WHERE       ur.id_rol = 4
+                            AND ch.id_chofer NOT IN (
+                                SELECT      vc.id_chofer
+                                FROM        viaje v
+                                INNER JOIN  viaje_chofer vc ON v.id_viaje = vc.id_viaje
+                                WHERE       now() BETWEEN fecha_salida_estimada AND fecha_llegada_estimada)";
         return $this->database->query($sql);
     }
 
