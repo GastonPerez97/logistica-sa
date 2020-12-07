@@ -35,7 +35,7 @@
 
             <label for="hazard"><b>Hazard</b></label>
             <select name="hazard" class="login-input">
-                <option selected="0">NO</option>
+                <option value="0" selected>NO</option>
                 <option value="1">SI</option>
             </select>
 
@@ -59,7 +59,7 @@
 
             <label for="reefer"><b>Reefer</b></label>
             <select name="reefer" class="login-input">
-                <option selected="0">NO</option>
+                <option value="0" selected>NO</option>
                 <option value="1">SI</option>
             </select>
 

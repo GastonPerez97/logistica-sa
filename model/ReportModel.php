@@ -64,7 +64,7 @@ class ReportModel {
         $valueNameLoad = $nameLoad["result"];
         $netWeight = $_POST["netWeight"];
         $hazard = $_POST["hazard"];
-        $imoClass = $_POST["imoClass"];
+        $imoClass = 1;
         $reefer = $_POST["reefer"];
         $temperature = $_POST["temperature"];
 
@@ -91,13 +91,13 @@ class ReportModel {
 
         $driver = $this->getDriverForTravel($idProforma);
         $valueDriver  = $driver["result"];
-        $qr = $this->QRModel->generateQROfReportOf($idTravel);
+       // $qr = $this->QRModel->generateQROfReportOf($idTravel);
 
         $pdf = new FPDF();
         $pdf->AddPage();
         $pdf->AliasNbPages();
 
-        $pdf->Image($qr, 161, 0, 50, 0, "png");
+       // $pdf->Image($qr,161, 0, 50, 0, "png");
 
         $pdf->SetFont('Arial', '', 16);
         $pdf->Cell(150, 10, utf8_decode("N° $idProforma"), 1, 1, 'C', 0);
@@ -240,13 +240,13 @@ class ReportModel {
         $driver = $proforma["id_chofer"];
         $driverLicenceNumber = $proforma["numero_licencia"];
 
-        $qr = $this->QRModel->generateQROfReportOf($idTravel);
+    //    $qr = $this->QRModel->generateQROfReportOf($idTravel);
 
         $pdf = new FPDF();
         $pdf->AddPage();
         $pdf->AliasNbPages();
 
-        $pdf->Image($qr, 161, 0, 50, 0, "png");
+      //  $pdf->Image($qr,161, 0, 50, 0, "png");
 
         $pdf->SetFont('Arial', '', 16);
         $pdf->Cell(150, 10, utf8_decode("N° $idProforma"), 1, 1, 'C', 0);
