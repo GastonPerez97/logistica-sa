@@ -9,29 +9,23 @@ class DriverModel {
         $this->database = $database;
     }
 
-    public function saveClient($client) {
-        $email = $client["email"];
-        $cuit = $client["cuit"];
-        $phone = $client["phone"];
-        $address = $client["address"];
-        $denomination = $client["denomination"];
-        $contact1 = $client["contact1"];
-        $contact2 = $client["contact2"];
+    private function insertDriver($userId, $licenceTypeId, $licenceNumber) {
+        $insertDriver = $this->database->prepare("INSERT INTO chofer
+                                            (numero_licencia, id_tipo_licencia, id_usuario)
+                                            VALUES (?, ?, ?)");
 
-        $sql = "INSERT INTO cliente (email, cuit, telefono, direccion, denominacion, contacto1, contacto2)
-                VALUES ('$email', '$cuit', '$phone', '$address', '$denomination', '$contact1', '$contact2')";
-
-        $this->database->execute($sql);
+        $insertDriver->bind_param("isi", $licenceNumber, $licenceTypeId, $userId);
+        $insertDriver->execute();
     }
 
-    public function getClients() {
-        $sql = "SELECT * FROM cliente";
-        return $this->database->query($sql);
-    }
+    private function updateDriver($userId, $licenceTypeId, $licenceNumber) {
+        $editDriver = $this->database->prepare("UPDATE       chofer
+                                                SET         numero_licencia = ?, 
+                                                            id_tipo_licencia = ?
+                                                WHERE       id_usuario = ?");
 
-    public function getClientById($clientId) {
-        $sql = "SELECT * FROM cliente WHERE id_cliente = '$clientId'";
-        return $this->database->query($sql);
+        $editDriver->bind_param("sii", $licenceNumber, $licenceTypeId, $userId);
+        $editDriver->execute();
     }
 
     public function processDriver($userId, $licenceTypeId, $licenceNumber) {
@@ -44,28 +38,14 @@ class DriverModel {
         $query->execute();
         $queryResult = $query->get_result();
 
-        $user = array();
+        //die(var_dump(mysqli_fetch_assoc($queryResult)["id_usuario"]));
 
-        while($row = mysqli_fetch_assoc($queryResult)){
-            $user["id_usuario"] = $row["id_usuario"];
-        }
+        $user["id_usuario"] = mysqli_fetch_assoc($queryResult)["id_usuario"];
 
         if ($user["id_usuario"] != 0) {
-            $editDriver = $this->database->prepare("UPDATE       chofer
-                                                        SET         numero_licencia = ?, 
-                                                                    id_tipo_licencia = ?
-                                                        WHERE       id_usuario = ?");
-
-            $editDriver->bind_param("sii", $licenceNumber, $licenceTypeId, $userId);
-            $editDriver->execute();
-
+            $this->updateDriver($userId, $licenceTypeId, $licenceNumber);
         } else {
-            $insertDriver = $this->database->prepare("INSERT INTO chofer
-                                            (numero_licencia, id_tipo_licencia, id_usuario)
-                                            VALUES (?, ?, ?)");
-
-            $insertDriver->bind_param("isi", $licenceNumber, $licenceTypeId, $userId);
-            $insertDriver->execute();
+            $this->insertDriver($userId, $licenceTypeId, $licenceNumber);
         }
     }
 
@@ -74,25 +54,4 @@ class DriverModel {
         return $this->database->query($sql);
     }
 
-    public function deleteClientById($clientId) {
-        $sql = "DELETE FROM cliente WHERE id_cliente = '$clientId'";
-        $this->database->execute($sql);
-    }
-
-    public function checkIfAlreadyExists($client) {
-        $email = $client["email"];
-        $cuit = $client["cuit"];
-
-        $checkEmailSql = "SELECT * FROM cliente WHERE email = '$email'";
-        $checkCuitSql = "SELECT * FROM cliente WHERE cuit = '$cuit'";
-
-        $resultEmail = $this->database->query($checkEmailSql);
-        $resultCuit = $this->database->query($checkCuitSql);
-
-        if (empty($resultEmail) && empty($resultCuit)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
 }
