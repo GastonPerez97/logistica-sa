@@ -44,6 +44,8 @@ class ServiceController {
             $data = array();
             if($_POST["internal"]!=1){
                 $internal = 0;
+            } else{
+                $internal = 1;
             }
 
             $newService = array(
@@ -88,12 +90,11 @@ class ServiceController {
             $serviceId = $_POST["idService"];
             $service = $this->serviceModel->getServiceById($serviceId);
 
-            $newServiceDate = $_POST["serviceDate"];
             $newKilometers = $_POST["kilometers"];
             $newDescription = $_POST["description"];
             $newCost = $_POST["cost"];
 
-            $this->serviceModel->updateServiceById($serviceId, $newServiceDate, $newKilometers, $newDescription, $newCost);
+            $this->serviceModel->updateServiceById($serviceId, $newKilometers, $newDescription, $newCost);
             $data["correctEditService"] = "Service Editado Correctamente";
             echo $this->render->render("view/newServiceResultView.php", $data);
         } else {

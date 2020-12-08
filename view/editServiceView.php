@@ -10,6 +10,8 @@
                 <a href="/pw2-grupo03/service" class="w3-button w3-blue w3-small w3-round text-decoration-none">Volver</a>
             </div>
 
+            <p style="font-weight: bold">Solo puede modificar los campos que se encuentran en <span style="color: red">Rojo </span></p>
+            <br>
             <label for="idService"><b>N° id:</b></label>
             <input type="number" placeholder="Ingresar número de unidad" name="idService" value="{{id_service}}" readonly="true" class="login-input" required>
 
@@ -17,26 +19,21 @@
             <input type="number" placeholder="Ingresar número de unidad" name="numberVehicle" value="{{id_unidad_de_transporte}}" readonly="true" class="login-input" required>
 
             <label for="serviceDate"><b>Fecha Service:</b></label>
-            <input type="date" name="serviceDate" class="login-input" value="{{fecha_service}}" required>
+            <input type="date" name="serviceDate" class="login-input" value="{{fecha_service}}" required readonly="true">
 
-            <label for="kilometers"><b>Kilometros:</b></label>
+            <label for="kilometers" style="color: red"><b>Kilometros:</b></label>
             <input type="number" placeholder="Ingresar kilometros de la unidad" name="kilometers" value="{{kilometraje_actual_unidad}}" class="login-input" required>
 
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" name="internal" id="internal" onchange="javascript:showContentMechanic()">
-                <label class="form-check-label" for="internal">
-                    <b>Service Interno</b>
-                </label>
-            </div>
+            <label for="internal"><b>Service Interno</b></label>
+            <input type="number" placeholder="Ingresar ID del mecánico" name="internal" value="{{interno}}" readonly="true" class="login-input" required>
 
-            <br>
-            <label for="mechanic" id="labelMechanic" style="display: none;"><b>ID Mecánico </b></label>
-            <input type="number" placeholder="Ingresar ID del mecánico" name="mechanic" id="mechanic" style="display: none;" value="{{id_usuario}}" readonly="true" class="login-input" required>
+            <label for="mechanic"><b>ID Mecánico</b></label>
+            <input type="number" placeholder="Ingresar ID del mecánico" name="mechanic" value="{{id_usuario}}" readonly="true" class="login-input" required>
 
-            <label for="description"><b>Descripción</b></label>
+            <label for="description" style="color: red"><b>Descripción</b></label>
             <input type="text" placeholder="Ingresar detalle del service" name="description" value="{{detalle}}" class="login-input" required>
 
-            <label for="cost"><b>Costo</b></label>
+            <label for="cost" style="color: red"><b>Costo</b></label>
             <input type="number" placeholder="Ingresar costo" name="cost" value="{{costo}}" class="login-input" required>
 
             <button class="form-button w3-round w3-green w3-margin-top" type="submit">Editar</button>

@@ -39,10 +39,10 @@ class ServiceModel
         return $this->database->query($sql);
     }
 
-    public function updateServiceById($serviceId, $newServiceDate, $newKilometers, $newDescription, $newCost)
+    public function updateServiceById($serviceId, $newKilometers, $newDescription, $newCost)
     {
         $sql = "UPDATE service 
-                SET fecha_service = '$newServiceDate',kilometraje_actual_unidad = '$newKilometers', detalle = '$newDescription', costo = '$newCost'
+                SET kilometraje_actual_unidad = '$newKilometers', detalle = '$newDescription', costo = '$newCost'
                 WHERE  id_service = '$serviceId'";
         $this->database->execute($sql);
     }
