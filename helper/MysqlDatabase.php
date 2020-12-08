@@ -26,6 +26,10 @@ class MysqlDatabase{
         mysqli_query($this->connection, $sql);
     }
 
+    public function error(){
+        return $this->connection->error;
+    }
+
     public function prepare($sql){
         return $this->connection->prepare($sql);
     }

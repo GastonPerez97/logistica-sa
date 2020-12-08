@@ -21,6 +21,7 @@ class TransportUnitController {
             exit();
         }
     }
+
     public function enableTransportUnit() {
         if (isset($_SESSION["loggedIn"]) && $_SESSION["supervisor"] == 1) {
             $data = array();
@@ -236,7 +237,9 @@ class TransportUnitController {
     }
 
     public function getModels() {
-        $data["models"] = $this->transportUnitModel->getModelsByBrand($_POST["idBrand"]);
-        return json_encode($data);
+        $models = $this->transportUnitModel->getModelsByBrand($_GET["idBrand"]);
+        header('Content-Type: application/json; charset=utf-8');
+
+        return json_encode($models, JSON_FORCE_OBJECT);
     }
 }

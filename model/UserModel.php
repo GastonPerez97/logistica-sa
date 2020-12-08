@@ -25,7 +25,22 @@ class UserModel {
     }
 
     public function getUserById($userId) {
-        $sql = "SELECT * FROM usuario WHERE id_usuario = '$userId'";
+        /*$query = $this->database->prepare("SELECT      us.*,
+                                                        dr.numero_licencia,
+                                                        dr.id_tipo_licencia
+                                            FROM        usuario us
+                                            LEFT JOIN   chofer dr ON us.id_usuario = dr.id_usuario
+                                            WHERE       us.id_usuario = ?");
+        $query->bind_param("i", $userId);
+        $query->execute();
+        return $query->get_result();*/
+        $sql = "SELECT      us.*,
+                            dr.numero_licencia,
+                            dr.id_tipo_licencia 
+                FROM        usuario us
+                LEFT JOIN   chofer dr ON us.id_usuario = dr.id_usuario
+                WHERE       us.id_usuario = '$userId'";
+        //die($this->database->query($sql));
         return $this->database->query($sql);
     }
 
@@ -81,6 +96,30 @@ class UserModel {
     public function deleteUserById($userId) {
         $sql = "DELETE FROM usuario WHERE id_usuario = '$userId'";
         $this->database->execute($sql);
+    }
+
+    public function checkIfEmailAndDniAlreadyExists($email, $dni) {
+        $sql = "SELECT * FROM usuario WHERE email = '$email' OR dni = '$dni'";
+        $result = $this->database->query($sql);
+
+        if (empty($result)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function validateRegistration() {
+        if (empty($_POST['name']) ||
+            empty($_POST['surname']) ||
+            empty($_POST['dni']) ||
+            empty($_POST['email']) ||
+            empty($_POST['pass']) ||
+            empty($_POST['birthdate'])) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 }

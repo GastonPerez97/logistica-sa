@@ -5,13 +5,15 @@ class UsuariosController {
     private $userModel;
     private $roleModel;
     private $userRoleModel;
+    private $driverModel;
     private $render;
 
-    public function __construct($userModel, $roleModel, $userRoleModel, $render) {
+    public function __construct($userModel, $roleModel, $userRoleModel, $driverModel, $render) {
         $this->render = $render;
         $this->userModel = $userModel;
         $this->roleModel = $roleModel;
         $this->userRoleModel = $userRoleModel;
+        $this->driverModel = $driverModel;
     }
 
     public function execute() {
@@ -36,6 +38,7 @@ class UsuariosController {
                 $userId = $_GET["id"];
                 $data["user"] = $this->userModel->getUserById($userId);
                 $data["roles"] = $this->roleModel->getRoles();
+                $data["typesOfLicence"] = $this->driverModel->getTypesOfLicence();
 
                 $userRoles = $this->userRoleModel->getRolesOfUserBy($userId);
 
@@ -73,6 +76,8 @@ class UsuariosController {
             $userId = $_POST["userId"];
             $user = $this->userModel->getUserById($userId);
 
+            //die(var_dump($user[0]["email"]));
+
             if (!empty($_POST["roles"])) {
                 $roles = $_POST["roles"];
                 $this->userModel->assignRolesToUser($userId, $roles);
@@ -80,7 +85,7 @@ class UsuariosController {
                 $this->userModel->removeRolesOfUser($userId);
             }
 
-            if ($_POST["email"] != $user["email"]) {
+            if ($_POST["email"] != $user[0]["email"]) {
                 $newEmail = $_POST["email"];
                 $this->userModel->changeEmail($userId, $newEmail);
             }
@@ -89,6 +94,13 @@ class UsuariosController {
                 $this->userModel->activateUser($userId);
             } else {
                 $this->userModel->deactivateUser($userId);
+            }
+
+            if ((isset($_POST["licenceType"]) && $_POST["licenceType"] != "") &&
+                (isset($_POST["licenceNumber"]) && $_POST["licenceNumber"] != "")) {
+                $licenceTypeId = $_POST["licenceType"];
+                $licenceNumber = $_POST["licenceNumber"];
+                $this->driverModel->processDriver($userId, $licenceTypeId, $licenceNumber);
             }
 
             $_SESSION["userEditedOk"] = 1;
