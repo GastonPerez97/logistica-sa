@@ -227,4 +227,19 @@ class TravelModel {
         }
     }
 
+    public function validateSpend() {
+        if ((!empty($_POST["spendType"]) && !empty($_POST["amount"]))
+            && (($_POST["spendType"] == "viatico_real"
+            || $_POST["spendType"] == "peaje_y_pesaje_real"
+            || $_POST["spendType"] == "extras_real"
+            || $_POST["spendType"] == "hazard_real"
+            || $_POST["spendType"] == "reefer_real"
+            || $_POST["spendType"] == "fee_real"))) {
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

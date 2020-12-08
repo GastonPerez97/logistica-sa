@@ -25,10 +25,6 @@
                             </div>
                             <div class="d-flex justify-content-around my-1em">
                                 <div>
-                                    <h3>Nro. Factura:</h3>
-                                    <p>{{numero_factura}}</p>
-                                </div>
-                                <div>
                                     <h3>Fecha de Facturación:</h3>
                                     <p>{{fecha_facturacion}}</p>
                                 </div>
