@@ -43,6 +43,7 @@ class ReportModel {
         $uploadDate = $this->getTravelUploadDate($idProforma);
         $valueUploadDate = $uploadDate["result"];
 
+
         $clientName = $this->getClientName($idTravel);
         $valueClientName = $clientName["result"];
         $cuit = $this->getClientCuit($idTravel);
@@ -58,14 +59,32 @@ class ReportModel {
         $contact2 = $this->getClientContact2($idTravel);
         $valueContact2 = $contact2["result"];
 
+
         $idTypeLoad = $_POST["idTypeLoad"];
         $nameLoad = $this->getNameLoad($idTypeLoad);
         $valueNameLoad = $nameLoad["result"];
         $netWeight = $_POST["netWeight"];
-        $hazard = $_POST["hazard"];
-        $imoClass = 1;
-        $reefer = $_POST["reefer"];
-        $temperature = $_POST["temperature"];
+
+        $hazard = $this->getHazardLoad($idTravel);
+        $valueHazard = $hazard["result"];
+        if($valueHazard == 0){
+            $hazard = 'No';
+        } else{
+            $hazard = 'Si';
+        }
+
+        $imoClass = $_POST["imoClass"];
+        $imoClass = $this->getImoClassLoad($imoClass);
+        $valueImoClass = $imoClass["result"];
+
+        $reefer = $this->getReeferLoad($idTravel);
+        $valueReefer = $reefer["result"];
+        if($valueReefer == 0){
+            $reefer = 'No';
+        } else{
+            $reefer = 'Si';
+        }
+        $numberTemperature = $_POST["numberTemperature"];
 
         $expectedKilometers = $this->getTravelExpectedKm($idProforma);
         $valueExpectedkm = $expectedKilometers["result"];
@@ -73,8 +92,10 @@ class ReportModel {
         $valueExpectedFuel = $expectedFuel["result"];
         $expectedEtd = $this->getTravelExpectedEtd($idProforma);
         $valueExpectedEtd = $expectedEtd["result"];
+        $formatValueExpectedEtd = date('Y-m-d H:i', strtotime($valueExpectedEtd));
         $expectedEta = $this->getTravelExpectedEta($idProforma);
         $valueExpectedEta = $expectedEta["result"];
+        $formatValueExpectedEta = date('Y-m-d H:i', strtotime($valueExpectedEta));
         $expectedViaticos = $this->getExpectedViaticos($idProforma);
         $valueExpectedViaticos = $expectedViaticos["result"];
         $expectedToll = $this->getExpectedToll($idProforma);
@@ -90,6 +111,9 @@ class ReportModel {
 
         $driver = $this->getDriverForTravel($idProforma);
         $valueDriver  = $driver["result"];
+
+        $totalExpected = ($valueExpectedViaticos + $valueExpectedToll + $valueExpectedExtras + $valueExpectedHazardCost + $valueExpectedReeferCost + $valueExpectedFeeCost);
+
        // $qr = $this->QRModel->generateQROfReportOf($idTravel);
 
         $pdf = new FPDF();
@@ -133,15 +157,15 @@ class ReportModel {
         $pdf->Cell(50, 10, "Tipo", 1, 0);
         $pdf->Cell(100, 10, "$valueNameLoad", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "Peso Neto", 1, 0);
-        $pdf->Cell(100, 10, "$netWeight", 1, 1, 'C', 0);
+        $pdf->Cell(100, 10, "$netWeight Kg", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "Hazard", 1, 0);
         $pdf->Cell(25, 10, "$hazard", 1, 0, 'C', 0);
         $pdf->Cell(50, 10, "IMO Class", 1, 0);
-        $pdf->Cell(25, 10, "$imoClass", 1, 1, 'C', 0);
+        $pdf->Cell(25, 10, "$valueImoClass", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "Reefer", 1, 0);
         $pdf->Cell(25, 10, "$reefer", 1, 0, 'C', 0);
         $pdf->Cell(50, 10, "Temperatura", 1, 0);
-        $pdf->Cell(25, 10, utf8_decode("$temperature °"), 1, 0, 'C', 0);
+        $pdf->Cell(25, 10, utf8_decode("$numberTemperature °"), 1, 0, 'C', 0);
 
         $pdf->AddPage();
         $pdf->Cell(50, 10, "Costeo", 0, 1);
@@ -155,10 +179,10 @@ class ReportModel {
         $pdf->Cell(50, 10, "$valueExpectedFuel", 1, 0, 'C', 0);
         $pdf->Cell(50, 10, "", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "ETD", 1, 0);
-        $pdf->Cell(50, 10, "$valueExpectedEtd", 1, 0, 'C', 0);
+        $pdf->Cell(50, 10, "$formatValueExpectedEtd", 1, 0, 'C', 0);
         $pdf->Cell(50, 10, "", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "ETA", 1, 0);
-        $pdf->Cell(50, 10, "$valueExpectedEta", 1, 0, 'C', 0);
+        $pdf->Cell(50, 10, "$formatValueExpectedEta", 1, 0, 'C', 0);
         $pdf->Cell(50, 10, "", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "Viaticos", 1, 0);
         $pdf->Cell(50, 10, "$valueExpectedViaticos", 1, 0, 'C', 0);
@@ -179,7 +203,7 @@ class ReportModel {
         $pdf->Cell(50, 10, "$valueExpectedFeeCost", 1, 0, 'C', 0);
         $pdf->Cell(50, 10, "", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "Total", 1, 0);
-        $pdf->Cell(50, 10, "", 1, 0, 'C', 0);
+        $pdf->Cell(50, 10, "$totalExpected", 1, 0, 'C', 0);
         $pdf->Cell(50, 10, "", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "", 0, 1);
 
@@ -282,7 +306,7 @@ class ReportModel {
         $pdf->Cell(50, 10, "Tipo", 1, 0);
         $pdf->Cell(100, 10, "$nameLoad", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "Peso Neto", 1, 0);
-        $pdf->Cell(100, 10, "$netWeight", 1, 1, 'C', 0);
+        $pdf->Cell(100, 10, "$netWeight Kg", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "Reefer", 1, 0);
         $pdf->Cell(25, 10, "$reefer", 1, 0, 'C', 0);
         $pdf->Cell(50, 10, "Temperatura", 1, 0);
@@ -481,6 +505,24 @@ class ReportModel {
     public function getNameLoad($idTypeLoad)
     {
         $sql = "SELECT nombre as result FROM tipo_carga WHERE id_tipo_carga = '$idTypeLoad'";
+        return $this->database->fetch_assoc($sql);
+    }
+
+    public function getHazardLoad($idTravel)
+    {
+        $sql = "SELECT peligrosa as result FROM carga WHERE id_viaje = '$idTravel'";
+        return $this->database->fetch_assoc($sql);
+    }
+
+    public function getImoClassLoad($imoClass)
+    {
+        $sql = "SELECT descripcion as result FROM tipo_peligro WHERE id_tipo_peligro = '$imoClass'";
+        return $this->database->fetch_assoc($sql);
+    }
+
+    public function getReeferLoad($idTravel)
+    {
+        $sql = "SELECT refrigerada as result FROM carga WHERE id_viaje = '$idTravel'";
         return $this->database->fetch_assoc($sql);
     }
 

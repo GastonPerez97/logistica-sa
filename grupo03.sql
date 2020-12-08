@@ -778,7 +778,7 @@ INSERT INTO vehiculo (id_vehiculo, numero_motor, kilometraje, id_tipo_vehiculo)
 							
 -- TIPO CARGA --
 INSERT INTO `grupo03`.`tipo_carga` (`nombre`, `descripcion`) 
-	 VALUES ('Ganel', 'Ganel'),
+	 VALUES ('Granel', 'Granel'),
 			('Liquida', 'Liquida'),
 			('20\'\'', '20 Toneladas'),
             ('40\'\'', '40 Toneladas'),
