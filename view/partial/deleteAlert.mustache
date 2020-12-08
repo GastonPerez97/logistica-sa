@@ -3,31 +3,6 @@
 <script src="/pw2-grupo03/public/js/sweetalert2.all.min.js"></script>
 
 <script>
-    $('.delete-btn-user').on('click', function(e) {
-        e.preventDefault();
-        const href = $(this).attr('href');
-
-        var parts = href.split("="),
-            userId = parts[parts.length - 1];
-
-        Swal.fire({
-            title: 'Eliminar Usuario',
-            text: "¿Estás seguro de querer eliminar este usuario con ID " + userId + "?",
-            icon: 'warning',
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Eliminar Usuario'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.location.href = href;
-            }
-        })
-    });
-</script>
-
-<script>
     $('.delete-btn-service').on('click', function(e) {
         e.preventDefault();
         const href = $(this).attr('href');
@@ -44,56 +19,6 @@
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
             confirmButtonText: 'Eliminar Service'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.location.href = href;
-            }
-        })
-    });
-</script>
-
-<script>
-    $('.delete-btn-travel').on('click', function(e) {
-        e.preventDefault();
-        const href = $(this).attr('href');
-
-        var parts = href.split("="),
-                travelId = parts[parts.length - 1];
-
-        Swal.fire({
-            title: 'Eliminar Viaje',
-            text: "¿Estás seguro de querer eliminar este viaje con ID " + travelId + "?",
-            icon: 'warning',
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Eliminar Viaje'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.location.href = href;
-            }
-        })
-    });
-</script>
-
-<script>
-    $('.delete-btn-client').on('click', function(e) {
-        e.preventDefault();
-        const href = $(this).attr('href');
-
-        var parts = href.split("="),
-                travelId = parts[parts.length - 1];
-
-        Swal.fire({
-            title: 'Eliminar Cliente',
-            text: "¿Estás seguro de querer eliminar este cliente con ID " + travelId + "?",
-            icon: 'warning',
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Eliminar Cliente'
         }).then((result) => {
             if (result.isConfirmed) {
                 document.location.href = href;
