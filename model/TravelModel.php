@@ -56,6 +56,12 @@ class TravelModel {
         $this->database->execute($sql);
     }
 
+    public function getRealFuelOf($travelId) {
+        $sql = "SELECT consumo_combustible_real FROM viaje WHERE id_viaje = '$travelId'";
+        $result = $this->database->fetch_assoc($sql);
+        return $result["consumo_combustible_real"];
+    }
+
     public function changeRealFuel($travelId, $newRealFuel)
     {
         $sql = "UPDATE viaje SET consumo_combustible_real = '$newRealFuel' WHERE  id_viaje = '$travelId'";
@@ -102,7 +108,6 @@ class TravelModel {
         $this->database->execute($sql);
     }
 
-
     public function changeArrivalDate($travelId, $newArrivalDate)
     {
         $sql = "UPDATE viaje SET fecha_llegada = '$newArrivalDate' WHERE  id_viaje = '$travelId'";
@@ -135,6 +140,9 @@ class TravelModel {
         $quantity = $detourData["quantity"];
         $amount = $detourData["amount"];
 
+        $currentFuel = $this->getRealFuelOf($travelId);
+        $totalFuel = $currentFuel + $amount;
+
         $sqlCargaCombustible = "INSERT INTO carga_combustible (lugar, cantidad, importe) VALUES ('$place', '$quantity', '$amount')";
         $this->database->execute($sqlCargaCombustible);
 
@@ -142,6 +150,8 @@ class TravelModel {
         $cargaCombustibleId = $lastId[0]["last_insert_id()"];
 
         $sqlViajeCargaCombustible = "INSERT INTO viaje_carga_combustible (id_viaje, id_carga_combustible) VALUES ('$travelId', '$cargaCombustibleId')";
+
+        $this->changeRealFuel($travelId, $totalFuel);
 
         $this->database->execute($sqlViajeCargaCombustible);
     }
@@ -160,8 +170,6 @@ class TravelModel {
 
         $this->database->execute($sqlViajePosicion);
     }
-
-
 
     public function convertDatetimeFromMySQLToHTMLOf($travelArray) {
         is_null($travelArray[0]["fecha_salida"]) ? $travelArray[0]["fecha_salida"] = ""

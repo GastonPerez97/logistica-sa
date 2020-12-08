@@ -324,7 +324,6 @@ class TravelController {
             $refuelData["place"] = $_POST["place"];
             $refuelData["quantity"] = $_POST["quantity"];
             $refuelData["amount"] = $_POST["amount"];
-
             $this->travelModel->reportRefuelOf($travelId, $refuelData);
 
             $_SESSION["refuelReportedOk"] = 1;
