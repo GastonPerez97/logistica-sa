@@ -143,7 +143,7 @@ class TravelController {
             }
 
 
-            header("location: /pw2-grupo03/travel/editTravel?id=$travelId");
+            header("location: /pw2-grupo03/travel");
             exit();
         } else {
             header("location: /pw2-grupo03");
