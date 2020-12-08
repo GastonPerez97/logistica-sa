@@ -17,10 +17,20 @@
             <input type="text" placeholder="Ingresa origen del viaje" name="origin" class="login-input" required>
             <label for="destination"><b>Destino:</b></label>
             <input type="text" placeholder="Ingresar destino del viaje" name="destination" class="login-input" required>
+            <label for="estimatedDepartureDate"><b>Fecha de salida estimada:</b></label>
+            <input type="date" placeholder="Ingresar fecha de salida estimada del viaje" name="estimatedDepartureDate" class="login-input" required>
             <label for="departureDate"><b>Fecha de salida:</b></label>
             <input type="date" placeholder="Ingresar fecha de salida del viaje" name="departureDate" class="login-input" required>
             <label for="estimatedArrivalDate"><b>Fecha de llegada estimada:</b></label>
             <input type="date" placeholder="Ingresar fecha de llegada estimada del viaje" name="estimatedArrivalDate" class="login-input" required>
+            <label for="driver-select"><b>Chofer <span style="color: red">*</span></b></label>
+            <select class="w3-select" name="idDriver" id="driver-select">
+                    {{# drivers }}
+                <option value="{{ id_chofer }}">
+                    {{ nombre }}, {{ apellido }} - Licencia: {{numero_licencia}}-{{tipo_licencia}}
+                </option>
+                {{/ drivers }}
+            </select>
             <button class="form-button w3-round w3-blue w3-margin-top" type="submit">Confirmar nuevo viaje</button>
         </div>
     </form>

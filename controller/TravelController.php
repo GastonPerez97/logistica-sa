@@ -6,13 +6,15 @@ class TravelController {
     private $travelModel;
     private $travelDriverModel;
     private $reportModel;
+    private $driverModel;
     private $render;
 
-    public function __construct($travelModel, $travelDriverModel, $reportModel, $render) {
+    public function __construct($travelModel, $travelDriverModel, $reportModel, $driverModel, $render) {
         $this->render = $render;
         $this->travelModel = $travelModel;
         $this->travelDriverModel = $travelDriverModel;
         $this->reportModel = $reportModel;
+        $this->driverModel = $driverModel;
     }
 
     public function execute() {
@@ -32,7 +34,8 @@ class TravelController {
 
     public function newTravel() {
         if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
-            echo $this->render->render("view/newTravelView.php");
+            $data["drivers"] = $this->driverModel->getAvailableDrivers();
+            echo $this->render->render("view/newTravelView.php", $data);
         } else {
             header("location: /pw2-grupo03");
             exit();
@@ -54,6 +57,8 @@ class TravelController {
                     "destination" => $_POST["destination"],
                     "departureDate" => $_POST["departureDate"],
                     "estimatedArrivalDate" => $_POST["estimatedArrivalDate"],
+                    "estimatedDepartureDate" => $_POST["estimatedDepartureDate"],
+                    "driverId" => $_POST["idDriver"]
                 );
 
                 $this->travelModel->saveTravel($newTravel);

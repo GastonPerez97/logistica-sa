@@ -17,7 +17,6 @@ class ReportModel {
     }
 
     public function saveNewProforma($newProforma) {
-        $idClient = $newProforma["idClient"];
         $idTravel = $newProforma["idTravel"];
         $expectedViaticos = $newProforma["expectedViaticos"];
         $expectedToll = $newProforma["expectedToll"];
@@ -27,8 +26,8 @@ class ReportModel {
         $expectedFeeCost = $newProforma["expectedFeeCost"];
         $actualDate = date("Y-m-d");
 
-        $sql = "INSERT INTO proforma (fecha_carga_proforma, id_cliente, id_viaje, viatico_estimado, peaje_y_pesaje_estimado, extras_estimado, hazard_estimado, reefer_estimado, fee_estimado)
-            VALUES ('$actualDate', '$idClient', '$idTravel', '$expectedViaticos','$expectedToll', '$expectedExtras', '$expectedHazardCost', '$expectedReeferCost', '$expectedFeeCost')";
+        $sql = "INSERT INTO proforma (fecha_carga_proforma, id_viaje, viatico_estimado, peaje_y_pesaje_estimado, extras_estimado, hazard_estimado, reefer_estimado, fee_estimado)
+            VALUES ('$actualDate', '$idTravel', '$expectedViaticos','$expectedToll', '$expectedExtras', '$expectedHazardCost', '$expectedReeferCost', '$expectedFeeCost')";
 
         $this->database->execute($sql);
     }
@@ -36,21 +35,6 @@ class ReportModel {
     public function generatePdfProformaOf($idProforma) {
         require('third-party/fpdf/fpdf.php');
         $actualDate = date("Y-m-d");
-        $clientName = $this->getClientName($idProforma);
-        $valueClientName = $clientName["result"];
-        $cuit = $this->getClientCuit($idProforma);
-        $valueCuit = $cuit["result"];
-        $address = $this->getClientAddress($idProforma);
-        $valueAddress = $address["result"];
-        $phone = $this->getClientPhone($idProforma);
-        $valuePhone = $phone["result"];
-        $email = $this->getClientEmail($idProforma);
-        $valueEmail = $email["result"];
-        $contact1 = $this->getClientContact1($idProforma);
-        $valueContact1 = $contact1["result"];
-        $contact2 = $this->getClientContact2($idProforma);
-        $valueContact2 = $contact2["result"];
-
         $idTravel = $_POST["idTravel"];
         $origin = $this->getTravelOrigin($idProforma);
         $valueOrigin = $origin["result"];
@@ -59,14 +43,48 @@ class ReportModel {
         $uploadDate = $this->getTravelUploadDate($idProforma);
         $valueUploadDate = $uploadDate["result"];
 
+
+        $clientName = $this->getClientName($idTravel);
+        $valueClientName = $clientName["result"];
+        $cuit = $this->getClientCuit($idTravel);
+        $valueCuit = $cuit["result"];
+        $address = $this->getClientAddress($idTravel);
+        $valueAddress = $address["result"];
+        $phone = $this->getClientPhone($idTravel);
+        $valuePhone = $phone["result"];
+        $email = $this->getClientEmail($idTravel);
+        $valueEmail = $email["result"];
+        $contact1 = $this->getClientContact1($idTravel);
+        $valueContact1 = $contact1["result"];
+        $contact2 = $this->getClientContact2($idTravel);
+        $valueContact2 = $contact2["result"];
+
+
         $idTypeLoad = $_POST["idTypeLoad"];
         $nameLoad = $this->getNameLoad($idTypeLoad);
         $valueNameLoad = $nameLoad["result"];
         $netWeight = $_POST["netWeight"];
-        $hazard = $_POST["hazard"];
+
+        $hazard = $this->getHazardLoad($idTravel);
+        $valueHazard = $hazard["result"];
+        if($valueHazard == 0){
+            $hazard = 'No';
+        } else{
+            $hazard = 'Si';
+        }
+
         $imoClass = $_POST["imoClass"];
-        $reefer = $_POST["reefer"];
-        $temperature = $_POST["temperature"];
+        $imoClass = $this->getImoClassLoad($imoClass);
+        $valueImoClass = $imoClass["result"];
+
+        $reefer = $this->getReeferLoad($idTravel);
+        $valueReefer = $reefer["result"];
+        if($valueReefer == 0){
+            $reefer = 'No';
+        } else{
+            $reefer = 'Si';
+        }
+        $numberTemperature = $_POST["numberTemperature"];
 
         $expectedKilometers = $this->getTravelExpectedKm($idProforma);
         $valueExpectedkm = $expectedKilometers["result"];
@@ -74,8 +92,10 @@ class ReportModel {
         $valueExpectedFuel = $expectedFuel["result"];
         $expectedEtd = $this->getTravelExpectedEtd($idProforma);
         $valueExpectedEtd = $expectedEtd["result"];
+        $formatValueExpectedEtd = date('Y-m-d H:i', strtotime($valueExpectedEtd));
         $expectedEta = $this->getTravelExpectedEta($idProforma);
         $valueExpectedEta = $expectedEta["result"];
+        $formatValueExpectedEta = date('Y-m-d H:i', strtotime($valueExpectedEta));
         $expectedViaticos = $this->getExpectedViaticos($idProforma);
         $valueExpectedViaticos = $expectedViaticos["result"];
         $expectedToll = $this->getExpectedToll($idProforma);
@@ -91,13 +111,16 @@ class ReportModel {
 
         $driver = $this->getDriverForTravel($idProforma);
         $valueDriver  = $driver["result"];
-        $qr = $this->QRModel->generateQROfReportOf($idTravel);
+
+        $totalExpected = ($valueExpectedViaticos + $valueExpectedToll + $valueExpectedExtras + $valueExpectedHazardCost + $valueExpectedReeferCost + $valueExpectedFeeCost);
+
+       // $qr = $this->QRModel->generateQROfReportOf($idTravel);
 
         $pdf = new FPDF();
         $pdf->AddPage();
         $pdf->AliasNbPages();
 
-        $pdf->Image($qr, 161, 0, 50, 0, "png");
+       // $pdf->Image($qr,161, 0, 50, 0, "png");
 
         $pdf->SetFont('Arial', '', 16);
         $pdf->Cell(150, 10, utf8_decode("N° $idProforma"), 1, 1, 'C', 0);
@@ -134,15 +157,15 @@ class ReportModel {
         $pdf->Cell(50, 10, "Tipo", 1, 0);
         $pdf->Cell(100, 10, "$valueNameLoad", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "Peso Neto", 1, 0);
-        $pdf->Cell(100, 10, "$netWeight", 1, 1, 'C', 0);
+        $pdf->Cell(100, 10, "$netWeight Kg", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "Hazard", 1, 0);
         $pdf->Cell(25, 10, "$hazard", 1, 0, 'C', 0);
         $pdf->Cell(50, 10, "IMO Class", 1, 0);
-        $pdf->Cell(25, 10, "$imoClass", 1, 1, 'C', 0);
+        $pdf->Cell(25, 10, "$valueImoClass", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "Reefer", 1, 0);
         $pdf->Cell(25, 10, "$reefer", 1, 0, 'C', 0);
         $pdf->Cell(50, 10, "Temperatura", 1, 0);
-        $pdf->Cell(25, 10, utf8_decode("$temperature °"), 1, 0, 'C', 0);
+        $pdf->Cell(25, 10, utf8_decode("$numberTemperature °"), 1, 0, 'C', 0);
 
         $pdf->AddPage();
         $pdf->Cell(50, 10, "Costeo", 0, 1);
@@ -156,10 +179,10 @@ class ReportModel {
         $pdf->Cell(50, 10, "$valueExpectedFuel", 1, 0, 'C', 0);
         $pdf->Cell(50, 10, "", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "ETD", 1, 0);
-        $pdf->Cell(50, 10, "$valueExpectedEtd", 1, 0, 'C', 0);
+        $pdf->Cell(50, 10, "$formatValueExpectedEtd", 1, 0, 'C', 0);
         $pdf->Cell(50, 10, "", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "ETA", 1, 0);
-        $pdf->Cell(50, 10, "$valueExpectedEta", 1, 0, 'C', 0);
+        $pdf->Cell(50, 10, "$formatValueExpectedEta", 1, 0, 'C', 0);
         $pdf->Cell(50, 10, "", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "Viaticos", 1, 0);
         $pdf->Cell(50, 10, "$valueExpectedViaticos", 1, 0, 'C', 0);
@@ -180,7 +203,7 @@ class ReportModel {
         $pdf->Cell(50, 10, "$valueExpectedFeeCost", 1, 0, 'C', 0);
         $pdf->Cell(50, 10, "", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "Total", 1, 0);
-        $pdf->Cell(50, 10, "", 1, 0, 'C', 0);
+        $pdf->Cell(50, 10, "$totalExpected", 1, 0, 'C', 0);
         $pdf->Cell(50, 10, "", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "", 0, 1);
 
@@ -240,13 +263,13 @@ class ReportModel {
         $driver = $proforma["id_chofer"];
         $driverLicenceNumber = $proforma["numero_licencia"];
 
-        $qr = $this->QRModel->generateQROfReportOf($idTravel);
+    //    $qr = $this->QRModel->generateQROfReportOf($idTravel);
 
         $pdf = new FPDF();
         $pdf->AddPage();
         $pdf->AliasNbPages();
 
-        $pdf->Image($qr, 161, 0, 50, 0, "png");
+      //  $pdf->Image($qr,161, 0, 50, 0, "png");
 
         $pdf->SetFont('Arial', '', 16);
         $pdf->Cell(150, 10, utf8_decode("N° $idProforma"), 1, 1, 'C', 0);
@@ -283,7 +306,7 @@ class ReportModel {
         $pdf->Cell(50, 10, "Tipo", 1, 0);
         $pdf->Cell(100, 10, "$nameLoad", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "Peso Neto", 1, 0);
-        $pdf->Cell(100, 10, "$netWeight", 1, 1, 'C', 0);
+        $pdf->Cell(100, 10, "$netWeight Kg", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "Reefer", 1, 0);
         $pdf->Cell(25, 10, "$reefer", 1, 0, 'C', 0);
         $pdf->Cell(50, 10, "Temperatura", 1, 0);
@@ -374,38 +397,38 @@ class ReportModel {
         return $this->database->fetch_assoc($sql);
     }
 
-    public function getClientName($idProforma){
-        $sql = "SELECT denominacion as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM proforma WHERE id_proforma = '$idProforma')";
+    public function getClientName($idTravel){
+        $sql = "SELECT denominacion as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM viaje WHERE id_viaje = '$idTravel')";
         return $this->database->fetch_assoc($sql);
     }
 
-    public function getClientCuit($idProforma){
-        $sql = "SELECT cuit as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM proforma WHERE id_proforma = '$idProforma')";
+    public function getClientCuit($idTravel){
+        $sql = "SELECT cuit as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM viaje WHERE id_viaje = '$idTravel')";
         return $this->database->fetch_assoc($sql);
     }
 
-    public function getClientAddress($idProforma){
-        $sql = "SELECT direccion as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM proforma WHERE id_proforma = '$idProforma')";
+    public function getClientAddress($idTravel){
+        $sql = "SELECT direccion as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM viaje WHERE id_viaje = '$idTravel')";
         return $this->database->fetch_assoc($sql);
     }
 
-    public function getClientPhone($idProforma){
-        $sql = "SELECT telefono as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM proforma WHERE id_proforma = '$idProforma')";
+    public function getClientPhone($idTravel){
+        $sql = "SELECT telefono as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM viaje WHERE id_viaje = '$idTravel')";
         return $this->database->fetch_assoc($sql);
     }
 
-    public function getClientEmail($idProforma){
-        $sql = "SELECT email as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM proforma WHERE id_proforma = '$idProforma')";
+    public function getClientEmail($idTravel){
+        $sql = "SELECT email as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM viaje WHERE id_viaje = '$idTravel')";
         return $this->database->fetch_assoc($sql);
     }
 
-    public function getClientContact1($idProforma){
-        $sql = "SELECT contacto1 as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM proforma WHERE id_proforma = '$idProforma')";
+    public function getClientContact1($idTravel){
+        $sql = "SELECT contacto1 as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM viaje WHERE id_viaje = '$idTravel')";
         return $this->database->fetch_assoc($sql);
     }
 
-    public function getClientContact2($idProforma){
-        $sql = "SELECT contacto2 as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM proforma WHERE id_proforma = '$idProforma')";
+    public function getClientContact2($idTravel){
+        $sql = "SELECT contacto2 as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM viaje WHERE id_viaje = '$idTravel')";
         return $this->database->fetch_assoc($sql);
     }
 
@@ -482,6 +505,24 @@ class ReportModel {
     public function getNameLoad($idTypeLoad)
     {
         $sql = "SELECT nombre as result FROM tipo_carga WHERE id_tipo_carga = '$idTypeLoad'";
+        return $this->database->fetch_assoc($sql);
+    }
+
+    public function getHazardLoad($idTravel)
+    {
+        $sql = "SELECT peligrosa as result FROM carga WHERE id_viaje = '$idTravel'";
+        return $this->database->fetch_assoc($sql);
+    }
+
+    public function getImoClassLoad($imoClass)
+    {
+        $sql = "SELECT descripcion as result FROM tipo_peligro WHERE id_tipo_peligro = '$imoClass'";
+        return $this->database->fetch_assoc($sql);
+    }
+
+    public function getReeferLoad($idTravel)
+    {
+        $sql = "SELECT refrigerada as result FROM carga WHERE id_viaje = '$idTravel'";
         return $this->database->fetch_assoc($sql);
     }
 

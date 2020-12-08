@@ -14,6 +14,7 @@ include_once("model/ReportModel.php");
 include_once("model/LoadModel.php");
 include_once("model/TravelDriverModel.php");
 include_once("model/QRModel.php");
+include_once("model/DriverModel.php");
 include_once("model/BillModel.php");
 
 include_once("controller/LoginController.php");
@@ -120,6 +121,10 @@ class Configuration {
         return new ReportModel($qrModel, $database);
     }
 
+    public function getDriverModel() {
+        $database = $this->getDatabase();
+        return new DriverModel($database);
+    }
 
     public function getLoginController() {
         $userModel = $this->getUserModel();
@@ -158,15 +163,21 @@ class Configuration {
         $userModel = $this->getUserModel();
         $roleModel = $this->getRoleModel();
         $userRoleModel = $this->getUserRoleModel();
-        return new UsuariosController($userModel, $roleModel, $userRoleModel, $this->getRender());
+        $driverModel = $this->getDriverModel();
+        return new UsuariosController($userModel, $roleModel, $userRoleModel, $driverModel, $this->getRender());
     }
 
     public function getTravelController() {
         $travelModel = $this->getTravelModel();
         $travelDriverModel = $this->getTravelDriverModel();
         $reportModel = $this->getReportModel();
+
        
         return new TravelController($travelModel, $travelDriverModel, $reportModel, $this->getRender());
+
+        $driverModel = $this->getDriverModel();
+        return new TravelController($travelModel, $travelDriverModel, $reportModel, $driverModel, $this->getRender());
+
     }
 
     public function getClientController() {

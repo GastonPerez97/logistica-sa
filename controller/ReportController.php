@@ -39,6 +39,7 @@ class ReportController {
             $data["clients"] = $this->reportModel->getClients();
             $data["travels"] = $this->travelModel->getTravels();
             $data["typeLoad"] = $this->loadModel->getTypeLoad();
+            $data["typeDanger"] = $this->loadModel->getTypeDangerOfLoad();
             echo $this->render->render("view/newProformaView.php", $data);
         } else {
             header("location: /pw2-grupo03");
@@ -50,7 +51,6 @@ class ReportController {
         if (isset($_SESSION["loggedIn"]) && $_SESSION["admin"] == 1) {
             if (!$this->reportModel->checkIfProformaAlreadyExistsOf($_POST["idTravel"])) {
                 $newProforma = array(
-                    "idClient" => $_POST["idClient"],
                     "idTravel" => $_POST["idTravel"],
                     "expectedViaticos" => $_POST["expectedViaticos"],
                     "expectedToll" => $_POST["expectedToll"],
@@ -67,8 +67,9 @@ class ReportController {
                     "idTypeLoad" => $_POST["idTypeLoad"],
                     "netWeight" => $_POST["netWeight"],
                     "hazard" => $_POST["hazard"],
+                    "imoClass" => $_POST["imoClass"],
                     "reefer" => $_POST["reefer"],
-                    "temperature" => $_POST["temperature"],
+                    "numberTemperature" => $_POST["numberTemperature"],
                 );
 
                 $this->loadModel->saveNewLoad($newLoad);
