@@ -197,22 +197,6 @@ class TravelController {
             header("location: /pw2-grupo03");
             exit();
         }
-        }
-
-    public function deleteTravel() {
-        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
-            $travelId = $_GET["id"];
-
-            $this->travelModel->deleteTravelById($travelId);
-
-            $_SESSION["travelDeletedOk"] = 1;
-
-            header("location: /pw2-grupo03/travel");
-            exit();
-        } else {
-            header("location: /pw2-grupo03");
-            exit();
-        }
     }
 
     public function viewProforma() {

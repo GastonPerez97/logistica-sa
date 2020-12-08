@@ -45,7 +45,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="/pw2-grupo03/client/deleteClient?id={{id_cliente}}" class="w3-button w3-red w3-tiny w3-round w3-margin-bottom delete-btn-client">Eliminar</a>
                             <a href="/pw2-grupo03/client/editClient?id={{id_cliente}}" class="w3-button w3-blue w3-tiny w3-round w3-margin-bottom">Editar</a>
                         </div>
                     </div>

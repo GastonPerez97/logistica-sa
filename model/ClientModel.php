@@ -69,11 +69,6 @@ class ClientModel {
         $this->database->execute($sql);
     }
 
-    public function deleteClientById($clientId) {
-        $sql = "DELETE FROM cliente WHERE id_cliente = '$clientId'";
-        $this->database->execute($sql);
-    }
-
     public function checkIfAlreadyExists($client) {
         $email = $client["email"];
         $cuit = $client["cuit"];

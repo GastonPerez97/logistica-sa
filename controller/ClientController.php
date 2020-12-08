@@ -127,21 +127,5 @@ class ClientController {
             exit();
         }
     }
-
-    public function deleteClient() {
-        if (isset($_SESSION["loggedIn"]) && $_SESSION["supervisor"] == 1) {
-            $clientId = $_GET["id"];
-
-            $this->clientModel->deleteClientById($clientId);
-
-            $_SESSION["clientDeletedOk"] = 1;
-
-            header("location: /pw2-grupo03/client");
-            exit();
-        } else {
-            header("location: /pw2-grupo03");
-            exit();
-        }
-    }
     
 }

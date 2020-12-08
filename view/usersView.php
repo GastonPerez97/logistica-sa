@@ -19,7 +19,6 @@
                             <h3>{{apellido}}, {{nombre}}</h3>
                             <h4 class="w3-margin-bottom">{{email}}</h4>
 
-                            <a href="/pw2-grupo03/usuarios/deleteUser?id={{id_usuario}}" class="w3-button w3-red w3-tiny w3-round w3-margin-bottom delete-btn-user">Eliminar</a>
                             <a href="/pw2-grupo03/usuarios/editarUsuario?id={{id_usuario}}" class="w3-button w3-blue w3-tiny w3-round w3-margin-bottom">Editar</a>
                             <a href="/pw2-grupo03/usuarios/verUsuario?id={{id_usuario}}" class="w3-button w3-green w3-tiny w3-round w3-margin-bottom">Ver Usuario</a>
                         </div>

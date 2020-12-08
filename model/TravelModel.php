@@ -116,12 +116,6 @@ class TravelModel {
         $this->database->execute($sql);
     }
 
-    public function deleteTravelById($travelId)
-    {
-        $sql = "DELETE FROM viaje WHERE id_viaje = '$travelId'";
-        $this->database->execute($sql);
-    }
-
     public function reportDetourOf($travelId, $detourData) {
         $time = $detourData["time"];
         $reason = $detourData["reason"];
