@@ -72,4 +72,10 @@ class DriverModel {
         return $this->database->query($sql);
     }
 
+    public function getDriverIdOf($userId) {
+        $sql = "SELECT id_chofer FROM chofer WHERE id_usuario = '$userId'";
+        $result = $this->database->query($sql);
+        return $result[0]["id_chofer"];
+    }
+
 }

@@ -9,19 +9,21 @@ class BillModel {
     }
 
     public function getBills() {
-        $sql = "SELECT * FROM factura F JOIN cliente C ON F.id_cliente = C.id_cliente
+        $sql = "SELECT * FROM factura F JOIN viaje V ON F.id_viaje = V.id_viaje
+                                        JOIN cliente C ON V.id_cliente = C.id_cliente
                                         JOIN proforma P ON F.id_viaje = P.id_viaje";
         return $this->database->query($sql);
     }
 
     public function getBillBy($travelId) {
         $sql = "SELECT F.id_factura, F.numero_factura, F.fecha_facturacion,
-                       F.fecha_pago, F.id_cliente, F.id_viaje,
+                       F.fecha_pago, C.id_cliente, F.id_viaje,
                        P.viatico_real, P.peaje_y_pesaje_real, P.extras_real,
                        P.hazard_real, P.reefer_real, P.fee_real,
                        C.cuit, C.telefono, C.direccion, C.denominacion
-                FROM factura F JOIN cliente C ON F.id_cliente = C.id_cliente
-                       JOIN proforma P ON F.id_viaje = P.id_viaje
+                FROM factura F JOIN viaje V ON F.id_viaje = V.id_viaje
+                               JOIN cliente C ON V.id_cliente = C.id_cliente
+                               JOIN proforma P ON F.id_viaje = P.id_viaje
                 WHERE F.id_viaje = '$travelId'";
 
         $result = $this->database->query($sql);
@@ -40,11 +42,10 @@ class BillModel {
     }
 
     public function createBillOf($billData) {
-        $clientId = $billData["clientId"];
         $travelId = $billData["travelId"];
         $billDate = $billData["billDate"];
 
-        $sql = "INSERT INTO factura (fecha_facturacion, id_cliente, id_viaje) VALUES ('$billDate', '$clientId', '$travelId')";
+        $sql = "INSERT INTO factura (fecha_facturacion, id_viaje) VALUES ('$billDate', '$travelId')";
         $this->database->execute($sql);
     }
 

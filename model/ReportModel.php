@@ -114,13 +114,13 @@ class ReportModel {
 
         $totalExpected = ($valueExpectedViaticos + $valueExpectedToll + $valueExpectedExtras + $valueExpectedHazardCost + $valueExpectedReeferCost + $valueExpectedFeeCost);
 
-       // $qr = $this->QRModel->generateQROfReportOf($idTravel);
+        $qr = $this->QRModel->generateQROfReportOf($idTravel);
 
         $pdf = new FPDF();
         $pdf->AddPage();
         $pdf->AliasNbPages();
 
-       // $pdf->Image($qr,161, 0, 50, 0, "png");
+        $pdf->Image($qr,161, 0, 50, 0, "png");
 
         $pdf->SetFont('Arial', '', 16);
         $pdf->Cell(150, 10, utf8_decode("N° $idProforma"), 1, 1, 'C', 0);
@@ -263,13 +263,27 @@ class ReportModel {
         $driver = $proforma["id_chofer"];
         $driverLicenceNumber = $proforma["numero_licencia"];
 
-    //    $qr = $this->QRModel->generateQROfReportOf($idTravel);
+        $totalExpected = $expectedViaticos
+                       + $expectedToll
+                       + $expectedExtras
+                       + $expectedHazardCost
+                       + $expectedReeferCost
+                       + $expectedFeeCost;
+
+        $totalReal = $realViaticos
+                    + $realToll
+                    + $realExtras
+                    + $realHazardCost
+                    + $realReeferCost
+                    + $realFeeCost;
+
+        $qr = $this->QRModel->generateQROfReportOf($idTravel);
 
         $pdf = new FPDF();
         $pdf->AddPage();
         $pdf->AliasNbPages();
 
-      //  $pdf->Image($qr,161, 0, 50, 0, "png");
+        $pdf->Image($qr,161, 0, 50, 0, "png");
 
         $pdf->SetFont('Arial', '', 16);
         $pdf->Cell(150, 10, utf8_decode("N° $idProforma"), 1, 1, 'C', 0);
@@ -348,8 +362,8 @@ class ReportModel {
         $pdf->Cell(50, 10, "$expectedFeeCost", 1, 0, 'C', 0);
         $pdf->Cell(50, 10, "$realFeeCost", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "Total", 1, 0);
-        $pdf->Cell(50, 10, "", 1, 0, 'C', 0);
-        $pdf->Cell(50, 10, "", 1, 1, 'C', 0);
+        $pdf->Cell(50, 10, "$" . "$totalExpected", 1, 0, 'C', 0);
+        $pdf->Cell(50, 10, "$" . "$totalReal", 1, 1, 'C', 0);
         $pdf->Cell(50, 10, "", 0, 1);
 
         $pdf->Cell(50, 10, "Personal", 0, 1);
@@ -362,10 +376,10 @@ class ReportModel {
     }
 
     public function getProformaBy($proformaId) {
-        $sql = "SELECT * FROM proforma P JOIN cliente C ON P.id_cliente = C.id_cliente
-						 JOIN viaje V ON P.id_viaje = V.id_viaje
+        $sql = "SELECT * FROM proforma P JOIN viaje V ON P.id_viaje = V.id_viaje
                          JOIN viaje_chofer VC ON v.id_viaje = VC.id_viaje
                          JOIN chofer CHOFER ON VC.id_chofer = CHOFER.id_chofer
+                         JOIN cliente C ON V.id_cliente = C.id_cliente
                          JOIN carga CARGA ON V.id_viaje = CARGA.id_viaje
                          JOIN tipo_carga TC ON CARGA.id_tipo_carga = TC.id_tipo_carga
                 WHERE id_proforma = '$proformaId'";

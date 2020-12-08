@@ -76,8 +76,6 @@ class UsuariosController {
             $userId = $_POST["userId"];
             $user = $this->userModel->getUserById($userId);
 
-            //die(var_dump($user[0]["email"]));
-
             if (!empty($_POST["roles"])) {
                 $roles = $_POST["roles"];
                 $this->userModel->assignRolesToUser($userId, $roles);

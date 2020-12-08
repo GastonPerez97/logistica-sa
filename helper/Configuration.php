@@ -129,7 +129,8 @@ class Configuration {
     public function getLoginController() {
         $userModel = $this->getUserModel();
         $userRoleModel = $this->getUserRoleModel();
-        return new LoginController($userModel, $userRoleModel, $this->getRender());
+        $driverModel = $this->getDriverModel();
+        return new LoginController($userModel, $userRoleModel, $driverModel, $this->getRender());
     }
 
     public function getLogoutController() {
@@ -171,12 +172,9 @@ class Configuration {
         $travelModel = $this->getTravelModel();
         $travelDriverModel = $this->getTravelDriverModel();
         $reportModel = $this->getReportModel();
-
-       
-        return new TravelController($travelModel, $travelDriverModel, $reportModel, $this->getRender());
-
+        $clientModel = $this->getClientModel();
         $driverModel = $this->getDriverModel();
-        return new TravelController($travelModel, $travelDriverModel, $reportModel, $driverModel, $this->getRender());
+        return new TravelController($travelModel, $travelDriverModel, $reportModel, $driverModel, $clientModel, $this->getRender());
 
     }
 

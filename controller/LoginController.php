@@ -4,12 +4,14 @@ class LoginController {
 
     private $userModel;
     private $userRoleModel;
+    private $driverModel;
     private $render;
 
-    public function __construct($userModel, $userRoleModel, $render) {
+    public function __construct($userModel, $userRoleModel, $driverModel, $render) {
         $this->render = $render;
         $this->userModel = $userModel;
         $this->userRoleModel = $userRoleModel;
+        $this->driverModel = $driverModel;
     }
 
     public function execute() {
@@ -54,6 +56,10 @@ class LoginController {
             $_SESSION['supervisor'] = $this->userRoleModel->isSupervisor($userId);
             $_SESSION['encargado'] = $this->userRoleModel->isEncargado($userId);
             $_SESSION['chofer'] = $this->userRoleModel->isChofer($userId);
+
+            if ($_SESSION['chofer'] == 1) {
+                $_SESSION['driverId'] = $this->driverModel->getDriverIdOf($userId);
+            }
 
             header("location: /pw2-grupo03/home");
             exit();

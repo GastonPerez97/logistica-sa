@@ -14,14 +14,9 @@
             <label for="expectedFuel"><b>Consumo de combustible previsto:</b></label>
             <input type="number" placeholder="Ingresar consumo de combustible previsto" name="expectedFuel" value="{{consumo_combustible_previsto}}" class="login-input" required>
 
-            <label for="realFuel"><b>Consumo de combustible real:</b></label>
-            <input type="number" placeholder="Ingresar consumo de combustible real" name="realFuel" value="{{consumo_combustible_real}}" class="login-input" required>
-
             <label for="expectedKilometers"><b>Kilometros previstos:</b></label>
             <input type="number" placeholder="Ingresar kilometros previstos" name="expectedKilometers" value="{{kilometros_previstos}}" class="login-input" required>
 
-            <label for="realKilometers"><b>Kilometros reales:</b></label>
-            <input type="number" placeholder="Ingresar kilometros reales" name="realKilometers" value="{{kilometros_reales}}" class="login-input" required>
 
             <label for="origin"><b>Origen:</b></label>
             <input type="text" placeholder="Ingresa origen del viaje" name="origin" value="{{origen}}" class="login-input" required>
@@ -29,14 +24,13 @@
             <label for="destination"><b>Destino:</b></label>
             <input type="text" placeholder="Ingresar destino del viaje" name="destination" value="{{destino}}" class="login-input" required>
 
-            <label for="departureDate"><b>Fecha de salida:</b></label>
-            <input type="datetime-local" placeholder="Ingresar fecha de salida del viaje" name="departureDate" value="{{fecha_salida}}" class="login-input" required>
+            <label for="estimatedDepartureDate"><b>Fecha de salida estimada:</b></label>
+            <input type="datetime-local" placeholder="Ingresar fecha de salida estimada del viaje" name="estimatedDepartureDate"
+                   value="{{fecha_salida_estimada}}" class="login-input" required>
 
             <label for="estimatedArrivalDate"><b>Fecha de llegada estimada:</b></label>
             <input type="datetime-local" placeholder="Ingresar fecha de llegada estimada del viaje" name="estimatedArrivalDate" value="{{fecha_llegada_estimada}}" class="login-input" required>
 
-            <label for="arrivalDate"><b>Fecha de llegada:</b></label>
-            <input type="datetime-local" placeholder="Ingresar fecha de llegada" name="arrivalDate" value="{{fecha_llegada}}" class="login-input">
 
             <button class="form-button w3-round w3-blue w3-margin-top" type="submit">Modificar</button>
         </div>
