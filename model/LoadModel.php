@@ -16,17 +16,35 @@ class LoadModel
         return $this->database->query($sql);
     }
 
+    public function getTypeDangerOfLoad()
+    {
+        $sql = "SELECT * FROM tipo_peligro";
+        return $this->database->query($sql);
+    }
+
     public function saveNewLoad($newLoad)
     {
-        $idTravel = $_POST["idTravel"];
-        $idTypeLoad = $_POST["idTypeLoad"];
-        $netWeight = $_POST["netWeight"];
-        $hazard = $_POST["hazard"];
-        $reefer = $_POST["reefer"];
-        $temperature = $_POST["temperature"];
+        $idTravel = $newLoad["idTravel"];
+        $idTypeLoad = $newLoad["idTypeLoad"];
+        $netWeight = $newLoad["netWeight"];
+        $hazard = $newLoad["hazard"];
+        $imoClass = $newLoad["imoClass"];
+        $reefer = $newLoad["reefer"];
+        $numberTemperature = $newLoad["numberTemperature"];
 
-        $sql = "INSERT INTO carga (peso, fragil, refrigerada, temperatura, id_tipo_carga, id_viaje)
-            VALUES ('$netWeight',  b'$hazard',  b'$reefer', '$temperature','$idTypeLoad', '$idTravel')";
+        if ($hazard!=1){
+            $hazard = 0;
+        }
+        if ($reefer!=1){
+            $reefer = 0;
+        }
+        if($reefer == 0){
+            $numberTemperature = 0;
+        }
+
+
+        $sql = "INSERT INTO carga (peso, peligrosa, id_tipo_peligro, refrigerada, temperatura, id_tipo_carga, id_viaje)
+            VALUES ('$netWeight',  b'$hazard', '$imoClass' , b'$reefer', '$numberTemperature','$idTypeLoad', '$idTravel')";
 
         $this->database->execute($sql);
     }

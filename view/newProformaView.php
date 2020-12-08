@@ -26,38 +26,29 @@
             <label for="netWeight"><b>Peso Neto <span style="color: red">*</span></b></label>
             <input type="number" placeholder="Ingresar peso neto de carga" name="netWeight" class="login-input" required>
 
-            <label for="hazard"><b>Hazard</b></label>
-            <select name="hazard" class="login-input">
-                <option value="0" selected>NO</option>
-                <option value="1">SI</option>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="1" name="hazard" id="hazard" onchange="javascript:showContentHazard()">
+                <label class="form-check-label" for="hazard">
+                    <b>Carga Peligrosa </b>
+                </label>
+            </div>
+
+            <br>
+            <label for="imoClass" style="display: none;"><b>IMO Class - IMO SubClass</b></label>
+            <select name="imoClass" id="imoClass" class="login-input" style="display: none;">
+                {{#typeDanger}}
+                <option value="{{id_tipo_peligro}}">{{descripcion}}</option>
+                {{/typeDanger}}
             </select>
 
-            <label for="imoClass"><b>IMO Class</b></label>
-            <select name="imoClass" class="login-input">
-                <option selected="true" disabled="disabled">---</option>
-                <option value="class1">Class 1</option>
-                <option value="class2">Class 2</option>
-                <option value="class3">Class 3</option>
-                <option value="class41">Class 4.1</option>
-                <option value="class42">Class 4.2</option>
-                <option value="class43">Class 4.3</option>
-                <option value="class51">Class 5.1</option>
-                <option value="class52">Class 5.2</option>
-                <option value="class61">Class 6.1</option>
-                <option value="class62">Class 6.2</option>
-                <option value="class7">Class 7</option>
-                <option value="class8">Class 8</option>
-                <option value="class9">Class 9</option>
-            </select>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="1" name="reefer" id="reefer" onchange="javascript:showContentReefer()">
+                <label class="form-check-label" for="reefer">
+                    <b>Carga Refrigerada</b>
+                </label>
+            </div>
 
-            <label for="reefer"><b>Reefer</b></label>
-            <select name="reefer" class="login-input">
-                <option value="0" selected>NO</option>
-                <option value="1">SI</option>
-            </select>
-
-            <label for="temperature"><b>Temperatura</b></label>
-            <input type="number" placeholder="Ingresar temperatura de carga" name="temperature" class="login-input">
+            <input type="number" placeholder="Ingresar temperatura de carga" name="numberTemperature" id="numberTemperature" class="login-input" style="display: none;">
             <hr>
 
             <label for="" style="font-size: x-large"><b>Costos</b></label>
@@ -81,8 +72,6 @@
             <input type="number" placeholder="Ingresar gastos estimados" name="expectedFeeCost" class="login-input" required>
             <hr>
 
-            <br><br>
-
             <button class="form-button w3-round w3-green w3-margin-top" type="submit">Generar</button>
             <div class="w3-margin-bottom">
                 <a href="/pw2-grupo03/report" class="w3-button w3-blue w3-medium w3-block w3-round text-decoration-none">Volver</a>
@@ -90,5 +79,7 @@
         </div>
     </form>
 </div>
+
+
 {{> footerSidebarFixed}}
 

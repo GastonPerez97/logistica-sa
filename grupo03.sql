@@ -264,6 +264,15 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`tipo_carga` (
   PRIMARY KEY (`id_tipo_carga`))
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `grupo03`.`tipo_peligro`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `grupo03`.`tipo_peligro` (
+  `id_tipo_peligro` INT NOT NULL AUTO_INCREMENT,
+  `descripcion` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id_tipo_peligro`))
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `grupo03`.`carga`
@@ -271,7 +280,8 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `grupo03`.`carga` (
   `id_carga` INT NOT NULL AUTO_INCREMENT,
   `peso` DECIMAL(10,2) ZEROFILL NOT NULL,
-  `fragil` BIT NOT NULL,
+  `peligrosa` BIT NOT NULL,
+  `id_tipo_peligro` INT NULL,
   `refrigerada` BIT NOT NULL,
   `temperatura` INT NULL,
   `id_tipo_carga` INT NOT NULL,
@@ -279,9 +289,15 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`carga` (
   PRIMARY KEY (`id_carga`),
   INDEX `id_tipo_carga_INDEX` (`id_tipo_carga` ASC),
   INDEX `id_viaje_INDEX` (`id_viaje` ASC),
+  INDEX `id_tipo_peligro_INDEX` (`id_viaje` ASC),
   CONSTRAINT `viaje_carga_FK`
     FOREIGN KEY (`id_viaje`)
     REFERENCES `grupo03`.`viaje` (`id_viaje`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `tipo_peligro_FK`
+    FOREIGN KEY (`id_tipo_peligro`)
+    REFERENCES `grupo03`.`tipo_peligro` (`id_tipo_peligro`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `tipo_carga_FK`
@@ -769,13 +785,27 @@ INSERT INTO `grupo03`.`tipo_carga` (`nombre`, `descripcion`)
 			('Jaula', 'jaula'),
 			('CarCarrier', 'CarCarrier');
 
--- ROL --	
-INSERT INTO `grupo03`.`rol` (`nombre`, `descripcion`)
-	 VALUES ('Administrador','AdminDescrip'),
-			('Supervisor','SupervisorDescrip'),
-			('Encargado de Taller','EncargadoTallerDescrip'),
-			('Chofer','ChoferDescrip'),
-			('Mecanico','MecanicoDescrip');
+-- TIPO PELIGRO --		
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1 - Subclase 1');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1 - Subclase 2');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1 - Subclase 3');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1 - Subclase 4');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1 - Subclase 5');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1 - Subclase 6');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 2 - Subclase 1');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 2 - Subclase 2');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 2 - Subclase 3');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 3');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 4.1');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 4.2');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 4.3');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 5.1');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 5.2');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 6.1');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 6.2');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 7');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 8');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 9');
 
 
 
