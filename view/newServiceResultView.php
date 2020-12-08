@@ -1,7 +1,7 @@
 {{> headerExternal}}
 
 <div class="w3-center my-3em">
-    <h1>{{correctNewService}}</h1>
+    <h1>{{correctEditService}}</h1>
 </div>
 
 

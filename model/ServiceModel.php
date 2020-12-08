@@ -15,14 +15,13 @@ class ServiceModel
         $numberVehicle = $newService["numberVehicle"];
         $serviceDate = $newService["serviceDate"];
         $kilometers = $newService["kilometers"];
-        $internal = $newService["internal"];
+        $internal = intval($newService["internal"]);
         $mechanic = $newService["mechanic"];
         $description = $newService["description"];
         $cost = $newService["cost"];
 
-
         $sql = "INSERT INTO service (fecha_service, detalle, costo, kilometraje_actual_unidad, interno, id_usuario, id_unidad_de_transporte)
-            VALUES ('$serviceDate', '$description', '$cost', '$kilometers', b'$internal', '$mechanic', '$numberVehicle')";
+            VALUES ('$serviceDate', '$description', '$cost', '$kilometers', b'$internal', $mechanic, '$numberVehicle')";
 
         $this->database->execute($sql);
     }
