@@ -4,11 +4,16 @@
 class ServiceController {
 
     private $serviceModel;
+    private $transportUnitModel;
+    private $userModel;
     private $render;
 
-    public function __construct($serviceModel, $render) {
+
+    public function __construct($serviceModel, $transportUnitModel, $userModel, $render) {
         $this->render = $render;
         $this->serviceModel = $serviceModel;
+        $this->transportUnitModel = $transportUnitModel;
+        $this->userModel = $userModel;
     }
 
     public function execute() {
@@ -24,7 +29,9 @@ class ServiceController {
 
     public function newService() {
         if (isset($_SESSION["loggedIn"]) && $_SESSION["encargado"] == 1) {
-            echo $this->render->render("view/newServiceView.php");
+            $data["vehicles"] = $this->transportUnitModel->getListVehicles();
+            $data["mechanics"] = $this->userModel->getMechanics();
+            echo $this->render->render("view/newServiceView.php", $data);
         } else {
             header("location: /pw2-grupo03");
             exit();
@@ -35,15 +42,15 @@ class ServiceController {
     public function addNewService() {
         if (isset($_SESSION["loggedIn"]) && $_SESSION["encargado"] == 1) {
             $data = array();
+            if($_POST["internal"]!=1){
+                $internal = 0;
+            }
 
-    /*    if (!$this->validateNewService()) {
-            $data["errorValidate"] = "Ocurrió un error en la validación 
-                                        de los datos ingresados, intente nuevamente";
-        } else {  */
             $newService = array(
                 "numberVehicle" => $_POST["numberVehicle"],
                 "serviceDate" => $_POST["serviceDate"],
                 "kilometers" => $_POST["kilometers"],
+                "internal" => $internal,
                 "mechanic" => $_POST["mechanic"],
                 "description" => $_POST["description"],
                 "cost" => $_POST["cost"]
@@ -51,7 +58,6 @@ class ServiceController {
 
             $this->serviceModel->saveNewService($newService);
             $data["correctNewService"] = "Service Registrado Correctamente";
-   //   }
         echo $this->render->render("view/newServiceResultView.php", $data);
         } else {
             header("location: /pw2-grupo03");
@@ -59,19 +65,6 @@ class ServiceController {
         }
     }
 
- /*   public function validateNewService()
-    {
-        $numberVehicle = $_POST["numberVehicle"];
-
-        $total = $this->serviceModel->existVehicle($numberVehicle);
-
-        if ($total == 1) {
-            return true;
-        } else {
-            return false;
-        }
-    }
- */
 
     public function editService() {
         if (isset($_SESSION["loggedIn"]) && $_SESSION["encargado"] == 1) {

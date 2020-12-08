@@ -15,13 +15,14 @@ class ServiceModel
         $numberVehicle = $newService["numberVehicle"];
         $serviceDate = $newService["serviceDate"];
         $kilometers = $newService["kilometers"];
+        $internal = $newService["internal"];
         $mechanic = $newService["mechanic"];
         $description = $newService["description"];
         $cost = $newService["cost"];
 
 
         $sql = "INSERT INTO service (fecha_service, detalle, costo, kilometraje_actual_unidad, interno, id_usuario, id_unidad_de_transporte)
-            VALUES ('$serviceDate', '$description', '$cost', '$kilometers', b'0', '$mechanic', '$numberVehicle')";
+            VALUES ('$serviceDate', '$description', '$cost', '$kilometers', b'$internal', '$mechanic', '$numberVehicle')";
 
         $this->database->execute($sql);
     }
@@ -37,17 +38,7 @@ class ServiceModel
         $sql = "SELECT * FROM service WHERE id_service = '$serviceId'";
         return $this->database->query($sql);
     }
-/*
-    public function existVehicle($numberVehicle)
-    {
-        $sql = "SELECT COUNT(*) as total
-                FROM vehiculo 
-                WHERE id_vehiculo = '$numberVehicle'";
-        $result = $this->database->query($sql);
-        $data = mysqli_fetch_assoc($result);
-        return $data['total'];
-    }
-*/
+
     public function updateServiceById($serviceId, $newServiceDate, $newKilometers, $newDescription, $newCost)
     {
         $sql = "UPDATE service 
