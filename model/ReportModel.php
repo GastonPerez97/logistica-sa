@@ -65,17 +65,20 @@ class ReportModel {
         $valueNameLoad = $nameLoad["result"];
         $netWeight = $_POST["netWeight"];
 
+        $imoClass = $_POST["imoClass"];
+        $imoClass = $this->getImoClassLoad($imoClass);
+        $valueImoClass = $imoClass["result"];
+
         $hazard = $this->getHazardLoad($idTravel);
         $valueHazard = $hazard["result"];
         if($valueHazard == 0){
             $hazard = 'No';
+            $valueImoClass = '-';
         } else{
             $hazard = 'Si';
         }
 
-        $imoClass = $_POST["imoClass"];
-        $imoClass = $this->getImoClassLoad($imoClass);
-        $valueImoClass = $imoClass["result"];
+
 
         $reefer = $this->getReeferLoad($idTravel);
         $valueReefer = $reefer["result"];
