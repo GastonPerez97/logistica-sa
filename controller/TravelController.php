@@ -362,8 +362,9 @@ class TravelController {
             empty($_POST['expectedKilometers']) ||
             empty($_POST['origin']) ||
             empty($_POST['destination']) ||
-            empty($_POST['departureDate']) ||
-            empty($_POST['estimatedArrivalDate'])) {
+            empty($_POST['estimatedDepartureDate']) ||
+            empty($_POST['estimatedArrivalDate'])||
+        empty($_POST["idClient"])) {
             return false;
         } else {
             return true;
