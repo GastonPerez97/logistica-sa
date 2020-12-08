@@ -6,7 +6,7 @@
 
 
 <div class="w3-center">
-    <a href="/pw2-grupo03/travel" class="form-button w3-round text-decoration-none">Volver a mis viajes</a>
+    <a href="/pw2-grupo03/travel" class="form-button w3-round text-decoration-none">Volver a Viajes</a>
 </div>
 
 {{> footer}}

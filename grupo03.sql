@@ -452,16 +452,9 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`factura` (
   `numero_factura` VARCHAR(45) NOT NULL,
   `fecha_facturacion` DATE NOT NULL,
   `fecha_pago` DATE NULL,
-  `id_cliente` INT NOT NULL,
   `id_viaje` INT NOT NULL,
   PRIMARY KEY (`id_factura`),
-  INDEX `id_cliente_INDEX` (`id_cliente` ASC),
   INDEX `id_viaje_INDEX` (`id_viaje` ASC),
-  CONSTRAINT `cliente_FK`
-    FOREIGN KEY (`id_cliente`)
-    REFERENCES `grupo03`.`cliente` (`id_cliente`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `viaje_factura_FK`
     FOREIGN KEY (`id_viaje`)
     REFERENCES `grupo03`.`viaje` (`id_viaje`)
@@ -807,7 +800,9 @@ INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 7');
 INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 8');
 INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 9');
 
-
+-- TIPO LICENCIA --	
+INSERT INTO `grupo03`.`tipo_licencia` (nombre, descripcion) VALUES ('C', 'Camiones sin acoplado ni semiacoplado');
+INSERT INTO `grupo03`.`tipo_licencia` (nombre, descripcion) VALUES ('E.1', 'Camiones articulados, con acoplado o semiacoplado');
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
