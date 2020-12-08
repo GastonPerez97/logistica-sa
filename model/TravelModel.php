@@ -3,10 +3,12 @@
 
 class TravelModel {
 
+    private $reportModel;
     private $database;
 
-    public function __construct($database) {
+    public function __construct($reportModel, $database) {
         $this->database = $database;
+        $this->reportModel = $reportModel;
     }
 
     public function saveTravel($travel) {
@@ -140,9 +142,6 @@ class TravelModel {
         $quantity = $detourData["quantity"];
         $amount = $detourData["amount"];
 
-        $currentFuel = $this->getRealFuelOf($travelId);
-        $totalFuel = $currentFuel + $quantity;
-
         $sqlCargaCombustible = "INSERT INTO carga_combustible (lugar, cantidad, importe) VALUES ('$place', '$quantity', '$amount')";
         $this->database->execute($sqlCargaCombustible);
 
@@ -150,10 +149,16 @@ class TravelModel {
         $cargaCombustibleId = $lastId[0]["last_insert_id()"];
 
         $sqlViajeCargaCombustible = "INSERT INTO viaje_carga_combustible (id_viaje, id_carga_combustible) VALUES ('$travelId', '$cargaCombustibleId')";
+        $this->database->execute($sqlViajeCargaCombustible);
 
+        $currentFuel = $this->getRealFuelOf($travelId);
+        $totalFuel = $currentFuel + $quantity;
         $this->changeRealFuel($travelId, $totalFuel);
 
-        $this->database->execute($sqlViajeCargaCombustible);
+        $proformaId = $this->reportModel->getIdProformaOf($travelId);
+        $currentViatico = $this->reportModel->getRealViaticos($proformaId);
+        $totalViatico = $currentViatico + $amount;
+        $this->reportModel->setRealViaticos($proformaId, $totalViatico);
     }
 
     public function reportPositionOf($travelId, $positionData) {

@@ -540,4 +540,15 @@ class ReportModel {
         return $this->database->fetch_assoc($sql);
     }
 
+    public function getRealViaticos($proformaId){
+        $sql = "SELECT viatico_real FROM proforma WHERE id_proforma = '$proformaId'";
+        $result = $this->database->fetch_assoc($sql);
+        return $result["viatico_real"];
+    }
+
+    public function setRealViaticos($proformaId, $newViaticos) {
+        $sql = "UPDATE proforma SET viatico_real = '$newViaticos' WHERE id_proforma = '$proformaId'";
+        $this->database->execute($sql);
+    }
+
 }
