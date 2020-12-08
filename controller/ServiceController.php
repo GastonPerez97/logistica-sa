@@ -42,10 +42,13 @@ class ServiceController {
     public function addNewService() {
         if (isset($_SESSION["loggedIn"]) && $_SESSION["encargado"] == 1) {
             $data = array();
-            if($_POST["internal"]!=1){
-                $internal = 0;
-            } else{
+
+            if (isset($_POST["internal"])) {
                 $internal = 1;
+                $mechanic = $_POST["mechanic"];
+            } else {
+                $internal = 0;
+                $mechanic = "NULL";
             }
 
             $newService = array(
@@ -53,7 +56,7 @@ class ServiceController {
                 "serviceDate" => $_POST["serviceDate"],
                 "kilometers" => $_POST["kilometers"],
                 "internal" => $internal,
-                "mechanic" => $_POST["mechanic"],
+                "mechanic" => $mechanic,
                 "description" => $_POST["description"],
                 "cost" => $_POST["cost"]
             );
@@ -96,7 +99,7 @@ class ServiceController {
 
             $this->serviceModel->updateServiceById($serviceId, $newKilometers, $newDescription, $newCost);
             $data["correctEditService"] = "Service Editado Correctamente";
-            echo $this->render->render("view/newServiceResultView.php", $data);
+            echo $this->render->render("view/editServiceResultView.php", $data);
         } else {
             header("location: /pw2-grupo03");
             exit();

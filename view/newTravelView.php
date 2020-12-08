@@ -22,13 +22,13 @@
             <label for="estimatedArrivalDate"><b>Fecha de llegada estimada:</b></label>
             <input type="datetime-local" placeholder="Ingresar fecha de llegada estimada del viaje" name="estimatedArrivalDate" class="login-input" required>
             <label for="idClient"><b>Seleccione el cliente:</b></label>
-            <select class="w3-select w3-margin-bottom" name="idClient">
+            <select class="w3-select w3-margin-bottom" name="idClient" required>
                 {{#clients}}
                     <option value="{{id_cliente}}">{{denominacion}}</option>
                 {{/clients}}
             </select>
             <label for="driver-select"><b>Chofer <span style="color: red">*</span></b></label>
-            <select class="w3-select" name="idDriver" id="driver-select">
+            <select class="w3-select" name="idDriver" id="driver-select" required>
                 {{# drivers }}
                     <option value="{{ id_chofer }}">
                         {{ nombre }}, {{ apellido }} - Licencia: {{numero_licencia}}-{{tipo_licencia}}

@@ -168,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`service` (
   `costo` DECIMAL(10,2) UNSIGNED NOT NULL,
   `kilometraje_actual_unidad` INT UNSIGNED NOT NULL,
   `interno` BIT NOT NULL,
-  `id_usuario` INT NOT NULL,
+  `id_usuario` INT NULL,
   `id_unidad_de_transporte` INT NOT NULL,
   PRIMARY KEY (`id_service`),
   INDEX `id_usuario_INDEX` (`id_usuario` ASC),
