@@ -7,12 +7,14 @@ class ReportController {
     private $travelModel;
     private $userModel;
     private $loadModel;
+    private $billModel;
 
-    public function __construct($reportModel, $travelModel, $userModel, $loadModel, $render) {
+    public function __construct($reportModel, $travelModel, $userModel, $loadModel, $billModel, $render) {
         $this->reportModel = $reportModel;
         $this->travelModel = $travelModel;
         $this->userModel = $userModel;
         $this->loadModel = $loadModel;
+        $this->billModel = $billModel;
         $this->render = $render;
     }
 
@@ -37,6 +39,7 @@ class ReportController {
             $data["clients"] = $this->reportModel->getClients();
             $data["travels"] = $this->travelModel->getTravels();
             $data["typeLoad"] = $this->loadModel->getTypeLoad();
+            $data["typeDanger"] = $this->loadModel->getTypeDangerOfLoad();
             echo $this->render->render("view/newProformaView.php", $data);
         } else {
             header("location: /pw2-grupo03");
@@ -48,7 +51,6 @@ class ReportController {
         if (isset($_SESSION["loggedIn"]) && $_SESSION["admin"] == 1) {
             if (!$this->reportModel->checkIfProformaAlreadyExistsOf($_POST["idTravel"])) {
                 $newProforma = array(
-                    "idClient" => $_POST["idClient"],
                     "idTravel" => $_POST["idTravel"],
                     "expectedViaticos" => $_POST["expectedViaticos"],
                     "expectedToll" => $_POST["expectedToll"],
@@ -64,12 +66,27 @@ class ReportController {
                     "idTravel" => $_POST["idTravel"],
                     "idTypeLoad" => $_POST["idTypeLoad"],
                     "netWeight" => $_POST["netWeight"],
-                    "hazard" => $_POST["hazard"],
-                    "reefer" => $_POST["reefer"],
-                    "temperature" => $_POST["temperature"],
+                    "imoClass" => $_POST["imoClass"],
                 );
 
+                isset($_POST["hazard"]) ?  $newLoad["hazard"] = $_POST["hazard"] : $newLoad["hazard"] = 0;
+
+                if (isset($_POST["reefer"]) && isset($_POST["numberTemperature"])) {
+                    $newLoad["reefer"] = $_POST["reefer"];
+                    $newLoad["numberTemperature"] = $_POST["numberTemperature"];
+                } else {
+                    $newLoad["reefer"] = 0;
+                    $newLoad["numberTemperature"] = 0;
+                }
+
                 $this->loadModel->saveNewLoad($newLoad);
+
+                $billData = array(
+                    "travelId" => $_POST["idTravel"],
+                    "billDate" => date("Y-m-d"),
+                );
+
+                $this->billModel->createBillOf($billData);
 
                 $idProforma = $this->reportModel->getIdProformaOf($_POST["idTravel"]);
                 $this->reportModel->generatePdfProformaOf($idProforma);

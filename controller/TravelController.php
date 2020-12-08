@@ -7,14 +7,16 @@ class TravelController {
     private $travelDriverModel;
     private $clientModel;
     private $reportModel;
+    private $driverModel;
     private $render;
 
-    public function __construct($travelModel, $travelDriverModel, $clientModel, $reportModel, $render) {
+    public function __construct($travelModel, $travelDriverModel, $reportModel, $driverModel, $clientModel, $render) {
         $this->render = $render;
         $this->travelModel = $travelModel;
         $this->travelDriverModel = $travelDriverModel;
-        $this->clientModel =$clientModel;
+        $this->clientModel = $clientModel;
         $this->reportModel = $reportModel;
+        $this->driverModel = $driverModel;
     }
 
     public function execute() {
@@ -34,9 +36,10 @@ class TravelController {
 
     public function newTravel() {
         if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
-
             $data["clients"] = $this-> clientModel->getClients();
-            echo $this->render->render("view/newTravelView.php",$data);
+            $data["drivers"] = $this->driverModel->getAvailableDrivers();
+          
+            echo $this->render->render("view/newTravelView.php", $data);
         } else {
             header("location: /pw2-grupo03");
             exit();
@@ -58,7 +61,9 @@ class TravelController {
                     "destination" => $_POST["destination"],
                     "estimatedDepartureDate" => $_POST["estimatedDepartureDate"],
                     "estimatedArrivalDate" => $_POST["estimatedArrivalDate"],
-                    "idClient"=>$_POST ["idClient"],
+                    "idClient" => $_POST ["idClient"],
+                    "estimatedDepartureDate" => $_POST["estimatedDepartureDate"],
+                    "driverId" => $_POST["idDriver"]
                 );
 
                 $this->travelModel->saveTravel($newTravel);
@@ -226,7 +231,7 @@ class TravelController {
             && $_SESSION["chofer"] == 1
             && isset($_GET["id"])
             && $this->travelModel->checkIfTravelExistsBy($_GET["id"])
-            && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['userId'])) {
+            && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['driverId'])) {
 
             if (isset($_SESSION["detourReportedOk"])) {
                 $data["detourReportedOk"] = "El desvío se informó correctamente";

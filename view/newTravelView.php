@@ -28,6 +28,13 @@
                 <option value="{{id_cliente}}">{{denominacion}}</option>
                 {{/clients}}
 
+            <label for="driver-select"><b>Chofer <span style="color: red">*</span></b></label>
+            <select class="w3-select" name="idDriver" id="driver-select">
+                    {{# drivers }}
+                <option value="{{ id_chofer }}">
+                    {{ nombre }}, {{ apellido }} - Licencia: {{numero_licencia}}-{{tipo_licencia}}
+                </option>
+                {{/ drivers }}
             </select>
             <button class="form-button w3-round w3-blue w3-margin-top" type="submit">Confirmar nuevo viaje</button>
         </div>

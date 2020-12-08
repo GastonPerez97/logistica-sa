@@ -234,18 +234,19 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `grupo03`.`viaje` (
   `id_viaje` INT NOT NULL AUTO_INCREMENT,
   `consumo_combustible_previsto` DECIMAL(10,2) NOT NULL,
-  `consumo_combustible_real` DECIMAL(10,2) ZEROFILL NOT NULL,
+  `consumo_combustible_real` DECIMAL(10,2) ZEROFILL NULL,
   `kilometros_previstos` DECIMAL(10,2) NOT NULL,
-  `kilometros_reales` DECIMAL(10,2) ZEROFILL NOT NULL,
+  `kilometros_reales` DECIMAL(10,2) ZEROFILL NULL,
   `origen` VARCHAR(150) NOT NULL,
   `destino` VARCHAR(150) NOT NULL,
   `fecha_salida_estimada` DATETIME NOT NULL,
-  `fecha_salida` DATETIME NOT NULL,
+  `fecha_salida` DATETIME NULL,
   `fecha_llegada_estimada` DATETIME NOT NULL,
   `fecha_llegada` DATETIME NULL,
   `id_cliente` INT NOT NULL,
   PRIMARY KEY (`id_viaje`),
-   CONSTRAINT `id_cliente`
+  INDEX `id_cliente_INDEX` (`id_cliente` ASC),
+    CONSTRAINT `id_cliente_FK`
     FOREIGN KEY (`id_cliente`)
     REFERENCES `grupo03`.`cliente` (`id_cliente`)
     ON DELETE NO ACTION
@@ -263,6 +264,15 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`tipo_carga` (
   PRIMARY KEY (`id_tipo_carga`))
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `grupo03`.`tipo_peligro`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `grupo03`.`tipo_peligro` (
+  `id_tipo_peligro` INT NOT NULL AUTO_INCREMENT,
+  `descripcion` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id_tipo_peligro`))
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `grupo03`.`carga`
@@ -270,7 +280,8 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `grupo03`.`carga` (
   `id_carga` INT NOT NULL AUTO_INCREMENT,
   `peso` DECIMAL(10,2) ZEROFILL NOT NULL,
-  `fragil` BIT NOT NULL,
+  `peligrosa` BIT NOT NULL,
+  `id_tipo_peligro` INT NULL,
   `refrigerada` BIT NOT NULL,
   `temperatura` INT NULL,
   `id_tipo_carga` INT NOT NULL,
@@ -278,9 +289,15 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`carga` (
   PRIMARY KEY (`id_carga`),
   INDEX `id_tipo_carga_INDEX` (`id_tipo_carga` ASC),
   INDEX `id_viaje_INDEX` (`id_viaje` ASC),
+  INDEX `id_tipo_peligro_INDEX` (`id_viaje` ASC),
   CONSTRAINT `viaje_carga_FK`
     FOREIGN KEY (`id_viaje`)
     REFERENCES `grupo03`.`viaje` (`id_viaje`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `tipo_peligro_FK`
+    FOREIGN KEY (`id_tipo_peligro`)
+    REFERENCES `grupo03`.`tipo_peligro` (`id_tipo_peligro`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `tipo_carga_FK`
@@ -435,16 +452,9 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`factura` (
   `numero_factura` VARCHAR(45) NOT NULL,
   `fecha_facturacion` DATE NOT NULL,
   `fecha_pago` DATE NULL,
-  `id_cliente` INT NOT NULL,
   `id_viaje` INT NOT NULL,
   PRIMARY KEY (`id_factura`),
-  INDEX `id_cliente_INDEX` (`id_cliente` ASC),
   INDEX `id_viaje_INDEX` (`id_viaje` ASC),
-  CONSTRAINT `cliente_FK`
-    FOREIGN KEY (`id_cliente`)
-    REFERENCES `grupo03`.`cliente` (`id_cliente`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `viaje_factura_FK`
     FOREIGN KEY (`id_viaje`)
     REFERENCES `grupo03`.`viaje` (`id_viaje`)
@@ -530,7 +540,6 @@ ENGINE = InnoDB;
 CREATE TABLE `grupo03`.`proforma` (
   `id_proforma` INT NOT NULL AUTO_INCREMENT,
   `fecha_carga_proforma` DATE NOT NULL,
-  `id_cliente` INT NOT NULL,
   `id_viaje` INT NOT NULL,
   `viatico_estimado` INT NOT NULL,
   `peaje_y_pesaje_estimado` INT NOT NULL,
@@ -545,13 +554,7 @@ CREATE TABLE `grupo03`.`proforma` (
   `reefer_real` INT NULL,
   `fee_real` INT NULL,
   PRIMARY KEY (`id_proforma`),
-    INDEX `id_cliente_INDEX` (`id_cliente` ASC),
-    INDEX `id_viaje_INDEX` (`id_viaje` ASC),
-  CONSTRAINT `cliente_proforma_FK`
-    FOREIGN KEY (`id_cliente`)
-    REFERENCES `grupo03`.`cliente` (`id_cliente`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  INDEX `id_viaje_INDEX` (`id_viaje` ASC),
   CONSTRAINT `viaje_FK`
     FOREIGN KEY (`id_viaje`)
     REFERENCES `grupo03`.`viaje` (`id_viaje`)
@@ -564,13 +567,13 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- INSERTS
 -- -----------------------------------------------------
-INSERT INTO usuario (id_usuario, email, dni, password, nombre, apellido, birthdate, fecha_alta, activado) VALUES (2, 'mail@test.com', 124567, '81dc9bdb52d04dc20036dbd8313ed055', 'Jorge', 'Perez', '1960-12-11', '2020-11-17', b'1');
-INSERT INTO `grupo03`.`tipo_vehiculo` (`id_tipo_vehiculo`, `nombre`) VALUES ('1', 'camion');
-INSERT INTO `grupo03`.`marca` (`id_marca`, `nombre`) VALUES ('1', 'fiat');
-INSERT INTO `grupo03`.`modelo` (`id_modelo`, `nombre`, `id_marca`) VALUES ('1', 'cargo', '1');
-INSERT INTO `grupo03`.`unidad_de_transporte` (`id_unidad_de_transporte`, `patente`, `posicion_actual`, `anio_fabricacion`, `numero_chasis`, `id_marca`, `id_modelo`) VALUES ('1', 'abc123', 'acb', '94', '234423342', '1', '1');
-INSERT INTO `grupo03`.`vehiculo` (`id_vehiculo`, `numero_motor`, `kilometraje`, `id_tipo_vehiculo`) VALUES ('1', '23423', '60000', '1');
-INSERT INTO `grupo03`.`service` (`id_service`, `fecha_service`, `detalle`, `costo`, `kilometraje_actual_unidad`, `interno`, `id_usuario`, `id_unidad_de_transporte`) VALUES ('1', '1111-11-11', 'cambio de aceite', '15000', '65000', b'0', '2', b'1');
+-- INSERT INTO usuario (id_usuario, email, dni, password, nombre, apellido, birthdate, fecha_alta, activado) VALUES (2, 'mail@test.com', 124567, '81dc9bdb52d04dc20036dbd8313ed055', 'Jorge', 'Perez', '1960-12-11', '2020-11-17', b'1');
+-- INSERT INTO `grupo03`.`tipo_vehiculo` (`id_tipo_vehiculo`, `nombre`) VALUES ('1', 'camion');
+-- INSERT INTO `grupo03`.`marca` (`id_marca`, `nombre`) VALUES ('1', 'fiat');
+-- INSERT INTO `grupo03`.`modelo` (`id_modelo`, `nombre`, `id_marca`) VALUES ('1', 'cargo', '1');
+-- INSERT INTO `grupo03`.`unidad_de_transporte` (`id_unidad_de_transporte`, `patente`, `posicion_actual`, `anio_fabricacion`, `numero_chasis`, `id_marca`, `id_modelo`) VALUES ('1', 'abc123', 'acb', '94', '234423342', '1', '1');
+-- INSERT INTO `grupo03`.`vehiculo` (`id_vehiculo`, `numero_motor`, `kilometraje`, `id_tipo_vehiculo`) VALUES ('1', '23423', '60000', '1');
+-- INSERT INTO `grupo03`.`service` (`id_service`, `fecha_service`, `detalle`, `costo`, `kilometraje_actual_unidad`, `interno`, `id_usuario`, `id_unidad_de_transporte`) VALUES ('1', '1111-11-11', 'cambio de aceite', '15000', '65000', b'0', '2', b'1');
 
 -- (contraseña usuario id 1: 1234) 
 INSERT INTO rol (id_rol, nombre, descripcion) VALUES (1, 'Administrador', 'AdminDesc'), (2, 'Supervisor', 'SupervisorDesc'), (3, 'Encargado de Taller', 'EncargadoTallerDesc'), (4, 'Chofer', 'ChoferDesc');
@@ -767,15 +770,39 @@ INSERT INTO vehiculo (id_vehiculo, numero_motor, kilometraje, id_tipo_vehiculo)
 							(28, '64092078', 67000, 1);
 							
 -- TIPO CARGA --
-INSERT INTO `grupo03`.`tipo_carga` (`nombre`, `descripcion`) VALUES ('Ganel', 'Ganel');
-INSERT INTO `grupo03`.`tipo_carga` (`nombre`, `descripcion`) VALUES ('Liquida', 'Liquida');
-INSERT INTO `grupo03`.`tipo_carga` (`nombre`, `descripcion`) VALUES ('20\'\'', '20 Toneladas');
-INSERT INTO `grupo03`.`tipo_carga` (`nombre`, `descripcion`) VALUES ('40\'\'', '40 Toneladas');
-INSERT INTO `grupo03`.`tipo_carga` (`nombre`, `descripcion`) VALUES ('Jaula', 'jaula');
-INSERT INTO `grupo03`.`tipo_carga` (`nombre`, `descripcion`) VALUES ('CarCarrier', 'CarCarrier');
-							
+INSERT INTO `grupo03`.`tipo_carga` (`nombre`, `descripcion`) 
+	 VALUES ('Granel', 'Granel'),
+			('Liquida', 'Liquida'),
+			('20\'\'', '20 Toneladas'),
+            ('40\'\'', '40 Toneladas'),
+			('Jaula', 'jaula'),
+			('CarCarrier', 'CarCarrier');
 
+-- TIPO PELIGRO --		
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1 - Subclase 1');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1 - Subclase 2');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1 - Subclase 3');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1 - Subclase 4');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1 - Subclase 5');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1 - Subclase 6');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 2 - Subclase 1');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 2 - Subclase 2');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 2 - Subclase 3');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 3');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 4.1');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 4.2');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 4.3');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 5.1');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 5.2');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 6.1');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 6.2');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 7');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 8');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 9');
 
+-- TIPO LICENCIA --	
+INSERT INTO `grupo03`.`tipo_licencia` (nombre, descripcion) VALUES ('C', 'Camiones sin acoplado ni semiacoplado');
+INSERT INTO `grupo03`.`tipo_licencia` (nombre, descripcion) VALUES ('E.1', 'Camiones articulados, con acoplado o semiacoplado');
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

@@ -10,21 +10,32 @@ class TravelModel {
     }
 
     public function saveTravel($travel) {
+        $expectedFuel = $travel["expectedFuel"];
+        $expectedKilometers = $travel["expectedKilometers"];
+        $origin = $travel["origin"];
+        $destination = $travel["destination"];
+        $estimatedArrivalDate = $travel["estimatedArrivalDate"];
+        $estimatedDepartureDate = $travel["estimatedDepartureDate"];
+        $driverId = $travel["driverId"];
+        $idClient = $travel["idClient"];
 
-    $expectedFuel = $travel["expectedFuel"];
-    $expectedKilometers = $travel["expectedKilometers"];
-    $origin = $travel["origin"];
-    $destination = $travel["destination"];
-    $estimatedDepartureDate = $travel["estimatedDepartureDate"];
-    $estimatedArrivalDate = $travel["estimatedArrivalDate"];
-    $idClient = $travel["idClient"];
+        $insertTravel = $this->database->prepare("INSERT INTO viaje
+                                            (consumo_combustible_previsto, kilometros_previstos, origen, destino, 
+                                            fecha_llegada_estimada, fecha_salida_estimada, id_cliente)
+                                            VALUES (?, ?, ?, ?, ?, ?, ?)");
 
+        $insertTravel->bind_param("ddssssi", $expectedFuel, $expectedKilometers, $origin, $destination, $estimatedArrivalDate, $estimatedDepartureDate, $idClient);
+        $insertTravel->execute();
 
-    $sql = "INSERT INTO viaje (consumo_combustible_previsto, kilometros_previstos, origen, destino,  fecha_salida_estimada ,  fecha_llegada_estimada, cliente_FK)
-                VALUES ('$expectedFuel', '$expectedKilometers', '$origin', '$destination', '$estimatedDepartureDate', '$estimatedArrivalDate', '$idClient')";
+        $lastId = $this->database->query("SELECT last_insert_id()");
+        $travelId = $lastId[0]["last_insert_id()"];
 
-    $this->database->execute($sql);
+        $insertDriver = $this->database->prepare("INSERT INTO viaje_chofer
+                                                    (id_viaje, id_chofer)
+                                                    VALUES (?, ?)");
 
+        $insertDriver->bind_param("ii", $travelId, $driverId);
+        $insertDriver->execute();
     }
 
     public function getTravels()
