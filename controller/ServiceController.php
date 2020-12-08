@@ -99,7 +99,7 @@ class ServiceController {
 
             $this->serviceModel->updateServiceById($serviceId, $newKilometers, $newDescription, $newCost);
             $data["correctEditService"] = "Service Editado Correctamente";
-            echo $this->render->render("view/newServiceResultView.php", $data);
+            echo $this->render->render("view/editServiceResultView.php", $data);
         } else {
             header("location: /pw2-grupo03");
             exit();
