@@ -66,16 +66,22 @@ class ReportController {
                     "idTravel" => $_POST["idTravel"],
                     "idTypeLoad" => $_POST["idTypeLoad"],
                     "netWeight" => $_POST["netWeight"],
-                    "hazard" => $_POST["hazard"],
                     "imoClass" => $_POST["imoClass"],
-                    "reefer" => $_POST["reefer"],
-                    "numberTemperature" => $_POST["numberTemperature"],
                 );
+
+                isset($_POST["hazard"]) ?  $newLoad["hazard"] = $_POST["hazard"] : $newLoad["hazard"] = 0;
+
+                if (isset($_POST["reefer"]) && isset($_POST["numberTemperature"])) {
+                    $newLoad["reefer"] = $_POST["reefer"];
+                    $newLoad["numberTemperature"] = $_POST["numberTemperature"];
+                } else {
+                    $newLoad["reefer"] = 0;
+                    $newLoad["numberTemperature"] = 0;
+                }
 
                 $this->loadModel->saveNewLoad($newLoad);
 
                 $billData = array(
-                    "clientId" => $_POST["idClient"],
                     "travelId" => $_POST["idTravel"],
                     "billDate" => date("Y-m-d"),
                 );
