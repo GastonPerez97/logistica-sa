@@ -191,7 +191,7 @@ class TravelController {
                 $this->travelModel->changeArrivalDate($travelId, $newArrivalDate);
             }
 
-            header("location: /pw2-grupo03/travel/finalizeTravel?id=$travelId");
+            header("location: /pw2-grupo03/travel");
             exit();
         } else {
             header("location: /pw2-grupo03");
