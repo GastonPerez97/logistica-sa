@@ -18,9 +18,9 @@
             <label for="destination"><b>Destino:</b></label>
             <input type="text" placeholder="Ingresar destino del viaje" name="destination" class="login-input" required>
             <label for="estimatedDepartureDate"><b>Fecha de salida estimada:</b></label>
-            <input type="date" placeholder="Ingresar fecha de salida estimada del viaje" name="estimatedDepartureDate" class="login-input" required>
+            <input type="datetime-local" placeholder="Ingresar fecha de salida estimada del viaje" name="estimatedDepartureDate" class="login-input" required>
             <label for="estimatedArrivalDate"><b>Fecha de llegada estimada:</b></label>
-            <input type="date" placeholder="Ingresar fecha de llegada estimada del viaje" name="estimatedArrivalDate" class="login-input" required>
+            <input type="datetime-local" placeholder="Ingresar fecha de llegada estimada del viaje" name="estimatedArrivalDate" class="login-input" required>
             <label for="idClient"><b>Seleccione el cliente:</b></label>
             <select class="w3-select w3-margin-bottom" name="idClient">
                 {{#clients}}

@@ -28,8 +28,8 @@
                                 </div>
                                 <div class="d-flex justify-content-around my-1em">
                                     <div>
-                                        <h3>Fecha salida:</h3>
-                                        <p>{{fecha_salida}}</p>
+                                        <h3>ETD:</h3>
+                                        <p>{{fecha_salida_estimada}}</p>
                                     </div>
                                     <div>
                                         <h3>ETA:</h3>
