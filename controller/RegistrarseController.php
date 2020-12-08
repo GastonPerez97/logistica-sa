@@ -17,10 +17,13 @@ class RegistrarseController {
     public function resultadoRegistro() {
         $data = array();
 
-        if (!$this->validateRegistration()) {
+        if (!$this->userModel->validateRegistration()) {
             $data["errorValidacion"] = "Ocurrió un error en la validación 
                                         de los datos ingresados, intente nuevamente";
 
+            echo $this->render->render("view/resultadoRegistro.php", $data);
+        } else if ($this->userModel->checkIfEmailAndDniAlreadyExists($_POST['email'], $_POST['dni'])) {
+            $data["emailOrDniAlreadyExists"] = "El E-Mail o DNI que ingresaste ya están en uso, intente con otros";
             echo $this->render->render("view/resultadoRegistro.php", $data);
         } else {
             $user = array(
@@ -39,16 +42,4 @@ class RegistrarseController {
         }
     }
 
-    public function validateRegistration() {
-        if (empty($_POST['name']) ||
-            empty($_POST['surname']) ||
-            empty($_POST['dni']) ||
-            empty($_POST['email']) ||
-            empty($_POST['pass']) ||
-            empty($_POST['birthdate'])) {
-            return false;
-        } else {
-            return true;
-        }
-    }
  }

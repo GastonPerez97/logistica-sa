@@ -7,12 +7,14 @@ class ReportController {
     private $travelModel;
     private $userModel;
     private $loadModel;
+    private $billModel;
 
-    public function __construct($reportModel, $travelModel, $userModel, $loadModel, $render) {
+    public function __construct($reportModel, $travelModel, $userModel, $loadModel, $billModel, $render) {
         $this->reportModel = $reportModel;
         $this->travelModel = $travelModel;
         $this->userModel = $userModel;
         $this->loadModel = $loadModel;
+        $this->billModel = $billModel;
         $this->render = $render;
     }
 
@@ -70,6 +72,14 @@ class ReportController {
                 );
 
                 $this->loadModel->saveNewLoad($newLoad);
+
+                $billData = array(
+                    "clientId" => $_POST["idClient"],
+                    "travelId" => $_POST["idTravel"],
+                    "billDate" => date("Y-m-d"),
+                );
+
+                $this->billModel->createBillOf($billData);
 
                 $idProforma = $this->reportModel->getIdProformaOf($_POST["idTravel"]);
                 $this->reportModel->generatePdfProformaOf($idProforma);
