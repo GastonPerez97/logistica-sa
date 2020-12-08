@@ -66,6 +66,7 @@
         </div>
     </form>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
@@ -80,11 +81,18 @@
                     type : "POST",
                     url : "TransportUnit/getModels.php",
                     data : {"idBrand" : idBrand},
-                    success : function(dato) {
-                        console.log(dato);
-                        $.each(dato, function(index, d){
+                    //contentType: "application/json",
+                    dataType: "json",
+                    success : function(data) {
+                        console.log(data);
+                        //var brands = $.parseJSON(dato);
+                        //console.log(brands);
+                        //console.log(dato.data);
+                        $.each(data, function(index, d){
                             $("#models-select").append("<option value='" + d.id_modelo + "'>" + d.nombre + "</option>");
                         });
+                    }, error : function (data) {
+                        console.log(data);
                     }
                 });
             }

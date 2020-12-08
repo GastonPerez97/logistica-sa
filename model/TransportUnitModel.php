@@ -225,6 +225,15 @@ class TransportUnitModel
                                             WHERE id_marca = (?)");
         $query->bind_param("i", $idBrand);
         $query->execute();
-        return $query->get_result();
+        $queryResult = $query->get_result();
+
+        $models = array();
+
+        while($row = mysqli_fetch_assoc($queryResult)){
+            $models["id_modelo"] = $row["id_modelo"];
+            $models["nombre"] = $row["nombre"];
+        }
+
+        return $models;
     }
 }
