@@ -129,7 +129,8 @@ class Configuration {
     public function getLoginController() {
         $userModel = $this->getUserModel();
         $userRoleModel = $this->getUserRoleModel();
-        return new LoginController($userModel, $userRoleModel, $this->getRender());
+        $driverModel = $this->getDriverModel();
+        return new LoginController($userModel, $userRoleModel, $driverModel, $this->getRender());
     }
 
     public function getLogoutController() {

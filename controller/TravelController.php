@@ -188,7 +188,7 @@ class TravelController {
             && $_SESSION["chofer"] == 1
             && isset($_GET["id"])
             && $this->travelModel->checkIfTravelExistsBy($_GET["id"])
-            && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['userId'])) {
+            && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['driverId'])) {
 
             if (isset($_SESSION["detourReportedOk"])) {
                 $data["detourReportedOk"] = "El desvío se informó correctamente";
