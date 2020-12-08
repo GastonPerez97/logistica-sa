@@ -25,7 +25,7 @@
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="1" name="internal" id="internal" onchange="javascript:showContentMechanic()">
                 <label class="form-check-label" for="internal">
-                    <b>Mecánico Interno</b>
+                    <b>Service Interno</b>
                 </label>
             </div>
 

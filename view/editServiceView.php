@@ -22,8 +22,16 @@
             <label for="kilometers"><b>Kilometros:</b></label>
             <input type="number" placeholder="Ingresar kilometros de la unidad" name="kilometers" value="{{kilometraje_actual_unidad}}" class="login-input" required>
 
-            <label for="mechanic"><b>ID Mecánico</b></label>
-            <input type="number" placeholder="Ingresar ID del mecánico" name="mechanic" value="{{id_usuario}}" readonly="true" class="login-input" required>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="1" name="internal" id="internal" onchange="javascript:showContentMechanic()">
+                <label class="form-check-label" for="internal">
+                    <b>Service Interno</b>
+                </label>
+            </div>
+
+            <br>
+            <label for="mechanic" id="labelMechanic" style="display: none;"><b>ID Mecánico </b></label>
+            <input type="number" placeholder="Ingresar ID del mecánico" name="mechanic" id="mechanic" style="display: none;" value="{{id_usuario}}" readonly="true" class="login-input" required>
 
             <label for="description"><b>Descripción</b></label>
             <input type="text" placeholder="Ingresar detalle del service" name="description" value="{{detalle}}" class="login-input" required>

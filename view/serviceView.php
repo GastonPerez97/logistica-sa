@@ -28,14 +28,9 @@
                                 <h3 class="margin-0">Kilometros:</h3>
                                 <p class="margin-0">{{kilometraje_actual_unidad}}</p>
                             </div>
-                            <?php if(interno) ?>
                             <div class="detalles-viaje w3-margin-bottom">
                                 <h3 class="margin-0">Service Interno:</h3>
                                 <p class="margin-0">{{interno}}</p>
-                            </div>
-                            <div class="detalles-viaje w3-margin-bottom">
-                                <h3 class="margin-0">ID Mecánico:</h3>
-                                <p class="margin-0">{{id_usuario}}</p>
                             </div>
                             <div class="detalles-viaje w3-margin-bottom">
                                 <h3 class="margin-0">Descripción:</h3>
