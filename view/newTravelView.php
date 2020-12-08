@@ -21,7 +21,7 @@
             <input type="date" placeholder="Ingresar fecha de salida estimada del viaje" name="estimatedDepartureDate" class="login-input" required>
             <label for="estimatedArrivalDate"><b>Fecha de llegada estimada:</b></label>
             <input type="date" placeholder="Ingresar fecha de llegada estimada del viaje" name="estimatedArrivalDate" class="login-input" required>
-
+            <label for="idClient"><b>Seleccione el cliente:</b></label>
             <select class="w3-select" name="idClient"  >
 
                 {{#clients}}

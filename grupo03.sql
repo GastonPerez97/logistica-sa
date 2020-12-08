@@ -243,7 +243,13 @@ CREATE TABLE IF NOT EXISTS `grupo03`.`viaje` (
   `fecha_salida` DATETIME NOT NULL,
   `fecha_llegada_estimada` DATETIME NOT NULL,
   `fecha_llegada` DATETIME NULL,
-  PRIMARY KEY (`id_viaje`))
+  `id_cliente` INT NOT NULL,
+  PRIMARY KEY (`id_viaje`),
+   CONSTRAINT `id_cliente`
+    FOREIGN KEY (`id_cliente`)
+    REFERENCES `grupo03`.`cliente` (`id_cliente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 

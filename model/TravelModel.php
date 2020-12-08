@@ -20,8 +20,8 @@ class TravelModel {
     $idClient = $travel["idClient"];
 
 
-    $sql = "INSERT INTO viaje (consumo_combustible_previsto, kilometros_previstos, origen, destino,  fecha_salida_estimada ,  fecha_llegada_estimada)
-                VALUES ('$expectedFuel', '$expectedKilometers', '$origin', '$destination', '$estimatedDepartureDate', '$estimatedArrivalDate')";
+    $sql = "INSERT INTO viaje (consumo_combustible_previsto, kilometros_previstos, origen, destino,  fecha_salida_estimada ,  fecha_llegada_estimada, cliente_FK)
+                VALUES ('$expectedFuel', '$expectedKilometers', '$origin', '$destination', '$estimatedDepartureDate', '$estimatedArrivalDate', '$idClient')";
 
     $this->database->execute($sql);
 
