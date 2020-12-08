@@ -83,7 +83,8 @@ class Configuration {
 
     public function getTravelModel(){
         $database = $this->getDatabase();
-        return new TravelModel($database);
+        $reportModel = $this->getReportModel();
+        return new TravelModel($reportModel, $database);
     }
 
     public function getClientModel(){

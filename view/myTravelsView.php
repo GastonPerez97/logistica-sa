@@ -28,16 +28,15 @@
                                 </div>
                                 <div class="d-flex justify-content-around my-1em">
                                     <div>
-                                        <h3>Fecha salida:</h3>
-                                        <p>{{fecha_salida}}</p>
+                                        <h3>ETD:</h3>
+                                        <p>{{fecha_salida_estimada}}</p>
                                     </div>
                                     <div>
                                         <h3>ETA:</h3>
                                         <p>{{fecha_llegada_estimada}}</p>
                                     </div>
                                 </div>
-
-                                <a href="/pw2-grupo03/travel/deleteTravel?id={{id_viaje}}" class="w3-button w3-red w3-tiny w3-round w3-margin-bottom w3-margin-top delete-btn-travel">Eliminar</a>
+                                
                                 <a href="/pw2-grupo03/travel/editTravel?id={{id_viaje}}" class="w3-button w3-blue w3-tiny w3-round w3-margin-bottom w3-margin-top">Editar</a>
                                 <a href="/pw2-grupo03/travel/viewProforma?id={{id_viaje}}" class="w3-button w3-green w3-tiny w3-round w3-margin-bottom w3-margin-top">Ver Proforma</a>
                                 <a href="/pw2-grupo03/travel/finalizeTravel?id={{id_viaje}}" class="w3-button w3-blue w3-tiny w3-round w3-margin-bottom w3-margin-top">Finalizar viaje</a>

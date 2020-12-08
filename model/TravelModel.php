@@ -3,10 +3,12 @@
 
 class TravelModel {
 
+    private $reportModel;
     private $database;
 
-    public function __construct($database) {
+    public function __construct($reportModel, $database) {
         $this->database = $database;
+        $this->reportModel = $reportModel;
     }
 
     public function saveTravel($travel) {
@@ -114,12 +116,6 @@ class TravelModel {
         $this->database->execute($sql);
     }
 
-    public function deleteTravelById($travelId)
-    {
-        $sql = "DELETE FROM viaje WHERE id_viaje = '$travelId'";
-        $this->database->execute($sql);
-    }
-
     public function reportDetourOf($travelId, $detourData) {
         $time = $detourData["time"];
         $reason = $detourData["reason"];
@@ -140,9 +136,6 @@ class TravelModel {
         $quantity = $detourData["quantity"];
         $amount = $detourData["amount"];
 
-        $currentFuel = $this->getRealFuelOf($travelId);
-        $totalFuel = $currentFuel + $amount;
-
         $sqlCargaCombustible = "INSERT INTO carga_combustible (lugar, cantidad, importe) VALUES ('$place', '$quantity', '$amount')";
         $this->database->execute($sqlCargaCombustible);
 
@@ -150,10 +143,16 @@ class TravelModel {
         $cargaCombustibleId = $lastId[0]["last_insert_id()"];
 
         $sqlViajeCargaCombustible = "INSERT INTO viaje_carga_combustible (id_viaje, id_carga_combustible) VALUES ('$travelId', '$cargaCombustibleId')";
+        $this->database->execute($sqlViajeCargaCombustible);
 
+        $currentFuel = $this->getRealFuelOf($travelId);
+        $totalFuel = $currentFuel + $quantity;
         $this->changeRealFuel($travelId, $totalFuel);
 
-        $this->database->execute($sqlViajeCargaCombustible);
+        $proformaId = $this->reportModel->getIdProformaOf($travelId);
+        $currentViatico = $this->reportModel->getRealViaticos($proformaId);
+        $totalViatico = $currentViatico + $amount;
+        $this->reportModel->setRealViaticos($proformaId, $totalViatico);
     }
 
     public function reportPositionOf($travelId, $positionData) {
@@ -174,6 +173,9 @@ class TravelModel {
     public function convertDatetimeFromMySQLToHTMLOf($travelArray) {
         is_null($travelArray[0]["fecha_salida"]) ? $travelArray[0]["fecha_salida"] = ""
             : $travelArray[0]["fecha_salida"] = date("Y-m-d\TH:i:s", strtotime($travelArray[0]["fecha_salida"]));
+
+        is_null($travelArray[0]["fecha_salida_estimada"]) ? $travelArray[0]["fecha_salida_estimada"] = ""
+            : $travelArray[0]["fecha_salida_estimada"] = date("Y-m-d\TH:i:s", strtotime($travelArray[0]["fecha_salida_estimada"]));
 
         is_null($travelArray[0]["fecha_llegada"]) ? $travelArray[0]["fecha_llegada"] = ""
             : $travelArray[0]["fecha_llegada"] = date("Y-m-d\TH:i:s", strtotime($travelArray[0]["fecha_llegada"]));
@@ -216,6 +218,21 @@ class TravelModel {
             return false;
         } else {
             return true;
+        }
+    }
+
+    public function validateSpend() {
+        if ((!empty($_POST["spendType"]) && !empty($_POST["amount"]))
+            && (($_POST["spendType"] == "viatico_real"
+            || $_POST["spendType"] == "peaje_y_pesaje_real"
+            || $_POST["spendType"] == "extras_real"
+            || $_POST["spendType"] == "hazard_real"
+            || $_POST["spendType"] == "reefer_real"
+            || $_POST["spendType"] == "fee_real"))) {
+
+            return true;
+        } else {
+            return false;
         }
     }
 

@@ -134,21 +134,4 @@ class UsuariosController {
         }
     }
 
-    public function deleteUser() {
-        if (isset($_SESSION["loggedIn"]) && $_SESSION["admin"] == 1) {
-            $userId = $_GET["id"];
-
-            $this->userModel->removeRolesOfUser($userId);
-            $this->userModel->deleteUserById($userId);
-
-            $_SESSION["userDeletedOk"] = 1;
-
-            header("location: /pw2-grupo03/usuarios");
-            exit();
-        } else {
-            header("location: /pw2-grupo03");
-            exit();
-        }
-    }
-
 }

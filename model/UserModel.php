@@ -93,11 +93,6 @@ class UserModel {
         $this->database->execute($sql);
     }
 
-    public function deleteUserById($userId) {
-        $sql = "DELETE FROM usuario WHERE id_usuario = '$userId'";
-        $this->database->execute($sql);
-    }
-
     public function checkIfEmailAndDniAlreadyExists($email, $dni) {
         $sql = "SELECT * FROM usuario WHERE email = '$email' OR dni = '$dni'";
         $result = $this->database->query($sql);

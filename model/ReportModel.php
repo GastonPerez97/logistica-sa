@@ -411,6 +411,20 @@ class ReportModel {
         return $this->database->fetch_assoc($sql);
     }
 
+    public function reportSpendOf($proformaId, $spendData) {
+        $spendType = $spendData["spendType"];
+        $amount = $spendData["amount"];
+
+        $currentSpendValueSql = "SELECT $spendType FROM proforma WHERE id_proforma = '$proformaId'";
+        $result = $this->database->fetch_assoc($currentSpendValueSql);
+        $currentSpendValue = $result[$spendType];
+
+        $totalSpendValue = $currentSpendValue + $amount;
+
+        $updateSpendValueSql = "UPDATE proforma SET $spendType = '$totalSpendValue' WHERE id_proforma = '$proformaId'";
+        $this->database->execute($updateSpendValueSql);
+    }
+
     public function getClientName($idTravel){
         $sql = "SELECT denominacion as result FROM cliente WHERE id_cliente IN (SELECT id_cliente FROM viaje WHERE id_viaje = '$idTravel')";
         return $this->database->fetch_assoc($sql);
@@ -538,6 +552,17 @@ class ReportModel {
     {
         $sql = "SELECT refrigerada as result FROM carga WHERE id_viaje = '$idTravel'";
         return $this->database->fetch_assoc($sql);
+    }
+
+    public function getRealViaticos($proformaId){
+        $sql = "SELECT viatico_real FROM proforma WHERE id_proforma = '$proformaId'";
+        $result = $this->database->fetch_assoc($sql);
+        return $result["viatico_real"];
+    }
+
+    public function setRealViaticos($proformaId, $newViaticos) {
+        $sql = "UPDATE proforma SET viatico_real = '$newViaticos' WHERE id_proforma = '$proformaId'";
+        $this->database->execute($sql);
     }
 
 }
