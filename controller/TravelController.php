@@ -20,19 +20,27 @@ class TravelController {
     }
 
     public function execute() {
-        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
-            if (isset($_SESSION["proformaError"])) {
-                $data["proformaError"] = "Error: La proforma de este viaje no fue generada todavía";
-                unset($_SESSION["proformaError"]);
-            }
-
-            $data["travels"] = $this->travelModel->getTravels();
-            echo $this->render->render("view/myTravelsView.php", $data);
-        } else {
-            header("location: /pw2-grupo03");
-            exit();
+    if (isset($_SESSION["loggedIn"]) && $_SESSION["admin"] == 1) {
+        if (isset($_SESSION["proformaError"])) {
+            $data["proformaError"] = "Error: La proforma de este viaje no fue generada todavía";
+            unset($_SESSION["proformaError"]);
         }
+        $data["travels"] = $this->travelModel->getTravels();
+        echo $this->render->render("view/myTravelsView.php", $data);
+    }else if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
+        if (isset($_SESSION["proformaError"])) {
+            $data["proformaError"] = "Error: La proforma de este viaje no fue generada todavía";
+            unset($_SESSION["proformaError"]);
+        }
+        $idDriver= $_SESSION["driverId"];
+        $data["travels"] = $this->driverModel->getDriverTravels($idDriver);
+        echo $this->render->render("view/myTravelsView.php", $data);
+    }else {
+        header("location: /pw2-grupo03");
+        exit();
     }
+}
+
 
     public function newTravel() {
         if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
