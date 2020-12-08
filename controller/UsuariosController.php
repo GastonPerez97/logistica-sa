@@ -58,6 +58,9 @@ class UsuariosController {
                     if ($userRole["id_rol"] == 4) {
                         $data["roles"][3]["checked"] = "checked";
                     }
+                    if ($userRole["id_rol"] == 5) {
+                        $data["roles"][4]["checked"] = "checked";
+                    }
                 }
 
                 echo $this->render->render("view/editUserView.php", $data);

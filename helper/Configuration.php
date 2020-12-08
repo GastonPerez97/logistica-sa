@@ -149,7 +149,9 @@ class Configuration {
 
     public function getServiceController() {
         $serviceModel = $this->getServiceModel();
-        return new ServiceController($serviceModel, $this->getRender());
+        $transportUnitModel = $this->getTransportUnitModel();
+        $userModel = $this->getUserModel();
+        return new ServiceController($serviceModel, $transportUnitModel, $userModel, $this->getRender());
     }
 
     public function getReportController() {

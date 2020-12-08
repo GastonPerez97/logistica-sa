@@ -58,12 +58,17 @@ class UserModel {
         $sql = "SELECT id_chofer, numero_licencia, id_tipo_licencia FROM chofer";
         return $this->database->query($sql);
     }
+
+    public function getMechanics() {
+        $sql = "SELECT id_usuario FROM usuario_rol where id_rol = 5";
+        return $this->database->query($sql);
+    }
     
     public function assignRolesToUser($userId, $roles) {
         $this->removeRolesOfUser($userId);
 
         if (in_array("1", $roles)) {
-            $sqlAssignRole = "INSERT INTO usuario_rol (id_usuario, id_rol) VALUES ('$userId', '1'), ('$userId', '2'), ('$userId', '3'), ('$userId', '4')";
+            $sqlAssignRole = "INSERT INTO usuario_rol (id_usuario, id_rol) VALUES ('$userId', '1'), ('$userId', '2'), ('$userId', '3'), ('$userId', '4'), ('$userId', '5')";
             $this->database->execute($sqlAssignRole);
         } else {
             foreach ($roles as $role) {

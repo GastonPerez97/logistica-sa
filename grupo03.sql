@@ -576,9 +576,9 @@ ENGINE = InnoDB;
 -- INSERT INTO `grupo03`.`service` (`id_service`, `fecha_service`, `detalle`, `costo`, `kilometraje_actual_unidad`, `interno`, `id_usuario`, `id_unidad_de_transporte`) VALUES ('1', '1111-11-11', 'cambio de aceite', '15000', '65000', b'0', '2', b'1');
 
 -- (contraseña usuario id 1: 1234) 
-INSERT INTO rol (id_rol, nombre, descripcion) VALUES (1, 'Administrador', 'AdminDesc'), (2, 'Supervisor', 'SupervisorDesc'), (3, 'Encargado de Taller', 'EncargadoTallerDesc'), (4, 'Chofer', 'ChoferDesc');
+INSERT INTO rol (id_rol, nombre, descripcion) VALUES (1, 'Administrador', 'AdminDesc'), (2, 'Supervisor', 'SupervisorDesc'), (3, 'Encargado de Taller', 'EncargadoTallerDesc'), (4, 'Chofer', 'ChoferDesc'), (5, 'Mecanico', 'MecanicoDesc');
 INSERT INTO usuario (id_usuario, email, dni, password, nombre, apellido, birthdate, fecha_alta, activado) VALUES (1, 'mail@mail.com', 1234567, '81dc9bdb52d04dc20036dbd8313ed055', 'Juan', 'Perez', '1960-11-11', '2020-11-17', b'1');
-INSERT INTO usuario_rol (id_usuario, id_rol) VALUES (1, 1), (1, 2), (1, 3), (1, 4);
+INSERT INTO usuario_rol (id_usuario, id_rol) VALUES (1, 1), (1, 2), (1, 3), (1, 4), (1, 5);
 
 
 

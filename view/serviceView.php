@@ -30,11 +30,7 @@
                             </div>
                             <div class="detalles-viaje w3-margin-bottom">
                                 <h3 class="margin-0">Service Interno:</h3>
-                                <p class="margin-0">Sí</p>
-                            </div>
-                            <div class="detalles-viaje w3-margin-bottom">
-                                <h3 class="margin-0">ID Mecánico:</h3>
-                                <p class="margin-0">{{id_usuario}}</p>
+                                <p class="margin-0">{{interno}}</p>
                             </div>
                             <div class="detalles-viaje w3-margin-bottom">
                                 <h3 class="margin-0">Descripción:</h3>

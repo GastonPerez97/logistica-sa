@@ -10,6 +10,7 @@ class TransportUnitModel
         $this->database = $database;
     }
 
+
     public function getVehicleById($idVehicle)
     {
         $query = $this->database->prepare("SELECT       ut.*,
@@ -177,6 +178,14 @@ class TransportUnitModel
                 INNER JOIN  tipo_vehiculo tv ON v.id_tipo_vehiculo = tv.id_tipo_vehiculo";
         return $this->database->query($sql);
     }
+
+
+    public function getListVehicles()
+    {
+        $sql = "SELECT * FROM vehiculo";
+        return $this->database->query($sql);
+    }
+
 
     public function getTypesOfVehicles()
     {
