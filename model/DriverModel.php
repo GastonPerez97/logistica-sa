@@ -52,6 +52,11 @@ class DriverModel {
         return $this->database->query($sql);
     }
 
+    public function getDriverTravels($idDriver){
+        $sql ="SELECT * FROM viaje vj INNER JOIN viaje_chofer vc ON vj.id_viaje = vc.id_viaje 
+        WHERE vc.id_chofer='$idDriver'";
+    return $this->database->query($sql);
+}
     public function getAvailableDrivers() {
 
         $sql = "SELECT      ch.id_chofer,

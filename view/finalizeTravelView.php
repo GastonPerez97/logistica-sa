@@ -14,8 +14,8 @@
             <label for="realFuel"><b>Consumo de combustible real:</b></label>
             <input type="number" placeholder="Ingresar consumo de combustible real" name="realFuel" value="{{consumo_combustible_real}}" class="login-input" required>
 
-            <label for="realKilometers"><b>Kilometros previstos:</b></label>
-            <input type="number" placeholder="Ingresar kilometros previstos" name="realKilometers" value="{{kilometros_reales}}" class="login-input" required>
+            <label for="realKilometers"><b>Kilometros reales:</b></label>
+            <input type="number" placeholder="Ingresar kilometros reales" name="realKilometers" value="{{kilometros_reales}}" class="login-input" required>
 
 
             <label for="departureDate"><b>Fecha de salida:</b></label>
