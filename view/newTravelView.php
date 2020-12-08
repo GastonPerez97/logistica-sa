@@ -19,10 +19,15 @@
             <input type="text" placeholder="Ingresar destino del viaje" name="destination" class="login-input" required>
             <label for="estimatedDepartureDate"><b>Fecha de salida estimada:</b></label>
             <input type="date" placeholder="Ingresar fecha de salida estimada del viaje" name="estimatedDepartureDate" class="login-input" required>
-            <label for="departureDate"><b>Fecha de salida:</b></label>
-            <input type="date" placeholder="Ingresar fecha de salida del viaje" name="departureDate" class="login-input" required>
             <label for="estimatedArrivalDate"><b>Fecha de llegada estimada:</b></label>
             <input type="date" placeholder="Ingresar fecha de llegada estimada del viaje" name="estimatedArrivalDate" class="login-input" required>
+            <label for="idClient"><b>Seleccione el cliente:</b></label>
+            <select class="w3-select" name="idClient"  >
+
+                {{#clients}}
+                <option value="{{id_cliente}}">{{denominacion}}</option>
+                {{/clients}}
+
             <label for="driver-select"><b>Chofer <span style="color: red">*</span></b></label>
             <select class="w3-select" name="idDriver" id="driver-select">
                     {{# drivers }}
