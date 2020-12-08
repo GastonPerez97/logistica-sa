@@ -141,7 +141,7 @@ class TravelModel {
         $amount = $detourData["amount"];
 
         $currentFuel = $this->getRealFuelOf($travelId);
-        $totalFuel = $currentFuel + $amount;
+        $totalFuel = $currentFuel + $quantity;
 
         $sqlCargaCombustible = "INSERT INTO carga_combustible (lugar, cantidad, importe) VALUES ('$place', '$quantity', '$amount')";
         $this->database->execute($sqlCargaCombustible);
