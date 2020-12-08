@@ -261,7 +261,7 @@ class TravelController {
             && $_SESSION["chofer"] == 1
             && isset($_GET["id"])
             && $this->travelModel->checkIfTravelExistsBy($_GET["id"])
-            && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['userId'])) {
+            && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['driverId'])) {
 
             $data["idTravel"] = $_GET["id"];
             echo $this->render->render("view/reportTravelDetourView.php", $data);
@@ -277,7 +277,7 @@ class TravelController {
             && isset($_POST["travelId"])
             && $this->travelModel->validateNewDetour()
             && $this->travelModel->checkIfTravelExistsBy($_POST["travelId"])
-            && $this->travelDriverModel->isTravelAssignedToDriver($_POST["travelId"], $_SESSION['userId'])) {
+            && $this->travelDriverModel->isTravelAssignedToDriver($_POST["travelId"], $_SESSION['driverId'])) {
 
             $travelId = $_POST["travelId"];
 
@@ -301,7 +301,7 @@ class TravelController {
             && $_SESSION["chofer"] == 1
             && isset($_GET["id"])
             && $this->travelModel->checkIfTravelExistsBy($_GET["id"])
-            && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['userId'])) {
+            && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['driverId'])) {
 
             $data["idTravel"] = $_GET["id"];
             echo $this->render->render("view/reportTravelRefuelView.php", $data);
@@ -317,14 +317,13 @@ class TravelController {
             && isset($_POST["travelId"])
             && $this->travelModel->validateNewRefuel()
             && $this->travelModel->checkIfTravelExistsBy($_POST["travelId"])
-            && $this->travelDriverModel->isTravelAssignedToDriver($_POST["travelId"], $_SESSION['userId'])) {
+            && $this->travelDriverModel->isTravelAssignedToDriver($_POST["travelId"], $_SESSION['driverId'])) {
 
             $travelId = $_POST["travelId"];
 
             $refuelData["place"] = $_POST["place"];
             $refuelData["quantity"] = $_POST["quantity"];
             $refuelData["amount"] = $_POST["amount"];
-
             $this->travelModel->reportRefuelOf($travelId, $refuelData);
 
             $_SESSION["refuelReportedOk"] = 1;
@@ -343,7 +342,7 @@ class TravelController {
             && isset($_GET["id"])
             && $this->travelModel->validateNewPosition()
             && $this->travelModel->checkIfTravelExistsBy($_GET["id"])
-            && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['userId'])) {
+            && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['driverId'])) {
 
             $travelId = $_GET["id"];
 
