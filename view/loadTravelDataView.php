@@ -1,9 +1,7 @@
 {{> headerWithSidebar}}
 
 <div class="w3-content my-3em">
-    <h1 class="w3-center my-1em">{{detourReportedOk}}</h1>
-    <h1 class="w3-center my-1em">{{refuelReportedOk}}</h1>
-    <h1 class="w3-center my-1em">{{positionReportedOk}}</h1>
+    <h1 class="w3-center my-1em">{{detourReportedOk}} {{refuelReportedOk}} {{positionReportedOk}} {{proformaError}}</h1>
 
     <div class="w3-content w3-section">
         <div class="w3-container w3-margin-top">

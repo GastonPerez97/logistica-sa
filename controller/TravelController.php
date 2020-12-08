@@ -256,6 +256,11 @@ class TravelController {
                 unset($_SESSION["positionReportedOk"]);
             }
 
+            if (isset($_SESSION["proformaError"])) {
+                $data["proformaError"] = "La proforma del viaje debe existir para realizar este informe";
+                unset($_SESSION["proformaError"]);
+            }
+
             $data["idTravel"] = $_GET["id"];
             echo $this->render->render("view/loadTravelDataView.php", $data);
         } else {
@@ -312,7 +317,15 @@ class TravelController {
             && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['driverId'])) {
 
             $data["idTravel"] = $_GET["id"];
-            echo $this->render->render("view/reportTravelRefuelView.php", $data);
+
+            if (!$this->reportModel->checkIfProformaAlreadyExistsOf($data["idTravel"])) {
+                $_SESSION["proformaError"] = 1;
+
+                header("location: /pw2-grupo03/travel/loadData?id=" . $data["idTravel"]);
+                exit();
+            } else {
+                echo $this->render->render("view/reportTravelRefuelView.php", $data);
+            }
         } else {
             header("location: /pw2-grupo03");
             exit();
@@ -329,15 +342,22 @@ class TravelController {
 
             $travelId = $_POST["travelId"];
 
-            $refuelData["place"] = $_POST["place"];
-            $refuelData["quantity"] = $_POST["quantity"];
-            $refuelData["amount"] = $_POST["amount"];
-            $this->travelModel->reportRefuelOf($travelId, $refuelData);
+            if (!$this->reportModel->checkIfProformaAlreadyExistsOf($travelId)) {
+                $_SESSION["proformaError"] = 1;
 
-            $_SESSION["refuelReportedOk"] = 1;
+                header("location: /pw2-grupo03/travel/loadData?id=" . $travelId);
+                exit();
+            } else {
+                $refuelData["place"] = $_POST["place"];
+                $refuelData["quantity"] = $_POST["quantity"];
+                $refuelData["amount"] = $_POST["amount"];
+                $this->travelModel->reportRefuelOf($travelId, $refuelData);
 
-            header("location: /pw2-grupo03/travel/loadData?id=$travelId");
-            exit();
+                $_SESSION["refuelReportedOk"] = 1;
+
+                header("location: /pw2-grupo03/travel/loadData?id=$travelId");
+                exit();
+            }
         } else {
             header("location: /pw2-grupo03");
             exit();
