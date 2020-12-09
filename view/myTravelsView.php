@@ -2,9 +2,9 @@
 
 <div class="w3-content">
     <div class="w3-margin">
-        {{#_SESSION.admin}}
+        {{#_SESSION.supervisor}}
         <a href="/pw2-grupo03/travel/newTravel" class="w3-button w3-green w3-padding-large w3-round w3-right" style="margin-bottom: 2.5em;">Nuevo Viaje</a>
-        {{/_SESSION.admin}}
+        {{/_SESSION.supervisor}}
         <h2 class="w3-center w3-margin-bottom">{{proformaError}}</h2>
         <div>
             <div class="w3-row-padding">
