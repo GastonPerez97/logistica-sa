@@ -20,7 +20,7 @@ class TravelController {
     }
 
     public function execute() {
-    if (isset($_SESSION["loggedIn"]) && $_SESSION["admin"] == 1) {
+    if (isset($_SESSION["loggedIn"]) && $_SESSION["supervisor"] == 1 ) {
         if (isset($_SESSION["proformaError"])) {
             $data["proformaError"] = "Error: La proforma de este viaje no fue generada todavía";
             unset($_SESSION["proformaError"]);
@@ -43,7 +43,7 @@ class TravelController {
 
 
     public function newTravel() {
-        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["supervisor"] == 1) {
             $data["clients"] = $this-> clientModel->getClients();
             $data["drivers"] = $this->driverModel->getAvailableDrivers();
           
@@ -55,7 +55,7 @@ class TravelController {
     }
 
     public function addNewTravel() {
-        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["supervisor"] == 1) {
             $data = array();
 
             if (!$this->validateNewTravel()) {

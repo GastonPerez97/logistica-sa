@@ -120,7 +120,7 @@ class ClientController {
                 $this->clientModel->changeContact2($clientId, $newContact2);
             }
 
-            header("location: /pw2-grupo03/client/editClient?id=$clientId");
+            header("location: /pw2-grupo03/client");
             exit();
         } else {
             header("location: /pw2-grupo03");
