@@ -20,7 +20,7 @@ class TravelController {
     }
 
     public function execute() {
-    if (isset($_SESSION["loggedIn"]) && $_SESSION["admin"] == 1) {
+    if (isset($_SESSION["loggedIn"]) && $_SESSION["supervisor"] == 1 ) {
         if (isset($_SESSION["proformaError"])) {
             $data["proformaError"] = "Error: La proforma de este viaje no fue generada todavía";
             unset($_SESSION["proformaError"]);
