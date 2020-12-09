@@ -449,7 +449,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `grupo03`.`factura` (
   `id_factura` INT NOT NULL AUTO_INCREMENT,
-  `numero_factura` VARCHAR(45) NOT NULL,
+  `numero_factura` VARCHAR(45) NULL,
   `fecha_facturacion` DATE NOT NULL,
   `fecha_pago` DATE NULL,
   `id_viaje` INT NOT NULL,
@@ -779,15 +779,15 @@ INSERT INTO `grupo03`.`tipo_carga` (`nombre`, `descripcion`)
 			('CarCarrier', 'CarCarrier');
 
 -- TIPO PELIGRO --		
-INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1 - Subclase 1');
-INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1 - Subclase 2');
-INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1 - Subclase 3');
-INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1 - Subclase 4');
-INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1 - Subclase 5');
-INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1 - Subclase 6');
-INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 2 - Subclase 1');
-INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 2 - Subclase 2');
-INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 2 - Subclase 3');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1.1');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1.2');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1.3');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1.4');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1.5');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 1.6');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 2.1');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 2.2');
+INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 2.3');
 INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 3');
 INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 4.1');
 INSERT INTO `grupo03`.`tipo_peligro` (`descripcion`) VALUES ('Clase 4.2');
