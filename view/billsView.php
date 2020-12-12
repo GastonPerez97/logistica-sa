@@ -1,40 +1,37 @@
 {{> headerWithSidebar}}
 
-<div class="w3-content">
+<div class="container-80pct">
     <div class="w3-margin">
-        <div class="w3-row-padding my-2em">
-            {{#bills}}
-                <div class="w3-col s12 m6 l6 w3-center" style="margin-bottom: 2em;">
-                    <div class="w3-card-4 w3-round">
-                        <header class="w3-container w3-light-grey w3-margin-bottom">
-                            <div class="d-flex justify-content-center">
-                                <h3>Factura de Viaje con ID {{id_viaje}}</h3>
-                            </div>
-                        </header>
-
-                        <div class="w3-container w3-margin-bottom">
-                            <div class="d-flex justify-content-around">
-                                <div>
-                                    <h3>Cliente:</h3>
-                                    <p>{{denominacion}}</p>
-                                </div>
-                                <div>
-                                    <h3>CUIT:</h3>
-                                    <p>{{cuit}}</p>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-around my-1em">
-                                <div>
-                                    <h3>Fecha de Facturación:</h3>
-                                    <p>{{fecha_facturacion}}</p>
-                                </div>
-                            </div>
-
-                            <a href="/pw2-grupo03/bill/viewBill?id={{id_viaje}}" class="w3-button w3-green w3-round w3-margin-bottom w3-margin-top">Ver Factura</a>
-                        </div>
-                    </div>
-                </div>
-            {{/bills}}
+        <div class="my-2em">
+            <table id="data-table" class="w3-table w3-border w3-bordered w3-centered display responsive nowrap" style="width:100%">
+                <thead>
+                    <tr class="table-head">
+                        <th class="vertical-align-middle">Factura de viaje con ID</th>
+                        <th class="vertical-align-middle">Cliente</th>
+                        <th class="vertical-align-middle">Dirección</th>
+                        <th class="vertical-align-middle">Telefono</th>
+                        <th class="vertical-align-middle">CUIT</th>
+                        <th class="vertical-align-middle">Fecha de facturación</th>
+                        <th class="vertical-align-middle">Ver Factura</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#bills}}
+                        <tr>
+                            <td class="vertical-align-middle">{{id_viaje}}</td>
+                            <td class="vertical-align-middle">{{denominacion}}</td>
+                            <td class="vertical-align-middle">{{direccion}}</td>
+                            <td class="vertical-align-middle">{{telefono}}</td>
+                            <td class="vertical-align-middle">{{cuit}}</td>
+                            <td class="vertical-align-middle">{{fecha_facturacion}}</td>
+                            <td class="vertical-align-middle">
+                                <a href="/pw2-grupo03/bill/viewBill?id={{id_viaje}}"
+                                   class="w3-button w3-green w3-round w3-small">Ver Factura</a>
+                            </td>
+                        </tr>
+                    {{/bills}}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

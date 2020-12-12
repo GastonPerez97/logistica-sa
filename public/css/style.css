@@ -177,6 +177,12 @@ button:hover {
     margin-right: auto;
 }
 
+.container-90pct {
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .table-head {
     background-color: #343a40;
     color: #FFF;

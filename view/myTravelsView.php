@@ -7,7 +7,7 @@
            class="w3-button w3-green w3-padding-large w3-round w3-right" style="margin-bottom: 2em;">Nuevo Viaje</a>
         {{/_SESSION.supervisor}}
         <h2 class="w3-center w3-margin-bottom">{{proformaError}}</h2>
-        <div>
+        <div class="my-2em">
             <table id="data-table" class="w3-table w3-border w3-bordered w3-centered display responsive nowrap" style="width:100%">
                 <thead>
                     <tr class="table-head">
@@ -48,8 +48,6 @@
         </div>
     </div>
 </div>
-
-
 
 {{> deleteAlert}}
 {{> footerSidebarFixed}}

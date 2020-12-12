@@ -1,56 +1,41 @@
 {{> headerWithSidebar}}
 
-<div class="w3-content">
+<div class="container-80pct">
     <div class="w3-margin">
         <a href="/pw2-grupo03/client/newClient" class="w3-button w3-green w3-padding-large w3-round w3-right" style="margin-bottom: 2.5em;">Nuevo Cliente</a>
-        <div>
-            <div class="w3-row-padding">
+
+        <div class="my-2em">
+            <table id="data-table" class="w3-table w3-border w3-bordered w3-centered display responsive nowrap" style="width:100%">
+                <thead>
+                    <tr class="table-head">
+                        <th class="vertical-align-middle">Denominación</th>
+                        <th class="vertical-align-middle">E-Mail</th>
+                        <th class="vertical-align-middle">CUIT</th>
+                        <th class="vertical-align-middle">Telefono</th>
+                        <th class="vertical-align-middle">Dirección</th>
+                        <th class="vertical-align-middle">Contacto 1</th>
+                        <th class="vertical-align-middle">Contacto 2</th>
+                        <th class="vertical-align-middle">Editar</th>
+                    </tr>
+                </thead>
+                <tbody>
                 {{#clients}}
-                <div class="w3-col s12 m12 l6 w3-center" style="margin-bottom: 2em;">
-                    <div class="w3-card-4 w3-round">
-                        <div class="w3-container w3-margin-bottom">
-                            <div class="w3-margin-bottom">
-                                <div>
-                                    <h3>Denominación:</h3>
-                                    <p>{{denominacion}}</p>
-                                </div>
-                                <div class="d-flex justify-content-around w3-margin-top">
-                                    <div>
-                                        <h3>E-Mail:</h3>
-                                        <p>{{email}}</p>
-                                    </div>
-                                    <div>
-                                        <h3>CUIT:</h3>
-                                        <p>{{cuit}}</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-around w3-margin-top">
-                                    <div>
-                                        <h3>Telefono:</h3>
-                                        <p>{{telefono}}</p>
-                                    </div>
-                                    <div>
-                                        <h3>Dirección:</h3>
-                                        <p>{{direccion}}</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-around w3-margin-top">
-                                    <div>
-                                        <h3>Contacto 1:</h3>
-                                        <p>{{contacto1}}</p>
-                                    </div>
-                                    <div>
-                                        <h3>Contacto 2:</h3>
-                                        <p>{{contacto2}}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="/pw2-grupo03/client/editClient?id={{id_cliente}}" class="w3-button w3-blue w3-tiny w3-round w3-margin-bottom">Editar</a>
-                        </div>
-                    </div>
-                </div>
+                    <tr>
+                        <td class="vertical-align-middle">{{denominacion}}</td>
+                        <td class="vertical-align-middle">{{email}}</td>
+                        <td class="vertical-align-middle">{{cuit}}</td>
+                        <td class="vertical-align-middle">{{telefono}}</td>
+                        <td class="vertical-align-middle">{{direccion}}</td>
+                        <td class="vertical-align-middle">{{contacto1}}</td>
+                        <td class="vertical-align-middle">{{contacto2}}</td>
+                        <td class="vertical-align-middle">
+                            <a href="/pw2-grupo03/client/editClient?id={{id_cliente}}"
+                               class="w3-button w3-blue w3-tiny w3-round">Editar</a>
+                        </td>
+                    </tr>
                 {{/clients}}
-            </div>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
