@@ -1,55 +1,55 @@
 {{> headerWithSidebar}}
 
-<div class="w3-content">
+<div class="container-80pct">
     <div class="w3-margin">
         {{#_SESSION.supervisor}}
-        <a href="/pw2-grupo03/travel/newTravel" class="w3-button w3-green w3-padding-large w3-round w3-right" style="margin-bottom: 2.5em;">Nuevo Viaje</a>
+        <a href="/pw2-grupo03/travel/newTravel"
+           class="w3-button w3-green w3-padding-large w3-round w3-right" style="margin-bottom: 2em;">Nuevo Viaje</a>
         {{/_SESSION.supervisor}}
         <h2 class="w3-center w3-margin-bottom">{{proformaError}}</h2>
         <div>
-            <div class="w3-row-padding">
+            <table id="data-table" class="w3-table w3-border w3-bordered w3-centered display responsive nowrap" style="width:100%">
+                <thead>
+                    <tr class="table-head">
+                        <th class="vertical-align-middle">ID</th>
+                        <th class="vertical-align-middle">Origen</th>
+                        <th class="vertical-align-middle">Destino</th>
+                        <th class="vertical-align-middle">ETD</th>
+                        <th class="vertical-align-middle">ETA</th>
+                        <th class="vertical-align-middle">Editar</th>
+                        <th class="vertical-align-middle">Proforma</th>
+                        <th class="vertical-align-middle">Finalizar Viaje</th>
+                    </tr>
+                </thead>
+                <tbody>
                 {{#travels}}
-                    <div class="w3-col s12 m6 l6 w3-center" style="margin-bottom: 2em;">
-                        <div class="w3-card-4 w3-round">
-                            <header class="w3-container w3-light-grey w3-margin-bottom">
-                                <div class="d-flex justify-content-center">
-                                    <h3>ID: {{id_viaje}}</h3>
-                                </div>
-                            </header>
-
-                            <div class="w3-container w3-margin-bottom">
-                                <div class="d-flex justify-content-around">
-                                    <div>
-                                        <h3>Desde:</h3>
-                                        <p>{{origen}}</p>
-                                    </div>
-                                    <div>
-                                        <h3>Hasta:</h3>
-                                        <p>{{destino}}</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-around my-1em">
-                                    <div>
-                                        <h3>ETD:</h3>
-                                        <p>{{fecha_salida_estimada}}</p>
-                                    </div>
-                                    <div>
-                                        <h3>ETA:</h3>
-                                        <p>{{fecha_llegada_estimada}}</p>
-                                    </div>
-                                </div>
-                                
-                                <a href="/pw2-grupo03/travel/editTravel?id={{id_viaje}}" class="w3-button w3-blue w3-tiny w3-round w3-margin-bottom w3-margin-top">Editar</a>
-                                <a href="/pw2-grupo03/travel/viewProforma?id={{id_viaje}}" class="w3-button w3-green w3-tiny w3-round w3-margin-bottom w3-margin-top">Ver Proforma</a>
-                                <a href="/pw2-grupo03/travel/finalizeTravel?id={{id_viaje}}" class="w3-button w3-blue w3-tiny w3-round w3-margin-bottom w3-margin-top">Finalizar viaje</a>
-                            </div>
-                        </div>
-                    </div>
-                {{/travels}}
-            </div>
+                        <tr>
+                            <td class="vertical-align-middle">{{id_viaje}}</td>
+                            <td class="vertical-align-middle">{{origen}}</td>
+                            <td class="vertical-align-middle">{{destino}}</td>
+                            <td class="vertical-align-middle">{{fecha_salida_estimada}}</td>
+                            <td class="vertical-align-middle">{{fecha_llegada_estimada}}</td>
+                            <td class="vertical-align-middle">
+                                <a href="/pw2-grupo03/travel/editTravel?id={{id_viaje}}"
+                                   class="w3-button w3-blue w3-tiny w3-round">Editar</a>
+                            </td>
+                            <td class="vertical-align-middle">
+                                <a href="/pw2-grupo03/travel/viewProforma?id={{id_viaje}}"
+                                   class="w3-button w3-green w3-tiny w3-round">Ver Proforma</a>
+                            </td>
+                            <td class="vertical-align-middle">
+                                <a href="/pw2-grupo03/travel/finalizeTravel?id={{id_viaje}}"
+                                   class="w3-button w3-black w3-tiny w3-round">Finalizar Viaje</a>
+                            </td>
+                        </tr>
+                    {{/travels}}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
+
+
 
 {{> deleteAlert}}
 {{> footerSidebarFixed}}

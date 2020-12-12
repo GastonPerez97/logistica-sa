@@ -4,7 +4,20 @@
     <p>Log&iacutestica S.A.&#174 Todos los Derechos Reservados 2020</p>
 </footer>
 
+<script src="/pw2-grupo03/public/js/jquery-3.5.1.min.js"></script>
+<script src="/pw2-grupo03/public/DataTables/datatables.min.js"></script>
+<script src="/pw2-grupo03/public/DataTables/dataTables.responsive.min.js"></script>
 <script src="https://kit.fontawesome.com/7459688133.js" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready( function () {
+        $('#data-table').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+            }
+        });
+    } );
+</script>
 
 <script>
     function w3_open() {

@@ -23,6 +23,16 @@ footer {
     width: 100%;
 }
 
+th {
+    font-weight: normal !important;
+}
+
+table {
+    border-collapse:separate !important;
+    border-radius:6px !important;
+    -moz-border-radius:6px !important;
+}
+
 .login-form {
     border: 20px solid #f1f1f1;
     margin-left: 16em;
@@ -159,6 +169,26 @@ button:hover {
 .my-1em {
     margin-bottom: 1em;
     margin-top: 1em;
+}
+
+.container-80pct {
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.table-head {
+    background-color: #343a40;
+    color: #FFF;
+    height: 50px;
+}
+
+.w3-black {
+    background-color: #343a40 !important;
+}
+
+.vertical-align-middle {
+    vertical-align: middle !important;
 }
 
 .footerSidebarFixed {
