@@ -61,6 +61,10 @@ class LoginController {
                 $_SESSION['driverId'] = $this->driverModel->getDriverIdOf($userId);
             }
 
+            if ($_SESSION['supervisor'] == 1 || $_SESSION['chofer'] == 1) {
+                $_SESSION['canSeeViajesBtn'] = 1;
+            }
+
             header("location: /pw2-grupo03/home");
             exit();
         }
