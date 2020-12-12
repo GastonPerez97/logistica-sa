@@ -29,11 +29,6 @@
             <a href="/pw2-grupo03/bill" class="w3-button w3-block w3-amber w3-padding-large w3-round-large"><b>Facturas</b></a>
         </div>
     </div>
-    <div class="w3-content w3-section">
-        <div class="w3-container">
-            <a href="/pw2-grupo03/travel" class="w3-button w3-block w3-amber w3-padding-large w3-round-large"><b>Viajes<b></a>
-        </div>
-    </div>
     {{/_SESSION.supervisor}}
     {{#_SESSION.encargado}}
     <div class="w3-content w3-section">
@@ -42,13 +37,13 @@
         </div>
     </div>
     {{/_SESSION.encargado}}
-    {{#_SESSION.chofer}}
+    {{#_SESSION.canSeeViajesBtn}}
     <div class="w3-content w3-section">
         <div class="w3-container">
             <a href="/pw2-grupo03/travel" class="w3-button w3-block w3-amber w3-padding-large w3-round-large"><b>Viajes<b></a>
         </div>
     </div>
-    {{/_SESSION.chofer}}
+    {{/_SESSION.canSeeViajesBtn}}
 </div>
 
 {{> footer}}

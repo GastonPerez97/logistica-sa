@@ -1,6 +1,8 @@
 {{> headerWithSidebar}}
 
 <div class="w3-content w3-margin-top">
+    <h2 class="w3-center w3-margin-bottom">{{createProforma}}</h2>
+
     <form action="createProforma" method="post" class="login-form">
         <div class="container-title"><p>Generar Proforma</p></div>
 

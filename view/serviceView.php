@@ -1,56 +1,43 @@
 {{> headerWithSidebar}}
 
-<div class="w3-content">
+<div class="container-80pct">
     <div class="w3-margin">
         <a href="/pw2-grupo03/service/newService" class="w3-button w3-green w3-padding-large w3-round w3-right" style="margin-bottom: 2.5em;">Nuevo Servicio</a>
 
-        <div>
-            <div class="w3-row-padding">
-                {{#services}}
-                <div class="w3-col s12 m6 l4 w3-center" style="margin-bottom: 2em;">
-                    <div class="w3-card-4 w3-round">
-                        <header class="w3-container w3-light-grey d-flex-centrado">
-                            <h3>Service N° {{id_service}}</h3>
-                        </header>
-
-                        <div class="w3-container w3-margin-bottom">
-                            <div class="detalles-viaje w3-margin-bottom">
-                                <div>
-                                    <h3>N° Unidad:</h3>
-                                    <p>{{id_unidad_de_transporte}}</p>
-                                </div>
-                                <div>
-                                    <h3>Fecha:</h3>
-                                    <p>{{fecha_service}}</p>
-                                </div>
-                            </div>
-                            <div class="detalles-viaje w3-margin-bottom">
-                                <h3 class="margin-0">Kilometros:</h3>
-                                <p class="margin-0">{{kilometraje_actual_unidad}}</p>
-                            </div>
-                            <div class="detalles-viaje w3-margin-bottom">
-                                <h3 class="margin-0">Service Interno:</h3>
-                                <p class="margin-0">{{interno}}</p>
-                            </div>
-                            <div class="detalles-viaje w3-margin-bottom">
-                                <h3 class="margin-0">Descripción:</h3>
-                                <p class="margin-0">{{detalle}}</p>
-                            </div>
-                            <div class="detalles-viaje w3-margin-bottom">
-                                <h3 class="margin-0">Costo:</h3>
-                                <p class="margin-0">$ {{costo}}</p>
-                            </div>
-
-                            <a href="/pw2-grupo03/service/deleteService?id={{id_service}}" class="w3-button w3-red w3-tiny w3-round w3-margin-bottom delete-btn-service">Eliminar</a>
-                            <a href="/pw2-grupo03/service/editService?id={{id_service}}" class="w3-button w3-blue w3-tiny w3-round w3-margin-bottom">Editar</a>
-                        </div>
-                    </div>
-                </div>
-                {{/services}}
-            </div>
+        <div class="my-2em">
+            <table id="data-table" class="w3-table w3-border w3-bordered w3-centered display responsive nowrap" style="width:100%">
+                <thead>
+                    <tr class="table-head">
+                        <th class="vertical-align-middle">N° Service</th>
+                        <th class="vertical-align-middle">N° Unidad</th>
+                        <th class="vertical-align-middle">Fecha</th>
+                        <th class="vertical-align-middle">Kilometros</th>
+                        <th class="vertical-align-middle">Service interno</th>
+                        <th class="vertical-align-middle">Descripción</th>
+                        <th class="vertical-align-middle">Costo</th>
+                        <th class="vertical-align-middle">Editar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#services}}
+                        <tr>
+                            <td class="vertical-align-middle">{{id_service}}</td>
+                            <td class="vertical-align-middle">{{id_unidad_de_transporte}}</td>
+                            <td class="vertical-align-middle">{{fecha_service}}</td>
+                            <td class="vertical-align-middle">{{kilometraje_actual_unidad}}</td>
+                            <td class="vertical-align-middle">{{interno}}</td>
+                            <td class="vertical-align-middle">{{detalle}}</td>
+                            <td class="vertical-align-middle">{{costo}}</td>
+                            <td class="vertical-align-middle">
+                                <a href="/pw2-grupo03/service/editService?id={{id_service}}"
+                                   class="w3-button w3-blue w3-tiny w3-round">Editar</a>
+                            </td>
+                        </tr>
+                    {{/services}}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 
-{{> deleteAlert}}
 {{> footerSidebarFixed}}
