@@ -166,8 +166,19 @@ class TravelModel {
         $posicionId = $lastId[0]["last_insert_id()"];
 
         $sqlViajePosicion = "INSERT INTO viaje_posicion (id_viaje, id_posicion) VALUES ('$travelId', '$posicionId')";
-
         $this->database->execute($sqlViajePosicion);
+
+        $transportUnitId = $this->getTransportUnitIdOf($travelId);
+        $transportUnitIdResult = $transportUnitId[0]["id_unidad_de_transporte"];
+
+        $sql = "UPDATE unidad_de_transporte SET posicion_actual = 'http://www.google.com/maps/place/$lat,$long'
+                                                    WHERE id_unidad_de_transporte = '$transportUnitIdResult'";
+        $this->database->execute($sql);
+    }
+
+    public function getTransportUnitIdOf($travelId) {
+        $sql = "SELECT id_unidad_de_transporte FROM viaje_unidad_de_transporte WHERE id_viaje = '$travelId'";
+        return $this->database->query($sql);
     }
 
     public function convertDatetimeFromMySQLToHTMLOf($travelArray) {
