@@ -207,10 +207,17 @@ class TravelController {
                 $idProforma = $this->reportModel->getIdProformaOf($travelId);
                 $this->reportModel->renderPdfProformaOf($idProforma);
             } else {
-                $_SESSION["proformaError"] = 1;
+                if ($_SESSION["admin"] == 1) {
+                    $_SESSION["createProforma"] = 1;
 
-                header("location: /pw2-grupo03/travel");
-                exit();
+                    header("location: /pw2-grupo03/report/newProforma");
+                    exit();
+                } else {
+                    $_SESSION["proformaError"] = 1;
+
+                    header("location: /pw2-grupo03/travel");
+                    exit();
+                }
             }
         } else {
             header("location: /pw2-grupo03");

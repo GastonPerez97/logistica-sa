@@ -36,6 +36,11 @@ class ReportController {
 
     public function newProforma() {
         if (isset($_SESSION["loggedIn"]) && $_SESSION["admin"] == 1) {
+            if (isset($_SESSION["createProforma"])) {
+                $data["createProforma"] = "Error: La proforma de este viaje no fue generada todavía";
+                unset($_SESSION["createProforma"]);
+            }
+
             $data["clients"] = $this->reportModel->getClients();
             $data["travels"] = $this->travelModel->getTravels();
             $data["typeLoad"] = $this->loadModel->getTypeLoad();
