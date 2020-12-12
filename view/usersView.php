@@ -24,11 +24,11 @@
                     <td class="vertical-align-middle">{{apellido}}</td>
                     <td class="vertical-align-middle">{{email}}</td>
                     <td class="vertical-align-middle">
-                        <a href="/pw2-grupo03/usuarios/editarUsuario?id=1"
+                        <a href="/pw2-grupo03/usuarios/editarUsuario?id={{id_usuario}}"
                            class="w3-button w3-blue w3-tiny w3-round">Editar</a>
                     </td>
                     <td class="vertical-align-middle">
-                        <a href="/pw2-grupo03/usuarios/verUsuario?id=1"
+                        <a href="/pw2-grupo03/usuarios/verUsuario?id={{id_usuario}}"
                            class="w3-button w3-green w3-tiny w3-round">Ver Usuario</a>
                     </td>
                 </tr>
