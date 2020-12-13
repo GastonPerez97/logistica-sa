@@ -242,4 +242,14 @@ class TransportUnitController {
 
         return json_encode($models, JSON_FORCE_OBJECT);
     }
+
+    public function getVehiclePosition() {
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["canSeeVehiclePositionBtn"] == 1) {
+            $data["transportUnits"] = $this->transportUnitModel->getTransportUnitsWithPosition();
+            echo $this->render->render("view/getVehiclePositionView.php", $data);
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
+    }
 }

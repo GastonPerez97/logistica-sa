@@ -65,6 +65,10 @@ class LoginController {
                 $_SESSION['canSeeViajesBtn'] = 1;
             }
 
+            if ($_SESSION['supervisor'] == 1 || $_SESSION['admin'] == 1 || $_SESSION['encargado'] == 1) {
+                $_SESSION['canSeeVehiclePositionBtn'] = 1;
+            }
+
             header("location: /pw2-grupo03/home");
             exit();
         }
