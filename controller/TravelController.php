@@ -88,12 +88,19 @@ class TravelController {
         if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
             if (is_numeric($_GET["id"])) {
                 $travelId = $_GET["id"];
-                $data["travel"] = $this->travelModel->getTravelById($travelId);
+                $travel=$this->travelModel->getTravelById($travelId);
 
-                $data["travel"] = $this->travelModel->convertDatetimeFromMySQLToHTMLOf($data["travel"]);
+                if(is_null($travel[0]["fecha_llegada"])) {
+                    $data["travel"] = $travel;
 
-                echo $this->render->render("view/updateTravelView.php", $data);
-            } else {
+                    $data["travel"] = $this->travelModel->convertDatetimeFromMySQLToHTMLOf($data["travel"]);
+
+                    echo $this->render->render("view/updateTravelView.php", $data);
+                }else{
+                    $data["errorEditar"]="El viaje ya está finalizado, no se puede editar";
+                    $data["travels"] = $this->travelModel->getTravels();
+                    echo $this->render->render("view/MyTravelsView.php", $data);
+                } } else {
                 header("location: /pw2-grupo03/travel");
                 exit();
             }
@@ -142,9 +149,8 @@ class TravelController {
                 $this->travelModel->changeEstimatedArrivalDate($travelId, $newEstimatedArrivalDate);
             }
 
-
-            header("location: /pw2-grupo03/travel");
-            exit();
+            $data["correctEditTravel"] = "Viaje Editado Correctamente";
+            echo $this->render->render("view/updateTravelResultView.php", $data);
         } else {
             header("location: /pw2-grupo03");
             exit();
@@ -191,8 +197,8 @@ class TravelController {
                 $this->travelModel->changeArrivalDate($travelId, $newArrivalDate);
             }
 
-            header("location: /pw2-grupo03/travel");
-            exit();
+            $data["correctFinalizeTravel"] = "Viaje Finalizado Correctamente";
+            echo $this->render->render("view/updateTravelResultView.php", $data);
         } else {
             header("location: /pw2-grupo03");
             exit();
