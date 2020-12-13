@@ -245,4 +245,9 @@ class TransportUnitModel
 
         return $models;
     }
+
+    public function getTransportUnitsWithPosition() {
+        $sql = "SELECT * FROM unidad_de_transporte WHERE posicion_actual <> 'Sin posicion actual'";
+        return $this->database->query($sql);
+    }
 }

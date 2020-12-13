@@ -42,7 +42,9 @@ class TravelModel {
 
     public function getTravels()
     {
-        $sql = "SELECT * FROM viaje";
+        $sql = "SELECT * FROM viaje V JOIN viaje_chofer VC ON V.id_viaje = VC.id_viaje
+                                      JOIN chofer C ON VC.id_chofer = C.id_chofer
+                                      JOIN usuario U ON C.id_usuario = U.id_usuario";
         return $this->database->query($sql);
     }
 
