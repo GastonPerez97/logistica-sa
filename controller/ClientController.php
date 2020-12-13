@@ -120,8 +120,7 @@ class ClientController {
                 $this->clientModel->changeContact2($clientId, $newContact2);
             }
 
-            $data["correctEditClient"] = "Cliente Editado Correctamente";
-            echo $this->render->render("view/updateClientResultView.php", $data);
+            header("location: /pw2-grupo03/client");
         } else {
             header("location: /pw2-grupo03");
             exit();

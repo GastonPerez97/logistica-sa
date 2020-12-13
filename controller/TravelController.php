@@ -149,8 +149,7 @@ class TravelController {
                 $this->travelModel->changeEstimatedArrivalDate($travelId, $newEstimatedArrivalDate);
             }
 
-            $data["correctEditTravel"] = "Viaje Editado Correctamente";
-            echo $this->render->render("view/updateTravelResultView.php", $data);
+           header("location: /pw2-grupo03/travel");
         } else {
             header("location: /pw2-grupo03");
             exit();
@@ -197,8 +196,7 @@ class TravelController {
                 $this->travelModel->changeArrivalDate($travelId, $newArrivalDate);
             }
 
-            $data["correctFinalizeTravel"] = "Viaje Finalizado Correctamente";
-            echo $this->render->render("view/updateTravelResultView.php", $data);
+            header("location:/pw2-grupo03/travel");
         } else {
             header("location: /pw2-grupo03");
             exit();
