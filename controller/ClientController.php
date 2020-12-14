@@ -121,7 +121,6 @@ class ClientController {
             }
 
             header("location: /pw2-grupo03/client");
-            exit();
         } else {
             header("location: /pw2-grupo03");
             exit();
