@@ -211,6 +211,15 @@ button:hover {
     justify-content: space-between;
 }
 
+.cursor-not-allowed {
+    cursor: not-allowed;
+}
+
+.disabled-btn {
+    pointer-events: none;
+    opacity: 0.3;
+}
+
 #mySidebar {
     width: 15%;
     right: 0px;

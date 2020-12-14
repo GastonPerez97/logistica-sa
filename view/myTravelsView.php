@@ -33,17 +33,19 @@
                             <td class="vertical-align-middle">{{fecha_salida_estimada}}</td>
                             <td class="vertical-align-middle">{{fecha_llegada_estimada}}</td>
                             <td class="vertical-align-middle">{{apellido}}, {{nombre}}</td>
-                            <td class="vertical-align-middle">
+                            <td class="vertical-align-middle {{#fecha_llegada}}cursor-not-allowed{{/fecha_llegada}}">
                                 <a href="/pw2-grupo03/travel/editTravel?id={{id_viaje}}"
-                                   class="w3-button w3-blue w3-tiny w3-round">Editar</a>
+                                   class="w3-button w3-blue w3-tiny w3-round
+                                         {{#fecha_llegada}}disabled-btn{{/fecha_llegada}}">Editar</a>
                             </td>
                             <td class="vertical-align-middle">
                                 <a href="/pw2-grupo03/travel/viewProforma?id={{id_viaje}}"
                                    class="w3-button w3-green w3-tiny w3-round">Ver Proforma</a>
                             </td>
-                            <td class="vertical-align-middle">
+                            <td class="vertical-align-middle {{#fecha_llegada}}cursor-not-allowed{{/fecha_llegada}}">
                                 <a href="/pw2-grupo03/travel/finalizeTravel?id={{id_viaje}}"
-                                   class="w3-button w3-black w3-tiny w3-round">Finalizar Viaje</a>
+                                   class="w3-button w3-black w3-tiny w3-round
+                                         {{#fecha_llegada}}disabled-btn{{/fecha_llegada}}">Finalizar Viaje</a>
                             </td>
                         </tr>
                     {{/travels}}
