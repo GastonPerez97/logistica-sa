@@ -10,7 +10,7 @@
 
     <div class="w3-content w3-section">
         <div class="w3-container">
-            <a href="report/newServiceRecord" class="w3-button w3-block w3-amber w3-padding-large w3-round-large" ><b>Mantenimiento de Vehiculos<b></a>
+            <a href="report/newServiceRecordInPage" class="w3-button w3-block w3-amber w3-padding-large w3-round-large" ><b>Mantenimiento de Vehiculos<b></a>
         </div>
     </div>
 

@@ -437,14 +437,14 @@ class ReportModel {
 
         $pdf = new FPDF();
         $pdf->AddPage();
-        $reportData= $this->serviceReport();
-        $maxService = $this->maxService();
+        $reportData= $this->getServiceReport();
+        $maxService = $this->getMaxService();
 
-        $maxKm = $this->maxKm();
+        $maxKm = $this->getMaxKm();
         $valueIdVehicleMaxKm = $maxKm["id_vehiculo"];
         $valueVehicleMaxKm = $maxKm["max"];
 
-        $maxCost = $this->maxCost();
+        $maxCost = $this->getMaxCost();
         $valueIdVehicleMaxCost = $maxCost["id_vehiculo"];
         $valueVehicleMaxCost = $maxCost["costo"];
 
@@ -594,23 +594,23 @@ class ReportModel {
         $this->database->execute($sql);
     }
 
-    public function serviceReport() {
+    public function getServiceReport() {
         $sql = 'SELECT id_service, fecha_service, id_unidad_de_transporte as vehiculo, kilometraje_actual_unidad as KM, detalle, costo, interno FROM service ORDER BY fecha_service DESC';
         return $this->database->query($sql);
     }
 
-    public function maxService() {
+    public function getMaxService() {
         $sql = 'SELECT se.id_unidad_de_transporte as id_vehiculo, COUNT(se.id_unidad_de_transporte) AS cantidad FROM grupo03.service se group by id_unidad_de_transporte LIMIT 1';
         $result = $this->database->fetch_assoc($sql);
         return $result["id_vehiculo"];
     }
 
-    public function maxKm() {
+    public function getMaxKm() {
         $sql = 'SELECT se.id_unidad_de_transporte as id_vehiculo, MAX(se.kilometraje_actual_unidad) as max FROM grupo03.service se';
         return $this->database->fetch_assoc($sql);
     }
 
-    public function maxCost() {
+    public function getMaxCost() {
         $sql = 'SELECT se.id_unidad_de_transporte as id_vehiculo, SUM(costo) as costo FROM grupo03.service se group by id_unidad_de_transporte';
         return $this->database->fetch_assoc($sql);
     }

@@ -107,6 +107,18 @@ class ReportController {
         }
     }
 
+
+    public function newServiceRecordInPage(){
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["admin"] == 1) {
+            $data["servicesByDate"] = $this->reportModel->getServiceReport();
+            echo $this->render->render("view/newServiceRecordInPageView.php", $data);
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
+    }
+
+
     public function newServiceRecord(){
         if (isset($_SESSION["loggedIn"]) && $_SESSION["admin"] == 1) {
            $this->reportModel->generatePdfOfServiceRecord();
