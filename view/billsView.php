@@ -36,5 +36,5 @@
     </div>
 </div>
 
-{{> deleteAlert}}
+{{> dataTable}}
 {{> footerSidebarFixed}}

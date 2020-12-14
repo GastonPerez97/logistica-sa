@@ -19,26 +19,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                {{#clients}}
-                    <tr>
-                        <td class="vertical-align-middle">{{denominacion}}</td>
-                        <td class="vertical-align-middle">{{email}}</td>
-                        <td class="vertical-align-middle">{{cuit}}</td>
-                        <td class="vertical-align-middle">{{telefono}}</td>
-                        <td class="vertical-align-middle">{{direccion}}</td>
-                        <td class="vertical-align-middle">{{contacto1}}</td>
-                        <td class="vertical-align-middle">{{contacto2}}</td>
-                        <td class="vertical-align-middle">
-                            <a href="/pw2-grupo03/client/editClient?id={{id_cliente}}"
-                               class="w3-button w3-blue w3-tiny w3-round">Editar</a>
-                        </td>
-                    </tr>
-                {{/clients}}
+                    {{#clients}}
+                        <tr>
+                            <td class="vertical-align-middle">{{denominacion}}</td>
+                            <td class="vertical-align-middle">{{email}}</td>
+                            <td class="vertical-align-middle">{{cuit}}</td>
+                            <td class="vertical-align-middle">{{telefono}}</td>
+                            <td class="vertical-align-middle">{{direccion}}</td>
+                            <td class="vertical-align-middle">{{contacto1}}</td>
+                            <td class="vertical-align-middle">{{contacto2}}</td>
+                            <td class="vertical-align-middle">
+                                <a href="/pw2-grupo03/client/editClient?id={{id_cliente}}"
+                                   class="w3-button w3-blue w3-tiny w3-round">Editar</a>
+                            </td>
+                        </tr>
+                    {{/clients}}
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-{{> deleteAlert}}
+{{> dataTable}}
 {{> footerSidebarFixed}}

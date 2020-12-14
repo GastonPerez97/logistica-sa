@@ -25,7 +25,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                {{#travels}}
+                    {{#travels}}
                         <tr>
                             <td class="vertical-align-middle">{{id_viaje}}</td>
                             <td class="vertical-align-middle">{{origen}}</td>
@@ -55,5 +55,5 @@
     </div>
 </div>
 
-{{> deleteAlert}}
+{{> dataTable}}
 {{> footerSidebarFixed}}
