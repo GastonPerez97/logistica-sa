@@ -179,13 +179,11 @@ class TransportUnitModel
         return $this->database->query($sql);
     }
 
-
     public function getListVehicles()
     {
         $sql = "SELECT * FROM vehiculo";
         return $this->database->query($sql);
     }
-
 
     public function getTypesOfVehicles()
     {
@@ -248,6 +246,40 @@ class TransportUnitModel
 
     public function getTransportUnitsWithPosition() {
         $sql = "SELECT * FROM unidad_de_transporte WHERE posicion_actual <> 'Sin posicion actual'";
+        return $this->database->query($sql);
+    }
+
+    public function getAvailableVehicles() {
+
+        $sql = "SELECT      v.id_vehiculo,
+                            uni.patente,
+                            tv.nombre AS tipo_vehiculo
+                FROM        unidad_de_transporte uni
+                INNER JOIN  vehiculo v ON uni.id_unidad_de_transporte = v.id_vehiculo
+                INNER JOIN  tipo_vehiculo tv ON v.id_tipo_vehiculo = tv.id_tipo_vehiculo
+                WHERE       uni.activo = 1
+                            AND uni.id_unidad_de_transporte NOT IN (
+                                SELECT      viuni.id_unidad_de_transporte
+                                FROM        viaje v
+                                INNER JOIN  viaje_unidad_de_transporte viuni ON v.id_viaje = viuni.id_viaje
+                                WHERE       now() BETWEEN fecha_salida_estimada AND fecha_llegada_estimada)";
+        return $this->database->query($sql);
+    }
+
+    public function getAvailableTrailers() {
+
+        $sql = "SELECT      r.id_remolque,
+                            uni.patente,
+                            tr.nombre AS tipo_remolque
+                FROM        unidad_de_transporte uni
+                INNER JOIN  remolque r ON uni.id_unidad_de_transporte = r.id_remolque
+                INNER JOIN  tipo_remolque tr ON r.id_tipo_remolque = tr.id_tipo_remolque
+                WHERE       uni.activo = 1
+                            AND uni.id_unidad_de_transporte NOT IN (
+                                SELECT      viuni.id_unidad_de_transporte
+                                FROM        viaje v
+                                INNER JOIN  viaje_unidad_de_transporte viuni ON v.id_viaje = viuni.id_viaje
+                                WHERE       now() BETWEEN fecha_salida_estimada AND fecha_llegada_estimada)";
         return $this->database->query($sql);
     }
 }

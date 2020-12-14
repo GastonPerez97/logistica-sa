@@ -20,6 +20,8 @@ class TravelModel {
         $estimatedDepartureDate = $travel["estimatedDepartureDate"];
         $driverId = $travel["driverId"];
         $idClient = $travel["idClient"];
+        $vehicleId = $travel["vehicleId"];
+        $trailerId = $travel["trailerId"];
 
         $insertTravel = $this->database->prepare("INSERT INTO viaje
                                             (consumo_combustible_previsto, kilometros_previstos, origen, destino, 
@@ -38,6 +40,20 @@ class TravelModel {
 
         $insertDriver->bind_param("ii", $travelId, $driverId);
         $insertDriver->execute();
+
+        $insertVehicle = $this->database->prepare("INSERT INTO viaje_unidad_de_transporte
+                                                    (id_viaje, id_unidad_de_transporte)
+                                                    VALUES (?, ?)");
+
+        $insertVehicle->bind_param("ii", $travelId, $vehicleId);
+        $insertVehicle->execute();
+
+        $insertTrailer = $this->database->prepare("INSERT INTO viaje_unidad_de_transporte
+                                                    (id_viaje, id_unidad_de_transporte)
+                                                    VALUES (?, ?)");
+
+        $insertTrailer->bind_param("ii", $travelId, $trailerId);
+        $insertTrailer->execute();
     }
 
     public function getTravels()
