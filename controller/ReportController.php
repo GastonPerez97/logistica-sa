@@ -107,4 +107,15 @@ class ReportController {
         }
     }
 
+    public function newServiceRecord(){
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["admin"] == 1) {
+           $this->reportModel->generatePdfOfServiceRecord();
+        } else {
+            header("location: /pw2-grupo03");
+            exit();
+        }
+    }
+
+
+
 }
