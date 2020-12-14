@@ -1,0 +1,34 @@
+<script src="/pw2-grupo03/public/js/jquery-3.5.1.min.js"></script>
+<script src="/pw2-grupo03/public/DataTables/datatables.min.js"></script>
+<script src="/pw2-grupo03/public/DataTables/dataTables.responsive.min.js"></script>
+
+<script>
+    $(document).ready( function () {
+        $('#data-table').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+            }
+        });
+    } );
+</script>
+
+<script>
+    $(document).ready( function () {
+        $('#data-table-2').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+            }
+        });
+    } );
+</script>
+
+<script>
+    $(document).ready( function () {
+        $('#data-table-services').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+            },
+            "order": [[ 2, "desc" ]]
+        });
+    } );
+</script>

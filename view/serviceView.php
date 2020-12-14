@@ -40,4 +40,5 @@
     </div>
 </div>
 
+{{> dataTable}}
 {{> footerSidebarFixed}}
