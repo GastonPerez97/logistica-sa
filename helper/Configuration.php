@@ -177,7 +177,8 @@ class Configuration {
         $reportModel = $this->getReportModel();
         $clientModel = $this->getClientModel();
         $driverModel = $this->getDriverModel();
-        return new TravelController($travelModel, $travelDriverModel, $reportModel, $driverModel, $clientModel, $this->getRender());
+        $transportUnitModel = $this->getTransportUnitModel();
+        return new TravelController($travelModel, $travelDriverModel, $reportModel, $driverModel, $clientModel, $transportUnitModel, $this->getRender());
 
     }
 
