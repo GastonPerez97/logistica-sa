@@ -27,17 +27,25 @@ class TravelController {
                 $data["proformaError"] = "Error: La proforma de este viaje no fue generada todavía";
                 unset($_SESSION["proformaError"]);
             }
+
             $data["travels"] = $this->travelModel->getTravels();
             echo $this->render->render("view/myTravelsView.php", $data);
-        }else if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
+        } else if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
             if (isset($_SESSION["proformaError"])) {
                 $data["proformaError"] = "Error: La proforma de este viaje no fue generada todavía";
                 unset($_SESSION["proformaError"]);
             }
+
+            if (isset($_SESSION["travelFinished"])) {
+                $data["travelFinished"] = "Error: No se pueden cargar datos porque el viaje ha finalizado";
+                unset($_SESSION["travelFinished"]);
+            }
+
             $idDriver= $_SESSION["driverId"];
             $data["travels"] = $this->driverModel->getDriverTravels($idDriver);
+
             echo $this->render->render("view/myTravelsView.php", $data);
-        }else {
+        } else {
             header("location: /pw2-grupo03");
             exit();
         }
@@ -176,8 +184,7 @@ class TravelController {
         }
     }
 
-    public function processFinalizeTravel()
-    {
+    public function processFinalizeTravel() {
         if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
             $travelId = $_POST["id_viaje"];
             $travel = $this->travelModel->getTravelById($travelId);
@@ -242,33 +249,40 @@ class TravelController {
             && $this->travelModel->checkIfTravelExistsBy($_GET["id"])
             && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['driverId'])) {
 
-            if (isset($_SESSION["detourReportedOk"])) {
-                $data["detourReportedOk"] = "El desvío se informó correctamente";
-                unset($_SESSION["detourReportedOk"]);
-            }
+            if (!$this->travelModel->checkIfTravelHasFinished($_GET["id"])) {
+                if (isset($_SESSION["detourReportedOk"])) {
+                    $data["detourReportedOk"] = "El desvío se informó correctamente";
+                    unset($_SESSION["detourReportedOk"]);
+                }
 
-            if (isset($_SESSION["refuelReportedOk"])) {
-                $data["refuelReportedOk"] = "La carga de combustible se informó correctamente";
-                unset($_SESSION["refuelReportedOk"]);
-            }
+                if (isset($_SESSION["refuelReportedOk"])) {
+                    $data["refuelReportedOk"] = "La carga de combustible se informó correctamente";
+                    unset($_SESSION["refuelReportedOk"]);
+                }
 
-            if (isset($_SESSION["positionReportedOk"])) {
-                $data["positionReportedOk"] = "La posición actual se informó correctamente";
-                unset($_SESSION["positionReportedOk"]);
-            }
+                if (isset($_SESSION["positionReportedOk"])) {
+                    $data["positionReportedOk"] = "La posición actual se informó correctamente";
+                    unset($_SESSION["positionReportedOk"]);
+                }
 
-            if (isset($_SESSION["proformaError"])) {
-                $data["proformaError"] = "La proforma del viaje debe existir para realizar este informe";
-                unset($_SESSION["proformaError"]);
-            }
+                if (isset($_SESSION["proformaError"])) {
+                    $data["proformaError"] = "La proforma del viaje debe existir para realizar este informe";
+                    unset($_SESSION["proformaError"]);
+                }
 
-            if (isset($_SESSION["spendReportedOk"])) {
-                $data["spendReportedOk"] = "El gasto se informó correctamente";
-                unset($_SESSION["spendReportedOk"]);
-            }
+                if (isset($_SESSION["spendReportedOk"])) {
+                    $data["spendReportedOk"] = "El gasto se informó correctamente";
+                    unset($_SESSION["spendReportedOk"]);
+                }
 
-            $data["idTravel"] = $_GET["id"];
-            echo $this->render->render("view/loadTravelDataView.php", $data);
+                $data["idTravel"] = $_GET["id"];
+                echo $this->render->render("view/loadTravelDataView.php", $data);
+            } else {
+                $_SESSION["travelFinished"] = 1;
+                
+                header("location: /pw2-grupo03/travel");
+                exit();
+            }
         } else {
             header("location: /pw2-grupo03");
             exit();
@@ -282,8 +296,15 @@ class TravelController {
             && $this->travelModel->checkIfTravelExistsBy($_GET["id"])
             && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['driverId'])) {
 
-            $data["idTravel"] = $_GET["id"];
-            echo $this->render->render("view/reportTravelDetourView.php", $data);
+            if (!$this->travelModel->checkIfTravelHasFinished($_GET["id"])) {
+                $data["idTravel"] = $_GET["id"];
+                echo $this->render->render("view/reportTravelDetourView.php", $data);
+            } else {
+                $_SESSION["travelFinished"] = 1;
+
+                header("location: /pw2-grupo03/travel");
+                exit();
+            }
         } else {
             header("location: /pw2-grupo03");
             exit();
@@ -300,15 +321,22 @@ class TravelController {
 
             $travelId = $_POST["travelId"];
 
-            $detourData["time"] = $_POST["time"];
-            $detourData["reason"] = $_POST["reason"];
+            if (!$this->travelModel->checkIfTravelHasFinished($travelId)) {
+                $detourData["time"] = $_POST["time"];
+                $detourData["reason"] = $_POST["reason"];
 
-            $this->travelModel->reportDetourOf($travelId, $detourData);
+                $this->travelModel->reportDetourOf($travelId, $detourData);
 
-            $_SESSION["detourReportedOk"] = 1;
+                $_SESSION["detourReportedOk"] = 1;
 
-            header("location: /pw2-grupo03/travel/loadData?id=$travelId");
-            exit();
+                header("location: /pw2-grupo03/travel/loadData?id=$travelId");
+                exit();
+            } else {
+                $_SESSION["travelFinished"] = 1;
+
+                header("location: /pw2-grupo03/travel");
+                exit();
+            }
         } else {
             header("location: /pw2-grupo03");
             exit();
@@ -322,15 +350,22 @@ class TravelController {
             && $this->travelModel->checkIfTravelExistsBy($_GET["id"])
             && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['driverId'])) {
 
-            $data["idTravel"] = $_GET["id"];
+            if (!$this->travelModel->checkIfTravelHasFinished($_GET["id"])) {
+                $data["idTravel"] = $_GET["id"];
 
-            if (!$this->reportModel->checkIfProformaAlreadyExistsOf($data["idTravel"])) {
-                $_SESSION["proformaError"] = 1;
+                if (!$this->reportModel->checkIfProformaAlreadyExistsOf($data["idTravel"])) {
+                    $_SESSION["proformaError"] = 1;
 
-                header("location: /pw2-grupo03/travel/loadData?id=" . $data["idTravel"]);
-                exit();
+                    header("location: /pw2-grupo03/travel/loadData?id=" . $data["idTravel"]);
+                    exit();
+                } else {
+                    echo $this->render->render("view/reportTravelRefuelView.php", $data);
+                }
             } else {
-                echo $this->render->render("view/reportTravelRefuelView.php", $data);
+                $_SESSION["travelFinished"] = 1;
+
+                header("location: /pw2-grupo03/travel");
+                exit();
             }
         } else {
             header("location: /pw2-grupo03");
@@ -348,20 +383,27 @@ class TravelController {
 
             $travelId = $_POST["travelId"];
 
-            if (!$this->reportModel->checkIfProformaAlreadyExistsOf($travelId)) {
-                $_SESSION["proformaError"] = 1;
+            if (!$this->travelModel->checkIfTravelHasFinished($travelId)) {
+                if (!$this->reportModel->checkIfProformaAlreadyExistsOf($travelId)) {
+                    $_SESSION["proformaError"] = 1;
 
-                header("location: /pw2-grupo03/travel/loadData?id=" . $travelId);
-                exit();
+                    header("location: /pw2-grupo03/travel/loadData?id=" . $travelId);
+                    exit();
+                } else {
+                    $refuelData["place"] = $_POST["place"];
+                    $refuelData["quantity"] = $_POST["quantity"];
+                    $refuelData["amount"] = $_POST["amount"];
+                    $this->travelModel->reportRefuelOf($travelId, $refuelData);
+
+                    $_SESSION["refuelReportedOk"] = 1;
+
+                    header("location: /pw2-grupo03/travel/loadData?id=$travelId");
+                    exit();
+                }
             } else {
-                $refuelData["place"] = $_POST["place"];
-                $refuelData["quantity"] = $_POST["quantity"];
-                $refuelData["amount"] = $_POST["amount"];
-                $this->travelModel->reportRefuelOf($travelId, $refuelData);
+                $_SESSION["travelFinished"] = 1;
 
-                $_SESSION["refuelReportedOk"] = 1;
-
-                header("location: /pw2-grupo03/travel/loadData?id=$travelId");
+                header("location: /pw2-grupo03/travel");
                 exit();
             }
         } else {
@@ -378,17 +420,24 @@ class TravelController {
             && $this->travelModel->checkIfTravelExistsBy($_GET["id"])
             && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['driverId'])) {
 
-            $travelId = $_GET["id"];
+            if (!$this->travelModel->checkIfTravelHasFinished($_GET["id"])) {
+                $travelId = $_GET["id"];
 
-            $positionData["lat"] = $_GET["lat"];
-            $positionData["long"] = $_GET["long"];
+                $positionData["lat"] = $_GET["lat"];
+                $positionData["long"] = $_GET["long"];
 
-            $this->travelModel->reportPositionOf($travelId, $positionData);
+                $this->travelModel->reportPositionOf($travelId, $positionData);
 
-            $_SESSION["positionReportedOk"] = 1;
+                $_SESSION["positionReportedOk"] = 1;
 
-            header("location: /pw2-grupo03/travel/loadData?id=$travelId");
-            exit();
+                header("location: /pw2-grupo03/travel/loadData?id=$travelId");
+                exit();
+            } else {
+                $_SESSION["travelFinished"] = 1;
+
+                header("location: /pw2-grupo03/travel");
+                exit();
+            }
         } else {
             header("location: /pw2-grupo03");
             exit();
@@ -402,15 +451,22 @@ class TravelController {
             && $this->travelModel->checkIfTravelExistsBy($_GET["id"])
             && $this->travelDriverModel->isTravelAssignedToDriver($_GET["id"], $_SESSION['driverId'])) {
 
-            $data["idTravel"] = $_GET["id"];
+            if (!$this->travelModel->checkIfTravelHasFinished($_GET["id"])) {
+                $data["idTravel"] = $_GET["id"];
 
-            if (!$this->reportModel->checkIfProformaAlreadyExistsOf($data["idTravel"])) {
-                $_SESSION["proformaError"] = 1;
+                if (!$this->reportModel->checkIfProformaAlreadyExistsOf($data["idTravel"])) {
+                    $_SESSION["proformaError"] = 1;
 
-                header("location: /pw2-grupo03/travel/loadData?id=" . $data["idTravel"]);
-                exit();
+                    header("location: /pw2-grupo03/travel/loadData?id=" . $data["idTravel"]);
+                    exit();
+                } else {
+                    echo $this->render->render("view/reportTravelSpendView.php", $data);
+                }
             } else {
-                echo $this->render->render("view/reportTravelSpendView.php", $data);
+                $_SESSION["travelFinished"] = 1;
+
+                header("location: /pw2-grupo03/travel");
+                exit();
             }
         } else {
             header("location: /pw2-grupo03");
@@ -428,21 +484,28 @@ class TravelController {
 
             $travelId = $_POST["travelId"];
 
-            if (!$this->reportModel->checkIfProformaAlreadyExistsOf($travelId)) {
-                $_SESSION["proformaError"] = 1;
+            if (!$this->travelModel->checkIfTravelHasFinished($travelId)) {
+                if (!$this->reportModel->checkIfProformaAlreadyExistsOf($travelId)) {
+                    $_SESSION["proformaError"] = 1;
 
-                header("location: /pw2-grupo03/travel/loadData?id=" . $travelId);
-                exit();
+                    header("location: /pw2-grupo03/travel/loadData?id=" . $travelId);
+                    exit();
+                } else {
+                    $proformaId = $this->reportModel->getIdProformaOf($travelId);
+
+                    $spendData["spendType"] = $_POST["spendType"];
+                    $spendData["amount"] = $_POST["amount"];
+                    $this->reportModel->reportSpendOf($proformaId, $spendData);
+
+                    $_SESSION["spendReportedOk"] = 1;
+
+                    header("location: /pw2-grupo03/travel/loadData?id=$travelId");
+                    exit();
+                }
             } else {
-                $proformaId = $this->reportModel->getIdProformaOf($travelId);
+                $_SESSION["travelFinished"] = 1;
 
-                $spendData["spendType"] = $_POST["spendType"];
-                $spendData["amount"] = $_POST["amount"];
-                $this->reportModel->reportSpendOf($proformaId, $spendData);
-
-                $_SESSION["spendReportedOk"] = 1;
-
-                header("location: /pw2-grupo03/travel/loadData?id=$travelId");
+                header("location: /pw2-grupo03/travel");
                 exit();
             }
         } else {
