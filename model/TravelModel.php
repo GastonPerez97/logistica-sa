@@ -195,6 +195,18 @@ class TravelModel {
         $this->database->execute($sql);
     }
 
+    public function checkIfTravelHasFinished($travelId) {
+        $sql = "SELECT * FROM viaje WHERE id_viaje = '$travelId'
+                                    AND fecha_llegada IS NULL";
+        $result = $this->database->query($sql);
+
+        if (empty($result)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function convertDatetimeFromMySQLToHTMLOf($travelArray) {
         is_null($travelArray[0]["fecha_salida"]) ? $travelArray[0]["fecha_salida"] = ""
             : $travelArray[0]["fecha_salida"] = date("Y-m-d\TH:i:s", strtotime($travelArray[0]["fecha_salida"]));
