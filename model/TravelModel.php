@@ -20,6 +20,8 @@ class TravelModel {
         $estimatedDepartureDate = $travel["estimatedDepartureDate"];
         $driverId = $travel["driverId"];
         $idClient = $travel["idClient"];
+        $vehicleId = $travel["vehicleId"];
+        $trailerId = $travel["trailerId"];
 
         $insertTravel = $this->database->prepare("INSERT INTO viaje
                                             (consumo_combustible_previsto, kilometros_previstos, origen, destino, 
@@ -38,6 +40,20 @@ class TravelModel {
 
         $insertDriver->bind_param("ii", $travelId, $driverId);
         $insertDriver->execute();
+
+        $insertVehicle = $this->database->prepare("INSERT INTO viaje_unidad_de_transporte
+                                                    (id_viaje, id_unidad_de_transporte)
+                                                    VALUES (?, ?)");
+
+        $insertVehicle->bind_param("ii", $travelId, $vehicleId);
+        $insertVehicle->execute();
+
+        $insertTrailer = $this->database->prepare("INSERT INTO viaje_unidad_de_transporte
+                                                    (id_viaje, id_unidad_de_transporte)
+                                                    VALUES (?, ?)");
+
+        $insertTrailer->bind_param("ii", $travelId, $trailerId);
+        $insertTrailer->execute();
     }
 
     public function getTravels()
@@ -170,17 +186,13 @@ class TravelModel {
         $sqlViajePosicion = "INSERT INTO viaje_posicion (id_viaje, id_posicion) VALUES ('$travelId', '$posicionId')";
         $this->database->execute($sqlViajePosicion);
 
-        $transportUnitId = $this->getTransportUnitIdOf($travelId);
-        $transportUnitIdResult = $transportUnitId[0]["id_unidad_de_transporte"];
-
         $sql = "UPDATE unidad_de_transporte SET posicion_actual = 'http://www.google.com/maps/place/$lat,$long'
-                                                    WHERE id_unidad_de_transporte = '$transportUnitIdResult'";
+                                            WHERE id_unidad_de_transporte IN (
+                                                SELECT id_unidad_de_transporte 
+                                                FROM viaje_unidad_de_transporte 
+                                                WHERE id_viaje = '$travelId'
+                                            )";
         $this->database->execute($sql);
-    }
-
-    public function getTransportUnitIdOf($travelId) {
-        $sql = "SELECT id_unidad_de_transporte FROM viaje_unidad_de_transporte WHERE id_viaje = '$travelId'";
-        return $this->database->query($sql);
     }
 
     public function convertDatetimeFromMySQLToHTMLOf($travelArray) {

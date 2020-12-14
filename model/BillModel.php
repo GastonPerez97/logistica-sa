@@ -79,7 +79,7 @@ class BillModel {
 
         $pdf->Cell(71 ,10,'',0,0);
         $pdf->Cell(40 ,10,'Nro Factura:',0,0);
-        $pdf->Cell(25 ,10,$bill["numero_factura"],0,0);
+        $pdf->Cell(25 ,10,$bill["id_factura"],0,0);
         $pdf->Cell(22 ,10, 'Telefono:',0,0);
         $pdf->Cell(0 ,10, $bill["telefono"],0,1);
 

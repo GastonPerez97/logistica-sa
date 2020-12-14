@@ -21,19 +21,37 @@
             <input type="datetime-local" placeholder="Ingresar fecha de salida estimada del viaje" name="estimatedDepartureDate" class="login-input" required>
             <label for="estimatedArrivalDate"><b>Fecha de llegada estimada:</b></label>
             <input type="datetime-local" placeholder="Ingresar fecha de llegada estimada del viaje" name="estimatedArrivalDate" class="login-input" required>
-            <label for="idClient"><b>Seleccione el cliente:</b></label>
-            <select class="w3-select w3-margin-bottom" name="idClient" required>
-                {{#clients}}
-                    <option value="{{id_cliente}}">{{denominacion}}</option>
-                {{/clients}}
+            <label for="idClient"><b>Cliente <span style="color: red">*</span></b></label>
+            <select class="w3-select" name="idClient" id="idClient" required>
+                {{# clients }}
+                <option value="{{ id_cliente }}">
+                    {{ denominacion }}
+                </option>
+                {{/ clients }}
             </select>
             <label for="driver-select"><b>Chofer <span style="color: red">*</span></b></label>
             <select class="w3-select" name="idDriver" id="driver-select" required>
                 {{# drivers }}
-                    <option value="{{ id_chofer }}">
-                        {{ nombre }}, {{ apellido }} - Licencia: {{numero_licencia}}-{{tipo_licencia}}
-                    </option>
+                <option value="{{ id_chofer }}">
+                    {{ nombre }}, {{ apellido }} - Licencia: {{numero_licencia}}-{{tipo_licencia}}
+                </option>
                 {{/ drivers }}
+            </select>
+            <label for="vehicle-select"><b>Vehículo <span style="color: red">*</span></b></label>
+            <select class="w3-select" name="idVehicle" id="vehicle-select" required>
+                {{# vehicles }}
+                <option value="{{ id_vehiculo }}">
+                    {{ patente }}, {{ tipo_vehiculo }}
+                </option>
+                {{/ vehicles }}
+            </select>
+            <label for="trailer-select"><b>Remolque <span style="color: red">*</span></b></label>
+            <select class="w3-select" name="idTrailer" id="trailer-select" required>
+                {{# trailers }}
+                <option value="{{ id_remolque }}">
+                    {{ patente }}, {{ tipo_remolque }}
+                </option>
+                {{/ trailers }}
             </select>
             <button class="form-button w3-round w3-blue w3-margin-top" type="submit">Confirmar nuevo viaje</button>
         </div>

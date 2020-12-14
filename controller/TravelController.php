@@ -8,45 +8,48 @@ class TravelController {
     private $clientModel;
     private $reportModel;
     private $driverModel;
+    private $transportUnitModel;
     private $render;
 
-    public function __construct($travelModel, $travelDriverModel, $reportModel, $driverModel, $clientModel, $render) {
+    public function __construct($travelModel, $travelDriverModel, $reportModel, $driverModel, $clientModel, $transportUnitModel, $render) {
         $this->render = $render;
         $this->travelModel = $travelModel;
         $this->travelDriverModel = $travelDriverModel;
         $this->clientModel = $clientModel;
         $this->reportModel = $reportModel;
         $this->driverModel = $driverModel;
+        $this->transportUnitModel = $transportUnitModel;
     }
 
     public function execute() {
-    if (isset($_SESSION["loggedIn"]) && $_SESSION["supervisor"] == 1 ) {
-        if (isset($_SESSION["proformaError"])) {
-            $data["proformaError"] = "Error: La proforma de este viaje no fue generada todavía";
-            unset($_SESSION["proformaError"]);
+        if (isset($_SESSION["loggedIn"]) && $_SESSION["supervisor"] == 1 ) {
+            if (isset($_SESSION["proformaError"])) {
+                $data["proformaError"] = "Error: La proforma de este viaje no fue generada todavía";
+                unset($_SESSION["proformaError"]);
+            }
+            $data["travels"] = $this->travelModel->getTravels();
+            echo $this->render->render("view/myTravelsView.php", $data);
+        }else if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
+            if (isset($_SESSION["proformaError"])) {
+                $data["proformaError"] = "Error: La proforma de este viaje no fue generada todavía";
+                unset($_SESSION["proformaError"]);
+            }
+            $idDriver= $_SESSION["driverId"];
+            $data["travels"] = $this->driverModel->getDriverTravels($idDriver);
+            echo $this->render->render("view/myTravelsView.php", $data);
+        }else {
+            header("location: /pw2-grupo03");
+            exit();
         }
-        $data["travels"] = $this->travelModel->getTravels();
-        echo $this->render->render("view/myTravelsView.php", $data);
-    }else if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
-        if (isset($_SESSION["proformaError"])) {
-            $data["proformaError"] = "Error: La proforma de este viaje no fue generada todavía";
-            unset($_SESSION["proformaError"]);
-        }
-        $idDriver= $_SESSION["driverId"];
-        $data["travels"] = $this->driverModel->getDriverTravels($idDriver);
-        echo $this->render->render("view/myTravelsView.php", $data);
-    }else {
-        header("location: /pw2-grupo03");
-        exit();
     }
-}
-
 
     public function newTravel() {
         if (isset($_SESSION["loggedIn"]) && $_SESSION["supervisor"] == 1) {
-            $data["clients"] = $this-> clientModel->getClients();
+            $data["clients"] = $this->clientModel->getClients();
             $data["drivers"] = $this->driverModel->getAvailableDrivers();
-          
+            $data["vehicles"] = $this->transportUnitModel->getAvailableVehicles();
+            $data["trailers"] = $this->transportUnitModel->getAvailableTrailers();
+
             echo $this->render->render("view/newTravelView.php", $data);
         } else {
             header("location: /pw2-grupo03");
@@ -70,8 +73,9 @@ class TravelController {
                     "estimatedDepartureDate" => $_POST["estimatedDepartureDate"],
                     "estimatedArrivalDate" => $_POST["estimatedArrivalDate"],
                     "idClient" => $_POST ["idClient"],
-                    "estimatedDepartureDate" => $_POST["estimatedDepartureDate"],
-                    "driverId" => $_POST["idDriver"]
+                    "driverId" => $_POST["idDriver"],
+                    "vehicleId" => $_POST["idVehicle"],
+                    "trailerId" => $_POST["idTrailer"]
                 );
 
                 $this->travelModel->saveTravel($newTravel);
@@ -120,14 +124,10 @@ class TravelController {
                 $this->travelModel->changeExpectedFuel($travelId, $newExpectedFuel);
             }
 
-
-
             if ($_POST["expectedKilometers"] != $travel["expectedKilometers"]) {
                 $newExpectedKilometers = $_POST["expectedKilometers"];
                 $this->travelModel->changeExpectedKilometers($travelId, $newExpectedKilometers);
             }
-
-
 
             if ($_POST["origin"] != $travel["origin"]) {
                 $newOrigin = $_POST["origin"];
@@ -149,12 +149,14 @@ class TravelController {
                 $this->travelModel->changeEstimatedArrivalDate($travelId, $newEstimatedArrivalDate);
             }
 
-           header("location: /pw2-grupo03/travel");
+            header("location: /pw2-grupo03/travel");
+            exit();
         } else {
             header("location: /pw2-grupo03");
             exit();
         }
     }
+
     public function finalizeTravel() {
         if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
             if (is_numeric($_GET["id"])) {
@@ -173,19 +175,23 @@ class TravelController {
             exit();
         }
     }
+
     public function processFinalizeTravel()
     {
         if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1) {
             $travelId = $_POST["id_viaje"];
             $travel = $this->travelModel->getTravelById($travelId);
+
             if ($_POST["realFuel"] != $travel["realFuel"]) {
                 $newRealFuel = $_POST["realFuel"];
                 $this->travelModel->changeRealFuel($travelId, $newRealFuel);
             }
+
             if ($_POST["realKilometers"] != $travel["realKilometers"]) {
                 $newRealKilometers = $_POST["realKilometers"];
                 $this->travelModel->changeRealKilometers($travelId, $newRealKilometers);
             }
+
             if ($_POST["departureDate"] != $travel["departureDate"]) {
                 $newDepartureDate = $_POST["departureDate"];
                 $this->travelModel->changeDepartureDate($travelId, $newDepartureDate);
