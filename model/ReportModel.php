@@ -611,7 +611,7 @@ class ReportModel {
     }
 
     public function getMaxCost() {
-        $sql = 'SELECT se.id_unidad_de_transporte as id_vehiculo, SUM(costo) as costo FROM grupo03.service se group by id_unidad_de_transporte';
+        $sql = 'SELECT se.id_unidad_de_transporte as id_vehiculo, SUM(costo) as costo FROM grupo03.service se group by id_unidad_de_transporte order by se.costo DESC LIMIT 1';
         return $this->database->fetch_assoc($sql);
     }
 
