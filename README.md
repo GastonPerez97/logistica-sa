@@ -11,14 +11,10 @@ El sistema permite el acceso desde cualquier conexión a internet, puesto que se
 chequear en todo momento la posición y recorrido de los vehículos durante los viajes.
 
 El sistema permite cinco niveles de acceso (roles):
-- Administrador: encargado de administrar el sistema, trabajar con los reportes de nivel gerencial y realizar la carga de roles y usuarios.
-Funcionalidades disponibles para el rol: Usuarios, Reportes (Generar Proforma y Mantenimiento de Vehículos), Clientes, Flota de Vehiculos, Facturas, Consultar posición de vehículo, Mantenimiendo de Vehiculos, Viajes.
-- Supervisor: Realiza las tareas de carga y consulta de los datos en las oficinas centrales.
-Funcionalidades disponibles para el rol: Clientes, Flota de Vehiculos, Facturas, Consultar posición de vehículo, Viajes.
-- Encargado del taller: Actualiza los datos de mantenimiento.
-Funcionalidades disponibles para el rol: Consultar Posicion de vehiculo, Mantenimiento de Vehículos.
-- Chofer: Utiliza el sistema para actualizar los datos durante el viaje.
-Funcionalidades disponibles para el rol: Viajes.
+- Administrador: encargado de administrar el sistema, trabajar con los reportes de nivel gerencial y realizar la carga de roles y usuarios. Usuarios (ver y editarlos, asignar roles), Reportes (Generar Proforma y Mantenimiento de Vehículos), Clientes, Flota de Vehiculos, Facturas, Consultar posición de vehículo, Mantenimiendo de Vehiculos, Viajes.
+- Supervisor: Realiza las tareas de carga y consulta de los datos en las oficinas centrales. Clientes, Flota de Vehiculos, Facturas, Consultar posición de vehículo, Viajes.
+- Encargado del taller: Actualiza los datos de mantenimiento. Consultar Posicion de vehiculo, Mantenimiento de Vehículos.
+- Chofer: Utiliza el sistema para actualizar los datos durante el viaje. Viajes.
 - Mecanico: Realiza el mantenimiento de los vehiculos, este no utiliza la aplicación.
 
 
