@@ -45,7 +45,7 @@ Para cada viaje se asigna un chofer, una unidad de transporte y un remolque.
 
 Detalles técnicos:
 
-- Se utiliza una base de datos MySql para almacenar los datos.
+- Se utiliza una base de datos MySQL para almacenar los datos.
 - El sistema está implementado con el lenguaje de programación PHP desde el lado del Servidor.
 - La arquitectura de la aplicación está basada en un modelo MVC.
 - La interfaz está implementada en el Framework W3.CSS.
