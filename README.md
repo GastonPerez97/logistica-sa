@@ -45,11 +45,11 @@ Para cada viaje se asigna un chofer, una unidad de transporte y un remolque.
 
 Detalles técnicos:
 
-• Se utiliza una base de datos MySql para almacenar los datos.
-• El sistema está implementado con el lenguaje de programación PHP desde el lado del Servidor.
-• La arquitectura de la aplicación está basada en un modelo MVC.
-• La interfaz está implementada en el Framework W3.CSS.
-• El manejo de posicionamiento y mapas se realiza mediante HTML Geolocation API.
+- Se utiliza una base de datos MySql para almacenar los datos.
+- El sistema está implementado con el lenguaje de programación PHP desde el lado del Servidor.
+- La arquitectura de la aplicación está basada en un modelo MVC.
+- La interfaz está implementada en el Framework W3.CSS.
+- El manejo de posicionamiento y mapas se realiza mediante HTML Geolocation API.
 
 
 Login de varios usuarios ejemplo:
@@ -68,6 +68,18 @@ EMAIL - CONTRASEÑA - ROL:
 
 Carga de datos de un viaje:
 
-Los choferes informan datos del viaje a partir de un codigo QR generado en la proforma, que llevan a una URL dinamica https://fleshly-trials.000webhostapp.com/travel/loadData?id=[ID DE VIAJE]. Esta proforma es impresa y los choferes deberan llevarla con ellos/as para poder acceder al QR y/o ver datos del viaje.
+Los choferes informan datos del viaje a partir de un codigo QR generado en la proforma, que llevan a una URL dinamica https://fleshly-trials.000webhostapp.com/travel/loadData?id= [ID DE VIAJE]. Esta proforma es impresa y los choferes deberan llevarla con ellos/as para poder acceder al QR y/o ver datos del viaje.
 
 Ejemplo: Loguearse con el usuario juanperez@gmail.com e ir a Viajes. La proforma del viaje con ID 5 contiene un QR que dirige a https://fleshly-trials.000webhostapp.com/travel/loadData?id=5, allí se podran informar nuevos datos del viaje.
+
+
+Como no se proporciona un login de un administrador, se adjuntan imagenes sobre la funcionalidad de usuarios (en orden: Ver Usuarios, Ver Usuario, Editar usuario y asignar roles, Generar Proforma):
+
+![image](https://user-images.githubusercontent.com/58083159/127936163-0cdd00af-7972-4505-94a2-025c4a92d725.png)
+
+![image](https://user-images.githubusercontent.com/58083159/127936192-6483f7a2-2498-4f5e-b1d5-9d0480e5cc2f.png)
+
+![image](https://user-images.githubusercontent.com/58083159/127936202-d2e8508b-e09f-4d90-8395-b752791809db.png)
+
+![image](https://user-images.githubusercontent.com/58083159/127936212-f8290845-1508-44cb-a433-7c6818139822.png)
+
