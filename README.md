@@ -1,24 +1,46 @@
-Logistica S.A. - https://fleshly-trials.000webhostapp.com/
+# Logistica S.A.
 
-Trabajo practico final para la materia Programacion Web 2 en UNLaM
+https://fleshly-trials.000webhostapp.com/
 
-Descripción general del sistema:
+Trabajo practico final para la materia Programacion Web 2 en UNLaM.
 
-Logistica S.A. utiliza un sistema informático para controlar su flota de vehículos.
+## Descripción general del sistema:
+
+Logistica S.A. utiliza un sistema informático interno para controlar su flota de vehículos.
 
 La empresa cuenta con una importante flota propia de vehículos y realiza viajes a todo el país.
 El sistema permite el acceso desde cualquier conexión a internet, puesto que se utilizará para
 chequear en todo momento la posición y recorrido de los vehículos durante los viajes.
 
-El sistema permite cinco niveles de acceso (roles):
-- Administrador: encargado de administrar el sistema, trabajar con los reportes de nivel gerencial y realizar la carga de roles y usuarios. Usuarios (ver y editarlos, asignar roles), Reportes (Generar Proforma y Mantenimiento de Vehículos), Clientes, Flota de Vehiculos, Facturas, Consultar posición de vehículo, Mantenimiendo de Vehiculos, Viajes.
-- Supervisor: Realiza las tareas de carga y consulta de los datos en las oficinas centrales. Clientes, Flota de Vehiculos, Facturas, Consultar posición de vehículo, Viajes.
-- Encargado del taller: Actualiza los datos de mantenimiento. Consultar Posicion de vehiculo, Mantenimiento de Vehículos.
-- Chofer: Utiliza el sistema para actualizar los datos durante el viaje. Viajes.
-- Mecanico: Realiza el mantenimiento de los vehiculos, este no utiliza la aplicación.
+El sistema permite cinco niveles de acceso (roles), también se listan las funcionalidades disponibles para cada uno:
+- Administrador: Encargado de administrar el sistema, trabajar con los reportes de nivel gerencial y realizar la carga de roles y usuarios. 
+  * Usuarios (ver y editarlos, asignar roles).
+  * Reportes (Generar Proforma y Mantenimiento de Vehículos).
+  * Clientes.
+  * Flota de Vehiculos.
+  * Facturas.
+  * Consultar posición de vehículo.
+  * Mantenimiendo de Vehiculos.
+  * Viajes.
+  
+- Supervisor: Realiza las tareas de carga y consulta de los datos en las oficinas centrales.
+  * Clientes.
+  * Flota de Vehiculos.
+  * Facturas.
+  * Consultar posición de vehículo.
+  * Viajes.
+  
+- Encargado del taller: Actualiza los datos de mantenimiento.
+  * Consultar Posicion de vehiculo.
+  * Mantenimiento de Vehículos.
+  
+- Chofer: Utiliza el sistema para actualizar los datos durante el viaje.
+  * Viajes.
+  
+- Mecánico: Realiza el mantenimiento de los vehiculos, este no utiliza la aplicación. Los encargados de taller asignan mecánicos a los services.
 
 
-Descripción de funcionalidades:
+## Descripción de funcionalidades:
 
 - Seguridad del sistema (autenticación y autorización (según rol por ejemplo) en toda la aplicación).
 - ABM de usuarios, Roles, Log-in, manejo de claves y permisos. Todos los usuarios se registran como usuarios
@@ -43,7 +65,7 @@ informan cargas de combustible, desvios, posición actual y gastos.
 Para cada viaje se asigna un chofer, una unidad de transporte y un remolque.
 
 
-Detalles técnicos:
+## Detalles técnicos:
 
 - Se utiliza una base de datos MySQL para almacenar los datos.
 - El sistema está implementado con el lenguaje de programación PHP desde el lado del Servidor.
@@ -52,7 +74,7 @@ Detalles técnicos:
 - El manejo de posicionamiento y mapas se realiza mediante HTML Geolocation API.
 
 
-Login de varios usuarios ejemplo:
+## Login de varios usuarios ejemplo:
 ** Por motivos de seguridad no se proporciona un login de administrador. **
 
 EMAIL - CONTRASEÑA - ROL:
@@ -66,7 +88,7 @@ EMAIL - CONTRASEÑA - ROL:
 - mariorodriguez@gmail.com - mariorodriguez - Chofer
 
 
-Carga de datos de un viaje:
+## Carga de datos de un viaje:
 
 Los choferes informan datos del viaje a partir de un codigo QR generado en la proforma, que llevan a una URL dinamica https://fleshly-trials.000webhostapp.com/travel/loadData?id= [ID DE VIAJE]. Esta proforma es impresa y los choferes deberan llevarla con ellos/as para poder acceder al QR y/o ver datos del viaje.
 
