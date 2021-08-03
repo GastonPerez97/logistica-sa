@@ -83,3 +83,4 @@ Como no se proporciona un login de un administrador, se adjuntan imagenes sobre 
 
 ![image](https://user-images.githubusercontent.com/58083159/127936212-f8290845-1508-44cb-a433-7c6818139822.png)
 
+En caso de error "Connection failed: MySQL server has gone away", actualizar la página y debería funcionar nuevamente. Este error se debe a que el hosting gratis 000webhost tiene conexiones limitadas y se agregaron politicas de limitación para evitar el abuso de spammers.
