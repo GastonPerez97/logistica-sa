@@ -1,12 +1,12 @@
-# Logistica S.A.
+# Logística S.A.
 
 https://fleshly-trials.000webhostapp.com/
 
-Trabajo practico final para la materia Programacion Web 2 en UNLaM.
+Trabajo práctico final para la materia Programacion Web 2 en UNLaM.
 
 ## Descripción general del sistema:
 
-Logistica S.A. utiliza un sistema informático interno para controlar su flota de vehículos.
+Logística S.A. utiliza un sistema informático interno para controlar su flota de vehículos.
 
 La empresa cuenta con una importante flota propia de vehículos y realiza viajes a todo el país.
 El sistema permite el acceso desde cualquier conexión a internet, puesto que se utilizará para
