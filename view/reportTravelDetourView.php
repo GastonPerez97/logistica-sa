@@ -6,7 +6,7 @@
 
         <form action="processDetour" method="post" class="login-form w3-padding">
             <div class="w3-margin-bottom w3-margin-top">
-                <a href="/pw2-grupo03/travel/loadData?id={{idTravel}}" class="w3-button w3-green w3-small w3-round text-decoration-none">Volver</a>
+                <a href="/travel/loadData?id={{idTravel}}" class="w3-button w3-green w3-small w3-round text-decoration-none">Volver</a>
             </div>
 
             <input type="hidden" name="travelId" value="{{idTravel}}">

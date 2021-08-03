@@ -46,7 +46,7 @@ class TravelController {
 
             echo $this->render->render("view/myTravelsView.php", $data);
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -60,7 +60,7 @@ class TravelController {
 
             echo $this->render->render("view/newTravelView.php", $data);
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -91,7 +91,7 @@ class TravelController {
             }
             echo $this->render->render("view/newTravelResultView.php", $data);
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -113,11 +113,11 @@ class TravelController {
                     $data["travels"] = $this->travelModel->getTravels();
                     echo $this->render->render("view/MyTravelsView.php", $data);
                 } } else {
-                header("location: /pw2-grupo03/travel");
+                header("location: /travel");
                 exit();
             }
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -127,40 +127,40 @@ class TravelController {
             $travelId = $_POST["id_viaje"];
             $travel = $this->travelModel->getTravelById($travelId);
 
-            if ($_POST["expectedFuel"] != $travel["expectedFuel"]) {
+            if ($_POST["expectedFuel"] != $travel[0]["consumo_combustible_previsto"]) {
                 $newExpectedFuel = $_POST["expectedFuel"];
                 $this->travelModel->changeExpectedFuel($travelId, $newExpectedFuel);
             }
 
-            if ($_POST["expectedKilometers"] != $travel["expectedKilometers"]) {
+            if ($_POST["expectedKilometers"] != $travel[0]["kilometros_previstos"]) {
                 $newExpectedKilometers = $_POST["expectedKilometers"];
                 $this->travelModel->changeExpectedKilometers($travelId, $newExpectedKilometers);
             }
 
-            if ($_POST["origin"] != $travel["origin"]) {
+            if ($_POST["origin"] != $travel[0]["origen"]) {
                 $newOrigin = $_POST["origin"];
                 $this->travelModel->changeOrigin($travelId, $newOrigin);
             }
 
-            if ($_POST["destination"] != $travel["destination"]) {
+            if ($_POST["destination"] != $travel[0]["destino"]) {
                 $newDestination = $_POST["destination"];
                 $this->travelModel->changeDestination($travelId, $newDestination);
             }
 
-            if ($_POST["estimatedDepartureDate"] != $travel["estimatedDepartureDate"]) {
+            if ($_POST["estimatedDepartureDate"] != $travel[0]["fecha_salida_estimada"]) {
                 $newEstimatedDepartureDate = $_POST["estimatedDepartureDate"];
                 $this->travelModel->changeEstimatedDepartureDate($travelId, $newEstimatedDepartureDate);
             }
 
-            if ($_POST["estimatedArrivalDate"] != $travel["estimatedArrivalDate"]) {
+            if ($_POST["estimatedArrivalDate"] != $travel[0]["fecha_llegada_estimada"]) {
                 $newEstimatedArrivalDate = $_POST["estimatedArrivalDate"];
                 $this->travelModel->changeEstimatedArrivalDate($travelId, $newEstimatedArrivalDate);
             }
 
-            header("location: /pw2-grupo03/travel");
+            header("location: /travel");
             exit();
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -175,11 +175,11 @@ class TravelController {
 
                 echo $this->render->render("view/finalizeTravelView.php", $data);
             } else {
-                header("location: /pw2-grupo03/travel");
+                header("location: /travel");
                 exit();
             }
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -189,35 +189,35 @@ class TravelController {
             $travelId = $_POST["id_viaje"];
             $travel = $this->travelModel->getTravelById($travelId);
 
-            if ($_POST["realFuel"] != $travel["realFuel"]) {
+            if ($_POST["realFuel"] != $travel[0]["consumo_combustible_real"]) {
                 $newRealFuel = $_POST["realFuel"];
                 $this->travelModel->changeRealFuel($travelId, $newRealFuel);
             }
 
-            if ($_POST["realKilometers"] != $travel["realKilometers"]) {
+            if ($_POST["realKilometers"] != $travel[0]["kilometros_reales"]) {
                 $newRealKilometers = $_POST["realKilometers"];
                 $this->travelModel->changeRealKilometers($travelId, $newRealKilometers);
             }
 
-            if ($_POST["departureDate"] != $travel["departureDate"]) {
+            if ($_POST["departureDate"] != $travel[0]["fecha_salida"]) {
                 $newDepartureDate = $_POST["departureDate"];
                 $this->travelModel->changeDepartureDate($travelId, $newDepartureDate);
             }
 
-            if ($_POST["arrivalDate"] != $travel["arrivalDate"]) {
+            if ($_POST["arrivalDate"] != $travel[0]["fecha_llegada"]) {
                 $newArrivalDate = $_POST["arrivalDate"];
                 $this->travelModel->changeArrivalDate($travelId, $newArrivalDate);
             }
 
-            header("location:/pw2-grupo03/travel");
+            header("location: /travel");
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
 
     public function viewProforma() {
-        if (isset($_SESSION["loggedIn"]) && $_SESSION["chofer"] == 1 && isset($_GET["id"])) {
+        if (isset($_SESSION["loggedIn"]) && ($_SESSION["chofer"] == 1 || $_SESSION["supervisor"] == 1) && isset($_GET["id"])) {
             $travelId = $_GET["id"];
 
             if ($this->reportModel->checkIfProformaAlreadyExistsOf($travelId)) {
@@ -227,17 +227,17 @@ class TravelController {
                 if ($_SESSION["admin"] == 1) {
                     $_SESSION["createProforma"] = 1;
 
-                    header("location: /pw2-grupo03/report/newProforma");
+                    header("location: /report/newProforma");
                     exit();
                 } else {
                     $_SESSION["proformaError"] = 1;
 
-                    header("location: /pw2-grupo03/travel");
+                    header("location: /travel");
                     exit();
                 }
             }
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -280,11 +280,11 @@ class TravelController {
             } else {
                 $_SESSION["travelFinished"] = 1;
                 
-                header("location: /pw2-grupo03/travel");
+                header("location: /travel");
                 exit();
             }
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -302,11 +302,11 @@ class TravelController {
             } else {
                 $_SESSION["travelFinished"] = 1;
 
-                header("location: /pw2-grupo03/travel");
+                header("location: /travel");
                 exit();
             }
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -329,16 +329,16 @@ class TravelController {
 
                 $_SESSION["detourReportedOk"] = 1;
 
-                header("location: /pw2-grupo03/travel/loadData?id=$travelId");
+                header("location: /travel/loadData?id=$travelId");
                 exit();
             } else {
                 $_SESSION["travelFinished"] = 1;
 
-                header("location: /pw2-grupo03/travel");
+                header("location: /travel");
                 exit();
             }
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -356,7 +356,7 @@ class TravelController {
                 if (!$this->reportModel->checkIfProformaAlreadyExistsOf($data["idTravel"])) {
                     $_SESSION["proformaError"] = 1;
 
-                    header("location: /pw2-grupo03/travel/loadData?id=" . $data["idTravel"]);
+                    header("location: /travel/loadData?id=" . $data["idTravel"]);
                     exit();
                 } else {
                     echo $this->render->render("view/reportTravelRefuelView.php", $data);
@@ -364,11 +364,11 @@ class TravelController {
             } else {
                 $_SESSION["travelFinished"] = 1;
 
-                header("location: /pw2-grupo03/travel");
+                header("location: /travel");
                 exit();
             }
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -387,7 +387,7 @@ class TravelController {
                 if (!$this->reportModel->checkIfProformaAlreadyExistsOf($travelId)) {
                     $_SESSION["proformaError"] = 1;
 
-                    header("location: /pw2-grupo03/travel/loadData?id=" . $travelId);
+                    header("location: /travel/loadData?id=" . $travelId);
                     exit();
                 } else {
                     $refuelData["place"] = $_POST["place"];
@@ -397,17 +397,17 @@ class TravelController {
 
                     $_SESSION["refuelReportedOk"] = 1;
 
-                    header("location: /pw2-grupo03/travel/loadData?id=$travelId");
+                    header("location: /travel/loadData?id=$travelId");
                     exit();
                 }
             } else {
                 $_SESSION["travelFinished"] = 1;
 
-                header("location: /pw2-grupo03/travel");
+                header("location: /travel");
                 exit();
             }
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -430,16 +430,16 @@ class TravelController {
 
                 $_SESSION["positionReportedOk"] = 1;
 
-                header("location: /pw2-grupo03/travel/loadData?id=$travelId");
+                header("location: /travel/loadData?id=$travelId");
                 exit();
             } else {
                 $_SESSION["travelFinished"] = 1;
 
-                header("location: /pw2-grupo03/travel");
+                header("location: /travel");
                 exit();
             }
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -457,7 +457,7 @@ class TravelController {
                 if (!$this->reportModel->checkIfProformaAlreadyExistsOf($data["idTravel"])) {
                     $_SESSION["proformaError"] = 1;
 
-                    header("location: /pw2-grupo03/travel/loadData?id=" . $data["idTravel"]);
+                    header("location: /travel/loadData?id=" . $data["idTravel"]);
                     exit();
                 } else {
                     echo $this->render->render("view/reportTravelSpendView.php", $data);
@@ -465,11 +465,11 @@ class TravelController {
             } else {
                 $_SESSION["travelFinished"] = 1;
 
-                header("location: /pw2-grupo03/travel");
+                header("location: /travel");
                 exit();
             }
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -488,7 +488,7 @@ class TravelController {
                 if (!$this->reportModel->checkIfProformaAlreadyExistsOf($travelId)) {
                     $_SESSION["proformaError"] = 1;
 
-                    header("location: /pw2-grupo03/travel/loadData?id=" . $travelId);
+                    header("location: /travel/loadData?id=" . $travelId);
                     exit();
                 } else {
                     $proformaId = $this->reportModel->getIdProformaOf($travelId);
@@ -499,17 +499,17 @@ class TravelController {
 
                     $_SESSION["spendReportedOk"] = 1;
 
-                    header("location: /pw2-grupo03/travel/loadData?id=$travelId");
+                    header("location: /travel/loadData?id=$travelId");
                     exit();
                 }
             } else {
                 $_SESSION["travelFinished"] = 1;
 
-                header("location: /pw2-grupo03/travel");
+                header("location: /travel");
                 exit();
             }
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }

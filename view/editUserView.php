@@ -2,7 +2,7 @@
 
 <div class="w3-content">
     <div class="w3-margin">
-        <form action="/pw2-grupo03/usuarios/processEditUser" method="post" class="login-form">
+        <form action="/usuarios/processEditUser" method="post" class="login-form">
             {{#user}}
                 <input type="hidden" name="userId" value="{{id_usuario}}">
                 <input type="hidden" value="{{id_tipo_licencia}}" id="type-of-licence-hidden">
@@ -12,7 +12,7 @@
 
                 <div class="container">
                     <div class="w3-margin-bottom d-flex justify-content-between align-items-center">
-                        <a href="/pw2-grupo03/usuarios" class="w3-button w3-green w3-small w3-round text-decoration-none">Volver a Usuarios</a>
+                        <a href="/usuarios" class="w3-button w3-green w3-small w3-round text-decoration-none">Volver a Usuarios</a>
                         <h4>ID: {{id_usuario}}</h4>
                     </div>
 

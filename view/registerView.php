@@ -6,7 +6,7 @@
 
         <div class="container">
             <div class="w3-margin-bottom">
-                <a href="/pw2-grupo03" class="w3-button w3-green w3-small w3-round text-decoration-none">Volver al Inicio</a>
+                <a href="/" class="w3-button w3-green w3-small w3-round text-decoration-none">Volver al Inicio</a>
             </div>
 
             <label for="name"><b>Nombre:</b></label>

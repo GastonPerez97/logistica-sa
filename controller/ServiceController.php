@@ -21,7 +21,7 @@ class ServiceController {
             $data["services"] = $this->serviceModel->getServices();
             echo $this->render->render("view/serviceView.php", $data);
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -33,7 +33,7 @@ class ServiceController {
             $data["mechanics"] = $this->userModel->getMechanics();
             echo $this->render->render("view/newServiceView.php", $data);
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -65,7 +65,7 @@ class ServiceController {
             $data["correctNewService"] = "Service Registrado Correctamente";
         echo $this->render->render("view/newServiceResultView.php", $data);
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -79,11 +79,11 @@ class ServiceController {
 
                 echo $this->render->render("view/editServiceView.php", $data);
             } else {
-                header("location: /pw2-grupo03/service");
+                header("location: /service");
                 exit();
             }
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -101,7 +101,7 @@ class ServiceController {
             $data["correctEditService"] = "Service Editado Correctamente";
             echo $this->render->render("view/editServiceResultView.php", $data);
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -114,10 +114,10 @@ class ServiceController {
 
             $_SESSION["serviceDeletedOk"] = 1;
 
-            header("location: /pw2-grupo03/service");
+            header("location: /service");
             exit();
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }

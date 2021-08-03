@@ -4,7 +4,7 @@
     <div class="w3-margin">
         <div>
             <div class="w3-row-padding">
-                <a href="/pw2-grupo03/usuarios" class="w3-button w3-green w3-round w3-margin-top">Volver a Usuarios</a>
+                <a href="/usuarios" class="w3-button w3-green w3-round w3-margin-top">Volver a Usuarios</a>
                 <h1 class="w3-center">{{userEditedOk}}</h1>
                     {{#user}}
                         <div class="w3-col l12 w3-center" style="margin-top: 2em;">
@@ -49,7 +49,7 @@
                                 </div>
 
                                 <div class="w3-margin-top">
-                                    <a href="/pw2-grupo03/usuarios/editarUsuario?id={{id_usuario}}" class="w3-button w3-blue w3-round w3-margin-bottom">Editar</a>
+                                    <a href="/usuarios/editarUsuario?id={{id_usuario}}" class="w3-button w3-blue w3-round w3-margin-bottom">Editar</a>
                                 </div>
                             </div>
                         </div>

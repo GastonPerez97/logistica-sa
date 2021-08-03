@@ -25,7 +25,7 @@
                             <td class="vertical-align-middle">{{cuit}}</td>
                             <td class="vertical-align-middle">{{fecha_facturacion}}</td>
                             <td class="vertical-align-middle">
-                                <a href="/pw2-grupo03/bill/viewBill?id={{id_viaje}}"
+                                <a href="/bill/viewBill?id={{id_viaje}}"
                                    class="w3-button w3-green w3-round w3-small">Ver Factura</a>
                             </td>
                         </tr>

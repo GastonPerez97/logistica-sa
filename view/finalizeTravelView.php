@@ -6,7 +6,7 @@
         <div class="container-title"><p>Finalizar viaje</p></div>
         <div class="container">
             <div class="w3-margin-bottom">
-                <a href="/pw2-grupo03/travel" class="w3-button w3-green w3-small w3-round text-decoration-none">Volver</a>
+                <a href="/travel" class="w3-button w3-green w3-small w3-round text-decoration-none">Volver</a>
             </div>
             <label for="idTravel"><b>N° id:</b></label>
             <input type="number" placeholder="Ingresar numero del viaje" name="id_viaje" value="{{id_viaje}}" readonly="true" class="login-input" required>

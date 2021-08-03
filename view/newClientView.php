@@ -5,7 +5,7 @@
             <div class="container-title"><p>Nuevo Cliente</p></div>
             <div class="container">
                 <div class="w3-margin-bottom">
-                    <a href="/pw2-grupo03/travel" class="w3-button w3-green w3-small w3-round text-decoration-none">Volver al Inicio</a>
+                    <a href="/travel" class="w3-button w3-green w3-small w3-round text-decoration-none">Volver al Inicio</a>
                 </div>
 
                 <label for="email"><b>E-Mail:</b></label>

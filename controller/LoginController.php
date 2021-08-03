@@ -38,11 +38,11 @@ class LoginController {
 
         if (empty($user)) {
             $_SESSION["errorLogin"] = 1;
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         } else if ($user[0]["activado"] == 0) {
             $_SESSION["userNotActive"] = 1;
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         } else {
             $userId = $user[0]["id_usuario"];
@@ -69,7 +69,7 @@ class LoginController {
                 $_SESSION['canSeeVehiclePositionBtn'] = 1;
             }
 
-            header("location: /pw2-grupo03/home");
+            header("location: /home");
             exit();
         }
     }

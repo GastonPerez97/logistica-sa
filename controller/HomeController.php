@@ -12,7 +12,7 @@ class HomeController {
         if (isset($_SESSION["loggedIn"])) {
             echo $this->render->render("view/homeView.php");
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }

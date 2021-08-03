@@ -382,7 +382,7 @@ class ReportModel {
 
     public function getProformaBy($proformaId) {
         $sql = "SELECT * FROM proforma P JOIN viaje V ON P.id_viaje = V.id_viaje
-                         JOIN viaje_chofer VC ON v.id_viaje = VC.id_viaje
+                         JOIN viaje_chofer VC ON V.id_viaje = VC.id_viaje
                          JOIN chofer CHOFER ON VC.id_chofer = CHOFER.id_chofer
                          JOIN cliente C ON V.id_cliente = C.id_cliente
                          JOIN carga CARGA ON V.id_viaje = CARGA.id_viaje
@@ -600,18 +600,18 @@ class ReportModel {
     }
 
     public function getMaxService() {
-        $sql = 'SELECT se.id_unidad_de_transporte as id_vehiculo, COUNT(se.id_unidad_de_transporte) AS cantidad FROM grupo03.service se group by id_unidad_de_transporte LIMIT 1';
+        $sql = 'SELECT se.id_unidad_de_transporte as id_vehiculo, COUNT(se.id_unidad_de_transporte) AS cantidad FROM service se group by id_unidad_de_transporte LIMIT 1';
         $result = $this->database->fetch_assoc($sql);
         return $result["id_vehiculo"];
     }
 
     public function getMaxKm() {
-        $sql = 'SELECT se.id_unidad_de_transporte as id_vehiculo, MAX(se.kilometraje_actual_unidad) as max FROM grupo03.service se';
+        $sql = 'SELECT se.id_unidad_de_transporte as id_vehiculo, MAX(se.kilometraje_actual_unidad) as max FROM service se';
         return $this->database->fetch_assoc($sql);
     }
 
     public function getMaxCost() {
-        $sql = 'SELECT se.id_unidad_de_transporte as id_vehiculo, SUM(costo) as costo FROM grupo03.service se group by id_unidad_de_transporte order by se.costo DESC LIMIT 1';
+        $sql = 'SELECT se.id_unidad_de_transporte as id_vehiculo, SUM(costo) as costo FROM service se group by id_unidad_de_transporte order by se.costo DESC LIMIT 1';
         return $this->database->fetch_assoc($sql);
     }
 

@@ -55,7 +55,7 @@
             <button class="form-button w3-round w3-green w3-margin-top" type="submit">Registrar</button>
 
             <div class="w3-margin-bottom">
-                <a href="/pw2-grupo03/transportUnit" class="w3-button w3-blue w3-medium w3-block w3-round text-decoration-none">Volver</a>
+                <a href="/transportUnit" class="w3-button w3-blue w3-medium w3-block w3-round text-decoration-none">Volver</a>
             </div>
         </div>
     </form>

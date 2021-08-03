@@ -3,7 +3,7 @@
 <div class="container-80pct">
     <div class="w3-margin">
         {{#_SESSION.supervisor}}
-        <a href="/pw2-grupo03/travel/newTravel"
+        <a href="/travel/newTravel"
            class="w3-button w3-green w3-padding-large w3-round w3-right" style="margin-bottom: 2em;">Nuevo Viaje</a>
         {{/_SESSION.supervisor}}
         <h2 class="w3-center w3-margin-bottom">{{proformaError}}</h2>
@@ -34,16 +34,16 @@
                             <td class="vertical-align-middle">{{fecha_llegada_estimada}}</td>
                             <td class="vertical-align-middle">{{apellido}}, {{nombre}}</td>
                             <td class="vertical-align-middle {{#fecha_llegada}}cursor-not-allowed{{/fecha_llegada}}">
-                                <a href="/pw2-grupo03/travel/editTravel?id={{id_viaje}}"
+                                <a href="/travel/editTravel?id={{id_viaje}}"
                                    class="w3-button w3-blue w3-tiny w3-round
                                          {{#fecha_llegada}}disabled-btn{{/fecha_llegada}}">Editar</a>
                             </td>
                             <td class="vertical-align-middle">
-                                <a href="/pw2-grupo03/travel/viewProforma?id={{id_viaje}}"
+                                <a href="/travel/viewProforma?id={{id_viaje}}"
                                    class="w3-button w3-green w3-tiny w3-round">Ver Proforma</a>
                             </td>
                             <td class="vertical-align-middle {{#fecha_llegada}}cursor-not-allowed{{/fecha_llegada}}">
-                                <a href="/pw2-grupo03/travel/finalizeTravel?id={{id_viaje}}"
+                                <a href="/travel/finalizeTravel?id={{id_viaje}}"
                                    class="w3-button w3-black w3-tiny w3-round
                                          {{#fecha_llegada}}disabled-btn{{/fecha_llegada}}">Finalizar Viaje</a>
                             </td>

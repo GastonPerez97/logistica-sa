@@ -27,7 +27,7 @@ class UsuariosController {
 
             echo $this->render->render("view/usersView.php", $data);
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -65,11 +65,11 @@ class UsuariosController {
 
                 echo $this->render->render("view/editUserView.php", $data);
             } else {
-                header("location: /pw2-grupo03/usuarios");
+                header("location: /usuarios");
                 exit();
             }
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -106,10 +106,10 @@ class UsuariosController {
 
             $_SESSION["userEditedOk"] = 1;
 
-            header("location: /pw2-grupo03/usuarios/verUsuario?id=$userId");
+            header("location: /usuarios/verUsuario?id=$userId");
             exit();
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -128,11 +128,11 @@ class UsuariosController {
 
                 echo $this->render->render("view/userView.php", $data);
             } else {
-                header("location: /pw2-grupo03/usuarios");
+                header("location: /usuarios");
                 exit();
             }
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }

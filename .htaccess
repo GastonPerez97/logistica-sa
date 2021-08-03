@@ -1,6 +1,10 @@
+# HTID:18095115: DO NOT REMOVE OR MODIFY THIS LINE AND THE LINES BELOW
+php_value display_errors 1
+# DO NOT REMOVE OR MODIFY THIS LINE AND THE LINES ABOVE HTID:18095115:
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /pw2-grupo03/
+    RewriteBase /
 
     RewriteRule ^(public)($|/) - [L,NC]
     RewriteRule ^(third-party)/(phpqrcode)/(QRGenerator.php) - [L,NC]

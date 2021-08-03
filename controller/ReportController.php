@@ -29,7 +29,7 @@ class ReportController {
                 echo $this->render->render("view/reportView.php");
             }
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -47,7 +47,7 @@ class ReportController {
             $data["typeDanger"] = $this->loadModel->getTypeDangerOfLoad();
             echo $this->render->render("view/newProformaView.php", $data);
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -98,11 +98,11 @@ class ReportController {
             } else {
                 $_SESSION["proformaAlreadyCreated"] = 1;
 
-                header("location: /pw2-grupo03/report");
+                header("location: /report");
                 exit();
             }
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -113,7 +113,7 @@ class ReportController {
             $data["servicesByDate"] = $this->reportModel->getServiceReport();
             echo $this->render->render("view/newServiceRecordInPageView.php", $data);
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -123,7 +123,7 @@ class ReportController {
         if (isset($_SESSION["loggedIn"]) && $_SESSION["admin"] == 1) {
            $this->reportModel->generatePdfOfServiceRecord();
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }

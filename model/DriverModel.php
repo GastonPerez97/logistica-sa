@@ -37,10 +37,12 @@ class DriverModel {
         $query->bind_param("i", $userId);
         $query->execute();
         $queryResult = $query->get_result();
+        
+        if (mysqli_num_rows($queryResult) > 0) {
+            $user["id_usuario"] = mysqli_fetch_assoc($queryResult)["id_usuario"];
+        }
 
-        $user["id_usuario"] = mysqli_fetch_assoc($queryResult)["id_usuario"];
-
-        if ($user["id_usuario"] != 0) {
+        if (isset($user["id_usuario"])) {
             $this->updateDriver($userId, $licenceTypeId, $licenceNumber);
         } else {
             $this->insertDriver($userId, $licenceTypeId, $licenceNumber);
@@ -54,7 +56,7 @@ class DriverModel {
 
     public function getDriverTravels($idDriver) {
         $sql ="SELECT * FROM viaje vj JOIN viaje_chofer vc ON vj.id_viaje = vc.id_viaje 
-                                      JOIN chofer C ON VC.id_chofer = C.id_chofer
+                                      JOIN chofer C ON vc.id_chofer = C.id_chofer
                                       JOIN usuario U ON C.id_usuario = U.id_usuario
                WHERE vc.id_chofer = '$idDriver'";
 

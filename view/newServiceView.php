@@ -6,7 +6,7 @@
 
         <div class="container">
             <div class="w3-margin-bottom">
-                <a href="/pw2-grupo03/service" class="w3-button w3-blue w3-small w3-round text-decoration-none">Volver</a>
+                <a href="/service" class="w3-button w3-blue w3-small w3-round text-decoration-none">Volver</a>
             </div>
 
             <label for="numberVehicle"><b>N° Unidad <span style="color: red">*</span></b></label>

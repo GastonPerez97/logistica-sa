@@ -2,7 +2,7 @@
 
 <div class="container-80pct">
     <div class="w3-margin">
-        <a href="/pw2-grupo03/report/newServiceRecord" class="w3-button w3-green w3-padding-large w3-round w3-right" style="margin-bottom: 2.5em;">Exportar PDF</a>
+        <a href="/report/newServiceRecord" class="w3-button w3-green w3-padding-large w3-round w3-right" style="margin-bottom: 2.5em;">Exportar PDF</a>
 
         <div class="my-2em">
             <table id="data-table-services" class="w3-table w3-border w3-bordered w3-centered display responsive nowrap" style="width:100%">

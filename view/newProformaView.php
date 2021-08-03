@@ -76,7 +76,7 @@
 
             <button class="form-button w3-round w3-green w3-margin-top" type="submit">Generar</button>
             <div class="w3-margin-bottom">
-                <a href="/pw2-grupo03/report" class="w3-button w3-blue w3-medium w3-block w3-round text-decoration-none">Volver</a>
+                <a href="/report" class="w3-button w3-blue w3-medium w3-block w3-round text-decoration-none">Volver</a>
             </div>
         </div>
     </form>

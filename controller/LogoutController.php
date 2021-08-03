@@ -11,7 +11,7 @@ class LogoutController {
     public function execute() {
         session_destroy();
 
-        header("Location: /pw2-grupo03");
+        header("Location: /");
         exit();
     }
 }

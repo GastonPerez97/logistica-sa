@@ -16,7 +16,7 @@ class ClientController {
             $data["clients"] = $this->clientModel->getClients();
             echo $this->render->render("view/myClientsView.php", $data);
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -25,7 +25,7 @@ class ClientController {
         if (isset($_SESSION["loggedIn"]) && $_SESSION["supervisor"] == 1) {
             echo $this->render->render("view/newClientView.php");
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -58,7 +58,7 @@ class ClientController {
 
             echo $this->render->render("view/newClientResultView.php", $data);
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -71,11 +71,11 @@ class ClientController {
 
                 echo $this->render->render("view/updateClientView.php", $data);
             } else {
-                header("location: /pw2-grupo03/client");
+                header("location: /client");
                 exit();
             }
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -120,9 +120,9 @@ class ClientController {
                 $this->clientModel->changeContact2($clientId, $newContact2);
             }
 
-            header("location: /pw2-grupo03/client");
+            header("location: /client");
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }

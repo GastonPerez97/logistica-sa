@@ -17,7 +17,7 @@ class TransportUnitController {
             $data["trailers"] = $this->transportUnitModel->getTrailers();
             echo $this->render->render("view/transportUnitView.php", $data);
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -41,7 +41,7 @@ class TransportUnitController {
             echo $this->render->render("view/transportUnitView.php", $data);
 
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -67,7 +67,7 @@ class TransportUnitController {
             }
 
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -102,7 +102,7 @@ class TransportUnitController {
             echo $this->render->render("view/transportUnitView.php", $data);
 
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -135,7 +135,7 @@ class TransportUnitController {
             echo $this->render->render("view/transportUnitView.php", $data);
 
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -147,7 +147,7 @@ class TransportUnitController {
             $data["models"] = $this->transportUnitModel->getModels();
             echo $this->render->render("view/newVehicleView.php", $data);
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -184,7 +184,7 @@ class TransportUnitController {
             echo $this->render->render("view/newVehicleView.php", $data);
 
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -196,7 +196,7 @@ class TransportUnitController {
             $data["models"] = $this->transportUnitModel->getModels();
             echo $this->render->render("view/newTrailerView.php", $data);
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -231,7 +231,7 @@ class TransportUnitController {
             echo $this->render->render("view/newTrailerView.php", $data);
 
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -248,7 +248,7 @@ class TransportUnitController {
             $data["transportUnits"] = $this->transportUnitModel->getTransportUnitsWithPosition();
             echo $this->render->render("view/getVehiclePositionView.php", $data);
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }

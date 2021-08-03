@@ -16,7 +16,7 @@ class BillController {
             $data["bills"] = $this->billModel->getBills();
             echo $this->render->render("view/billsView.php", $data);
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }
@@ -28,11 +28,11 @@ class BillController {
             if ($this->billModel->checkIfBillExistsOf($travelId)) {
                 $this->billModel->generateBillOf($travelId);
             } else {
-                header("location: /pw2-grupo03/bill");
+                header("location: /bill");
                 exit();
             }
         } else {
-            header("location: /pw2-grupo03");
+            header("location: /");
             exit();
         }
     }

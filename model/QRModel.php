@@ -3,6 +3,6 @@
 class QRModel {
 
     public function generateQROfReportOf($travelId) {
-        return "http://localhost/pw2-grupo03/third-party/phpqrcode/QRGenerator.php?id=$travelId";
+        return "https://fleshly-trials.000webhostapp.com/third-party/phpqrcode/QRGenerator.php?id=$travelId";
     }
 }

@@ -6,7 +6,7 @@
         <div class="container-title"><p>Modificar cliente</p></div>
         <div class="container">
             <div class="w3-margin-bottom">
-                <a href="/pw2-grupo03/client" class="w3-button w3-green w3-small w3-round text-decoration-none">Volver</a>
+                <a href="/client" class="w3-button w3-green w3-small w3-round text-decoration-none">Volver</a>
             </div>
 
             <label for="idClient"><b>N° ID:</b></label>
