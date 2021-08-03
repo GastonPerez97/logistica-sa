@@ -95,6 +95,8 @@ Los choferes informan datos del viaje a partir de un codigo QR generado en la pr
 Ejemplo: Loguearse con el usuario juanperez@gmail.com e ir a Viajes. La proforma del viaje con ID 5 contiene un QR que dirige a https://fleshly-trials.000webhostapp.com/travel/loadData?id=5, allí se podran informar nuevos datos del viaje.
 
 
+## Administrador:
+
 Como no se proporciona un login de un administrador, se adjuntan imagenes sobre la funcionalidad de usuarios (en orden: Ver Usuarios, Ver Usuario, Editar usuario y asignar roles, Generar Proforma):
 
 ![image](https://user-images.githubusercontent.com/58083159/127936163-0cdd00af-7972-4505-94a2-025c4a92d725.png)
@@ -105,4 +107,7 @@ Como no se proporciona un login de un administrador, se adjuntan imagenes sobre 
 
 ![image](https://user-images.githubusercontent.com/58083159/127936212-f8290845-1508-44cb-a433-7c6818139822.png)
 
-En caso de error "Connection failed: MySQL server has gone away", actualizar la página y debería funcionar nuevamente. Este error se debe a que el hosting gratis 000webhost tiene conexiones limitadas y se agregaron politicas de limitación para evitar el abuso de spammers.
+
+## Error "Connection failed: MySQL server has gone away":
+
+En caso de error  "Connection failed: MySQL server has gone away", actualizar la página y debería funcionar nuevamente. Este error se debe a que el hosting gratis 000webhost tiene conexiones limitadas y se agregaron politicas de limitación para evitar el abuso de spammers.
