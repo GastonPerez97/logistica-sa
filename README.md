@@ -2,7 +2,7 @@
 
 https://fleshly-trials.000webhostapp.com/
 
-Trabajo práctico final para la materia Programacion Web 2 en UNLaM.
+Trabajo práctico final para la materia Programacion Web 2 en UNLaM, realizado con PHP, MySQL, W3.CSS, Mustache y con el patrón de diseño MVC.
 
 ## Descripción general del sistema:
 
