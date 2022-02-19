@@ -1,6 +1,6 @@
 # Logística S.A.
 
-https://fleshly-trials.000webhostapp.com/
+***Lamentablemente el deploy del proyecto fue eliminado debido a un reporte de "un sistema de detección de abuso de terceros".***
 
 Trabajo práctico final para la materia Programacion Web 2 en UNLaM, realizado con PHP, MySQL, W3.CSS, Mustache y con el patrón de diseño MVC.
 
